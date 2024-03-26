@@ -9,45 +9,52 @@ body {
   color: #fff;
 }
 
+.contenedor {
+  height: 100vh;
+  background: url('/img/portadaInicio.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .header {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   padding: 20px 10%;
-  background: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
 }
 
-.titulo {
+.logo {
   position: relative;
   font-size: 25px;
-  color: #fff;
+  color: #ededed;
   text-decoration: none;
   font-weight: 600;
 }
 
 .navbar a {
   font-size: 18px;
-  color: #fff;
+  color: #ededed;
   text-decoration: none;
   font-weight: 500;
   margin-left: 35px;
 }
 
-.navbar a:hover,
-.navbar a.active {
-    color: #00abf0;
+.navbar a:hover {
+  color: #00abf0;
 }
 
 .home {
-  height: 100vh;
-  background: url('/img/portadaInicio.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
+  height: 65vh;
   display: flex;
   align-items: center;
   padding: 0 10%;
@@ -73,11 +80,4 @@ body {
 .home-content p {
   font-size: 16px;
   margin: 20px 0 40px;
-}
-
-
-.wave {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
