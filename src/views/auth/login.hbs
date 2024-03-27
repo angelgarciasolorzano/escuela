@@ -1,8 +1,42 @@
-<section class="contenedor-login">
-  <header class="header">
-    <a href="#" class="logo-login">Colegio Cristiano Fuente de Vida</a>
-    <nav class="navbar-login">
-      <a href="#">Inicio</a>
-    </nav>
-  </header>
-</section>
+{{#*inline "styles"}}
+  <link rel="stylesheet" href="/css/login.css">
+{{/inline}}
+
+{{#> main}}
+  {{{ styles }}}
+  <section class="contenedor-section">
+    <header class="header-login">
+      <a href="#" class="logo-login">Colegio Cristiano Fuente de Vida</a>
+      <nav class="navbar-login">
+        <a href="/">Inicio</a>
+      </nav>
+    </header>
+    <div class="contenedor-login">
+      <div class="content">
+        <h2>Bienvenido</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis odit dolorum, minus ipsam numquam ipsum, velit ut harum nostrum quae, porro repellat? <em>Quis nulla unde deserunt velit numquam voluptatum ab!</em></p>
+      </div>
+      <div class="login">
+        <form action="/signin" method="post">
+          <h2>Login</h2>
+          <div class="inputbox">
+            <i class="bi bi-envelope"></i>
+            <input type="email" name="usuario" required>
+            <label for="">Email</label>
+          </div>
+          <div class="inputbox">
+            <i class="bi bi-lock"></i>
+            <input type="password" name="contra" required>
+            <label for="">Contraseña</label>
+          </div>
+          <div class="inputbox">
+            <i class="bi bi-people"></i>
+            <input type="text" name="cargo" required>
+            <label for="">Cargo</label>
+          </div>
+          <button class="sesion">Iniciar Sesion</button>
+       </form>
+      </div>
+    </div>
+  </section>
+{{/main}}
