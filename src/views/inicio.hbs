@@ -1,85 +1,103 @@
-<section class="contenedor-portada">
-  <header class="header">
-    <a href="#" class="logo">Colegio Cristiano Fuente de Vida</a>
-    <nav class="navbar">
-      <a href="#">Inicio</a>
-      <a href="#">Quienes Somos</a>
-      <a href="#">Servicios</a>
-      <a href="#">Contacto</a>
-      <a href="#">Iniciar Sesion</a>
-    </nav>
-  </header>
-  <div class="home">
-    <div class="home-content">
-      <h1>Hi, I'm Angel Garcia</h1>
-      <h3>Frontend Developer</h3>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, sunt excepturi doloremque quae assumenda aliquid? Earum, corrupti inventore nobis numquam consequuntur optio unde id adipisci distinctio dolorem itaque minus iure.</p>
-    </div>
-  </div>
-  <div class="wave" style="height: 150px; overflow: hidden;" >
-    <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
-      <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #fff;"></path>
-    </svg>
-  </div>
-</section>
+{{#*inline "styles"}}
+  <link rel="stylesheet" href="/css/inicio.css">
+{{/inline}}
 
-<section class="class-container">
-  <div class="class-image">
-    <span class="bg-blur"></span>
-    <img src="/img/foto2.jpg" alt="class" class="class-img-1">
-    <img src="/img/foto1.jpg" alt="class" class="class-img-2">
-  </div>
-  <div class="class-content">
-    <h2 class="section-header">QUIENES SOMOS</h2>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero suscipit illo, atque ullam aspernatur sunt doloremque ducimus fugit excepturi possimus expedita aliquid modi, est at voluptatum. Inventore expedita quibusdam ullam?</p>
-  </div>
-</section>
-
-<section class="price-container">
-  <h2 class="section-header">NUESTROS SERVICIOS</h2>
-  <p class="section-subheader">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem quae a vitae natus doloribus accusantium porro commodi dignissimos unde minus doloremque dicta veniam, fugiat inventore ipsam ullam non et optio.</p>
-  <div class="price-grid">
-    <div class="price-card">
-      <div class="price-card-content">
-        <h4>Educacion</h4>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+{{#> main}}
+  {{{ styles }}}
+  <section class="contenedor-portada">
+    <header class="header">
+      <a href="#" class="logo">Colegio Cristiano Fuente de Vida</a>
+      <nav class="navbar">
+        <a href="#">Inicio</a>
+        <a href="#">Quienes Somos</a>
+        <a href="#">Servicios</a>
+        <a href="#">Contacto</a>
+        <a href="#">Iniciar Sesion</a>
+      </nav>
+    </header>
+    <div class="home">
+      <div class="home-content">
+        <h1>Hi, I'm Angel Garcia</h1>
+        <h3>Frontend Developer</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, sunt excepturi doloremque quae assumenda aliquid? Earum, corrupti inventore nobis numquam consequuntur optio unde id adipisci distinctio dolorem itaque minus iure.</p>
       </div>
     </div>
-    <div class="price-card">
-      <div class="price-card-content">
-        <h4>Primaria</h4>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-      </div>
+    <div class="wave" style="height: 150px; overflow: hidden;" >
+      <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+        <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #fff;"></path>
+      </svg>
     </div>
-    <div class="price-card">
-      <div class="price-card-content">
-        <h4>Secundaria</h4>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-        <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="contenedor-footer">
-    <div class="content-foo">
-      <h4>Phone</h4>
-      <p>81855121</p>
+  <section class="class-container">
+    <div class="class-image">
+      <span class="bg-blur"></span>
+      <img src="/img/foto2.jpg" alt="class" class="class-img-1">
+      <img src="/img/foto1.jpg" alt="class" class="class-img-2">
     </div>
-    <div class="content-foo">
-      <h4>Email</h4>
-      <p>garciasolorzano22@gmail.com</p>
+    <div class="class-content">
+      <h2 class="section-header">QUIENES SOMOS</h2>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero suscipit illo, atque ullam aspernatur sunt doloremque ducimus fugit excepturi possimus expedita aliquid modi, est at voluptatum. Inventore expedita quibusdam ullam?</p>
     </div>
-    <div class="content-foo">
-      <h4>Location</h4>
-      <p>Managua/Nicaragua</p>
+  </section>
+
+  <section class="price-container">
+    <h2 class="section-header">NUESTROS SERVICIOS</h2>
+    <p class="section-subheader">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem quae a vitae natus doloribus accusantium porro commodi dignissimos unde minus doloremque dicta veniam, fugiat inventore ipsam ullam non et optio.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-card-content">
+          <h4>Educacion</h4>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-card-content">
+          <h4>Primaria</h4>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-card-content">
+          <h4>Secundaria</h4>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <p><i class="bi bi-check-lg"></i>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <h2 class="titulo-final">Derechos Reservados 2020-2024</h2>
-</footer>
+  </section>
+
+  <footer class="pie-pagina">
+    <div class="grupo-1">
+      <div class="box">
+        <figure>
+          <a href="#">
+            <img src="/img/portadaInicio.jpg">
+          </a>
+        </figure>
+      </div>
+      <div class="box">
+        <h2>SOBRE NOSOTROS</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, ipsa?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, ipsa?</p>
+      </div>
+      <div class="box">
+        <h2>SIGUENOS</h2>
+        <div class="red-social">
+          <i class="bi bi-facebook"></i>
+          <i class="bi bi-whatsapp"></i>
+          <i class="bi bi-twitter"></i>
+          <i class="bi bi-instagram"></i>
+        </div>
+      </div>
+    </div>
+    <div class="grupo-2">
+      <small>&copy; 2024 <b>Colegio Cristiano Fuente de Vida</b> - Todos los Derechos Reservados.</small>
+    </div>
+  </footer>
+{{/main}}
