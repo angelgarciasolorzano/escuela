@@ -53,7 +53,7 @@
 }
 
 .contenedor-login {
-  margin: 55px;
+  margin: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,6 +84,7 @@
 
 .login {
   width: 450px;
+  height: 450px;
   margin-left: 150px;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
@@ -145,6 +146,10 @@ input:valid ~ label {
   top: 20px;
 }
 
+#login-eye {
+  cursor: pointer;
+}
+
 .sesion {
   width: 100%;
   height: 40px;
@@ -155,4 +160,77 @@ input:valid ~ label {
   cursor: pointer;
   font-size: 1em;
   font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin: 15px 0 0 0;
+}
+
+.sesion:hover {
+  color: #fff;
+  background: #007bff;
+}
+
+.select-menu .select-btn {
+  display: flex;
+  height: 20px;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 400;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
+  border-bottom: 2px solid #ffff;
+  color: #fff;
+}
+
+.select-btn input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0 35px 0 5px;
+  color: #ffff;
+}
+
+.select-btn input::placeholder {
+  color: #fff;
+}
+
+.select-btn i {
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.select-menu.active .select-btn i {
+  transform: rotate(-180deg);
+} 
+
+.select-menu .options {
+  position: relative;
+  margin-top: 10px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.select-menu.active .option {
+  display: none;
+} 
+
+.options .option {
+  display: flex;
+  height: 40px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.options .option span:hover {
+  color: yellow;
+}
+
+.option i {
+  font-size: 15px;
+  margin-right: 12px;
 }

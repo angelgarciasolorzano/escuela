@@ -17,26 +17,42 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis odit dolorum, minus ipsam numquam ipsum, velit ut harum nostrum quae, porro repellat? <em>Quis nulla unde deserunt velit numquam voluptatum ab!</em></p>
       </div>
       <div class="login">
-        <form action="/signin" method="post">
-          <h2>Login</h2>
+        <form action="/login" method="post">
+          <h2>Iniciar Sesion</h2>
           <div class="inputbox">
             <i class="bi bi-envelope"></i>
             <input type="email" name="usuario" required>
             <label for="">Email</label>
           </div>
           <div class="inputbox">
-            <i class="bi bi-lock"></i>
-            <input type="password" name="contra" required>
+            <i class="ri-eye-line" id="login-eye"></i>
+            <input type="text" id="login-pass" name="contra" required>
             <label for="">Contraseña</label>
           </div>
-          <div class="inputbox">
-            <i class="bi bi-people"></i>
-            <input type="text" name="cargo" required>
-            <label for="">Cargo</label>
+          <div class="select-menu">
+            <div class="select-btn">
+              <input class="sBtn-text" name="cargo" placeholder="Selecionar cargo"></input>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <ul class="options">
+              <li class="option">
+                <i class="bi bi-person-fill-gear"></i>
+                <span class="option-text">Administrador</span>
+              </li>
+              <li class="option">
+                <i class="bi bi-person-video3"></i>
+                <span class="option-text">Profesor</span>
+              </li>
+              <li class="option">
+                <i class="bi bi-people-fill"></i>
+                <span class="option-text">Secretaria</span>
+              </li>
+            </ul>
           </div>
-          <button class="sesion">Iniciar Sesion</button>
+          <button type="submit" class="sesion">Acceder</button>
        </form>
       </div>
     </div>
   </section>
+  <script src="/event/loginform.js"></script>
 {{/main}}
