@@ -2,6 +2,12 @@ const optionMenu = document.querySelector(".select-menu"), selectBtn = optionMen
 options = optionMenu.querySelectorAll(".option"), 
 text = optionMenu.querySelector(".sBtn-text");
 
+const form = document.querySelector('form');
+const emailInput = document.getElementById('login-usuario');
+const passwordInput = document.getElementById('login-pass');
+const cargoInput = document.getElementById('login-cargo');
+const submitBtn = document.querySelector('.sesion');
+
 selectBtn.addEventListener('click', () => optionMenu.classList.toggle("active"));
 
 options.forEach(option => {
@@ -31,6 +37,33 @@ const showHiddenPass = (loginPass, loginEye) => {
 };
 showHiddenPass('login-pass', 'login-eye');
 
+function showError(message) {
+  if (document.querySelector('.error-message')) {
+    return;
+  }
+
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  errorDiv.innerHTML = `<p>${message}</p> <span class="close-btn">&times;</span>`;
+  
+  form.insertBefore(errorDiv, submitBtn.nextSibling);
+
+  const closeBtn = document.querySelector('.close-btn');
+  closeBtn.addEventListener('click', () => { errorDiv.remove(); });
+};
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let isValid = true;
+
+  if (emailInput.value === '' || passwordInput.value === '' || cargoInput.value === '') {
+    isValid = false;
+    showError('Todos los campos son requeridos.');
+  } else {
+    form.submit();
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   optionMenu.classList.add("active");
-})
+});

@@ -53,7 +53,6 @@
 }
 
 .contenedor-login {
-  margin: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +83,7 @@
 
 .login {
   width: 450px;
-  height: 450px;
+  height: 470px;
   margin-left: 150px;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
@@ -233,4 +232,27 @@ input:valid ~ label {
 .option i {
   font-size: 15px;
   margin-right: 12px;
+}
+
+.error-message {
+  background: red;
+  border-radius: 8px;
+  color: #fff;
+  margin: 5px;
+  padding: 5px;
+  position: relative;
+}
+
+.close-btn {
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 30px;
+}
+
+.close-btn:hover {
+  color: black;
 }
