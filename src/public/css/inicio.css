@@ -55,8 +55,19 @@ body {
   margin-left: 35px;
 }
 
+.navbar .login-boton {
+  padding: 10px 5px;
+  border-radius: 10px;
+  background-color: #00abf0;
+}
+
 .navbar a:hover {
   color: #00abf0;
+}
+
+.navbar .login-boton:hover {
+  background-color: #00e61b;
+  color: #fff;
 }
 
 .home {
