@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 //*Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
-import secretariaRoutes from "./routes/secretaria.routes.js";
+import secretariaRoutes from "./routes/client/secretaria.routes.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));

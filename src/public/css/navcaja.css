@@ -82,11 +82,31 @@
   color: aqua;
 }
 
-.menu-vertical li a {
+/*.menu-vertical li a {
 	display: block;
 	color: white;
   font-size: 15px;
 	text-decoration: none;
 	padding: 15px 15px 15px 20px;
   font-family: 'Nunito', sans-serif;
+}*/
+
+.menu-vertical li {
+  display: flex;
+  height: 50px;
+  align-items: center;
+}
+
+.menu-vertical li a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Nunito', sans-serif;
+}
+
+.menu-vertical li i {
+  font-size: 18px;
+  margin-right: 12px;
+  color: #fff;
+  margin: 0 15px 0 15px;
 }
