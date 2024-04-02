@@ -24,6 +24,7 @@ CREATE TABLE Usuario (
 );
 
 ALTER TABLE Usuario MODIFY id_Cargo_FK INT NOT NULL;
+ALTER TABLE Cargo CHANGE COLUMN nombre nombre_cargo VARCHAR(30) NOT NULL;
 
 INSERT INTO Cargo (nombre) VALUES ('Administrador');
 INSERT INTO Cargo (nombre) VALUES ('Secretaria');
@@ -48,7 +49,6 @@ END $$
 DELIMITER ;
 
 DESCRIBE Cargo;
-
 DESCRIBE Usuario;
 
 DROP PROCEDURE UsuarioInformacion;

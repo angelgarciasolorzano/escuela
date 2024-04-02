@@ -3,11 +3,19 @@ import express from "express";
 const router = express.Router();
 
 router.get('/secretaria', (req, res) => {
-  const navbarTemplate = 'navsecret';
   res.render('interface/client/perfilsecret', { 
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/perfilsecret.css">', 
-    navbarTemplate: navbarTemplate 
+    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/perfilsecret.css">' 
   });
 });
+
+router.get('/secretaria/registro', (req, res) => {
+  res.render('interface/client/addestudiantes', { 
+    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/addestudiantes.css">' 
+  });
+});
+
+router.post('/secretaria/registro', (req, res) => {
+  console.log(req.body);
+})
 
 export default router;

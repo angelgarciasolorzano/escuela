@@ -1,0 +1,104 @@
+.contenedor-titulo {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedor-titulo i {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.contenedor-titulo span {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.contenedor-form {
+  display: flex;
+  height: 55vh;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+}
+
+.container {
+  max-width: 700;
+  width: 100%;
+  padding: 25px 30px;
+  border-radius: 10px;
+  background-color: rgba(17, 24, 39, 1);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title i {
+  font-size: 18px;
+  color: #fff;
+  margin-right: 15px;
+  color: aqua;
+}
+
+.title span {
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.container form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 12px 0;
+}
+
+form .form-group {
+  margin-bottom: 15px;
+  width: calc(100%/2 - 20px);
+}
+
+form i {
+  margin-right: 10px;
+  color: aqua;
+  font-size: 18px;
+}
+
+form span {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  color: #fff;
+  font-size: 18px;
+}
+
+.form-group input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px #fff solid;
+  display: block;
+  width: 100%;
+  padding: 15px 0;
+  color: #fff;
+  font-size: 15px;
+}
+
+.radio {
+  display: flex;
+  padding: 17px 0 0 0;
+}
+
+.form-group input:focus,
+.form-group input:valid {
+  outline: 0;
+  border-bottom-color: lightblue;
+}

@@ -14,10 +14,9 @@ router.post('/login', (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) { return next(err); }
-      console.log(user.nombre);
 
-      if (user.id_Cargo_FK === 1) { return res.redirect('administrador') }
-      else if (user.nombre === 'Secretaria') { return res.redirect('secretaria') }
+      if (user.nombre_cargo === 'Administrador') { return res.redirect('administrador') }
+      else if (user.nombre_cargo === 'Secretaria') { return res.redirect('secretaria') }
       else { return res.redirect('profesor') }
     });
   })(req, res, next);

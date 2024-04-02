@@ -8,6 +8,7 @@ import session from "express-session";
 import MySQLStoreFactory from "express-mysql-session";
 import passport from "passport";
 import { database } from "./keys.js";
+import helpers from "./lib/helpers.js";
 
 //*Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
@@ -28,7 +29,8 @@ app.engine('.hbs', engine({
   defaultLayout: 'main',
   layoutsDir: join(app.set('views'), 'layouts'),
   partialsDir: join(app.set('views'), 'partials'),
-  extname: '.hbs'
+  extname: '.hbs',
+  helpers: helpers
 }));
 app.set('view engine', '.hbs');
 
