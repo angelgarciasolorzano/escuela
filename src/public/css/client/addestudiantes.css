@@ -1,9 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+.contenedor-todo {
+  display: flex;
+  justify-content: center;
+  font-family: "Hind Madurai", sans-serif;
+}
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700;
+  width: 70%;
+  margin: 35px 0 0 0;
+  box-shadow: 0px 16px 48px 0px rgba(0, 0, 0, 0.176);
+  border-radius: 10px;
+}
+
 .contenedor-titulo {
   width: 100%;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #0a141d;
+  border-radius: 5px;
 }
 
 .contenedor-titulo i {
@@ -14,6 +35,7 @@
 .contenedor-titulo span {
   font-size: 25px;
   font-weight: 600;
+  color: aqua;
 }
 
 .contenedor-form {
@@ -30,7 +52,6 @@
   width: 100%;
   padding: 25px 30px;
   border-radius: 10px;
-  background-color: rgba(17, 24, 39, 1);
 }
 
 .title {
@@ -43,13 +64,14 @@
   font-size: 18px;
   color: #fff;
   margin-right: 15px;
-  color: aqua;
+  color: #001142;
+  font-weight: 600;
 }
 
 .title span {
   font-size: 25px;
   font-weight: 600;
-  color: #fff;
+  color: black;
 }
 
 .container form {
@@ -66,8 +88,9 @@ form .form-group {
 
 form i {
   margin-right: 10px;
-  color: aqua;
+  color: #001142;
   font-size: 18px;
+  font-weight: 600;
 }
 
 form span {
@@ -77,7 +100,7 @@ form span {
 }
 
 .form-group label {
-  color: #fff;
+  color: black;
   font-size: 18px;
 }
 
@@ -88,7 +111,7 @@ form span {
   display: block;
   width: 100%;
   padding: 15px 0;
-  color: #fff;
+  color: black;
   font-size: 15px;
 }
 
@@ -100,5 +123,73 @@ form span {
 .form-group input:focus,
 .form-group input:valid {
   outline: 0;
-  border-bottom-color: lightblue;
+  border-bottom-color: #0a141d;
+}
+
+.boton-estudiantes {
+  width: 100%;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton-estudiantes button {
+  width: 150px;
+  height: 35px;
+  font-size: 18px;
+  border: none;
+  background: #0a141d;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.boton-estudiantes button:hover {
+  color: aqua;
+}
+
+.mensaje {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  margin: 10px 0 0 0;
+}
+
+.error {
+  font-family: "Hind Madurai", sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: red;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+}
+
+.error__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.error__icon i {
+  font-size: 18px;
+}
+
+.error__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+}
+
+.error__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
 }

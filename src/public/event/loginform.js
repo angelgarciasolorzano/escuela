@@ -38,14 +38,18 @@ const showHiddenPass = (loginPass, loginEye) => {
 showHiddenPass('login-pass', 'login-eye');
 
 function showError(message) {
-  if (document.querySelector('.error-message')) {
-    return;
-  }
+  if (document.querySelector('.error')) { return; }
 
   const errorDiv = document.createElement('div');
-  errorDiv.className = 'error-message';
-  errorDiv.innerHTML = `<p>${message}</p> <span class="close-btn">&times;</span>`;
-  
+  errorDiv.className = 'error';
+  errorDiv.innerHTML = `
+    <div class="error__icon">
+      <i class="bi bi-exclamation-circle-fill"></i>
+    </div>
+    <div class="error__title">${message}</div>
+    <div class="error__close">
+      <i class="bi bi-x-lg close-btn"></i>
+    </div>`;
   form.insertBefore(errorDiv, submitBtn.nextSibling);
 
   const closeBtn = document.querySelector('.close-btn');
@@ -59,9 +63,7 @@ form.addEventListener('submit', (e) => {
   if (emailInput.value === '' || passwordInput.value === '' || cargoInput.value === '') {
     isValid = false;
     showError('Todos los campos son requeridos.');
-  } else {
-    form.submit();
-  }
+  } else { form.submit(); }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
