@@ -7,18 +7,16 @@ passport.use('sesion.local', new LocalStrategy({
   passwordField: 'contra',
   passReqToCallback: true
 }, async(req, usuario, contra, done) => {
-  const [rows] = await pool.query('SELECT * FROM Usuario AS U INNER JOIN Cargo AS C ON U.id_Cargo_FK = C.id_Cargo WHERE correo =?', [usuario]);
-  console.log(rows[0]);
+  const [datos] = await pool.query('CALL UsuarioInformacion(?, ?)', [usuario, null]);
 
-  if (rows.length > 0) {
-    const usuarioDatos = rows[0];
+  if (datos && datos[0].length > 0) {
+    const usuarioDatos = datos[0][0];
+    console.log(usuarioDatos);
 
     if (usuarioDatos.contra === contra) { done(null, usuarioDatos); } 
     else { done(null, false); }
     
-  } else {
-    return done(null, use);
-  }
+  } else { return done(null, false); }
 }));
 
 passport.serializeUser((user, done) => {
@@ -26,6 +24,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async(id, done) => {
-  const [rows] = await pool.query('SELECT * FROM Usuario AS U INNER JOIN Cargo AS C ON U.id_Cargo_FK = C.id_Cargo WHERE id_Usuario =?', [id]);
-  done(null, rows);
+  const[datos] = await pool.query('CALL UsuarioInformacion(?, ?)', [null, id]);
+  done(null, datos[0]);
 });
