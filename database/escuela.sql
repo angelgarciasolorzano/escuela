@@ -23,6 +23,15 @@ CREATE TABLE Usuario (
   FOREIGN KEY (id_Cargo_FK) REFERENCES Cargo(id_Cargo)
 );
 
+CREATE TABLE Estudiante (
+  id_Estudiante INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  apellidos VARCHAR(100) NOT NULL,
+  edad INT NOT NULL,
+  direccio VARCHAR(150) NOT NULL,
+  sexo VARCHAR(1) NOT NULL
+);
+
 ALTER TABLE Usuario MODIFY id_Cargo_FK INT NOT NULL;
 ALTER TABLE Cargo CHANGE COLUMN nombre nombre_cargo VARCHAR(30) NOT NULL;
 
