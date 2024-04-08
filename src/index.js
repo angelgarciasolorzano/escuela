@@ -9,6 +9,7 @@ import MySQLStoreFactory from "express-mysql-session";
 import passport from "passport";
 import { database } from "./keys.js";
 import helpers from "./lib/helpers.js";
+import * as path from 'path';
 
 //*Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
@@ -24,22 +25,22 @@ const MySQLStore = MySQLStoreFactory(session);
 app.set('port', process.env.PORT || 4000);
 
 //TODO Configurando motor de plantilla hbs (handlebars)
-app.set('views', join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../src/views'));
 app.engine('.hbs', engine({
-  defaultLayout: 'main',
-  layoutsDir: join(app.set('views'), 'layouts'),
-  partialsDir: join(app.set('views'), 'partials'),
-  extname: '.hbs',
-  helpers: helpers
+    defaultLayout: 'main',
+    layoutsDir: join(app.set('views'), 'layouts'),
+    partialsDir: join(app.set('views'), 'partials'),
+    extname: '.hbs',
+    helpers: helpers
 }));
 app.set('view engine', '.hbs');
 
 //*Configurando sesiones del usuario
 app.use(session({
-  secret: 'secret',
-  saveUninitialized: false,
-  resave: false,
-  store: new MySQLStore(database)
+    secret: 'secret',
+    saveUninitialized: false,
+    resave: false,
+    store: new MySQLStore(database)
 }));
 
 //TODO Otras configuraciones
@@ -51,12 +52,12 @@ app.use(passport.session());
 
 //*Variables Globales
 app.use((req, res, next) => {
-  if (req.user && Array.isArray(req.user) && req.user.length > 0) {
-    app.locals.user = req.user[0];
-  } else {
-    app.locals.user = null;
-  }
-  next();
+    if (req.user && Array.isArray(req.user) && req.user.length > 0) {
+        app.locals.user = req.user[0];
+    } else {
+        app.locals.user = null;
+    }
+    next();
 });
 
 //*Configurando caminos
@@ -65,9 +66,16 @@ app.use(authenticationRoutes);
 app.use(secretariaRoutes);
 
 //TODO Carpetas publicas
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+//Manda un error 404 si la pagina no existe
+app.use((req, res, next) => {
+    if (res.status('404')) {
+        res.render('error');
+    }
+});
 
 //*Ejecutando servidor
 app.listen(app.get('port'), () => {
-  console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
+    console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
 });

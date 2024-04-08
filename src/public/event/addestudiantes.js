@@ -1,8 +1,7 @@
 const nombre = document.getElementById('add-nombre');
-const apellido = document.getElementById('add-apellido');
-const barrio = document.getElementById('add-barrio');
-const departamento = document.getElementById('add-departamento');
-const edad = document.getElementById('add-edad');
+const apellido = document.getElementById('add-apellidos');
+const direccion = document.getElementById('add-direccion');
+const fechaNac = document.getElementById('add-fechaNac');
 const form = document.querySelector('form');
 const botonEstudiantes = document.querySelector('.contenedor-todo');
 
@@ -31,8 +30,11 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   let isValid = true;
 
-  if (nombre.value === '' || apellido.value === '' || barrio.value === '' || departamento.value === '' || edad.value === '') {
+  if (nombre.value === '' || apellido.value === '' || direccion.value === '' || fechaNac.value === '') {
     isValid = false;
     showError('Todos los campos son requeridos.');
-  } else { form.submit(); }
+  } else {
+    console.log(isValid, "Se guardo correctamente");
+    //form.submit();
+  }
 });

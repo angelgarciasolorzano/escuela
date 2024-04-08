@@ -4,15 +4,14 @@ import { isLoggedIn, isNotLoggedIn } from "../../lib/middleware/auth.js";
 const router = express.Router();
 
 router.get('/secretaria', isLoggedIn, (req, res) => {
-  res.render('interface/client/perfilsecret', { 
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/perfilsecret.css">' 
-  });
+  res.render('interface/client/perfilsecret');
 });
+// router.get('/:id', isNotLoggedIn, (req, res) => {
+//   res.render('interface/client/perfilsecret');
+// }); 
 
 router.get('/secretaria/registro', isLoggedIn, (req, res) => {
-  res.render('interface/client/addestudiantes', { 
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/addestudiantes.css">' 
-  });
+  res.render('interface/client/addestudiantes');
 });
 
 router.post('/secretaria/registro', (req, res) => {

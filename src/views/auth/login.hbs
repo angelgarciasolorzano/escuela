@@ -1,7 +1,7 @@
-{{#*inline "styles"}}
+{{!-- {{#*inline "styles"}}
   <link rel="stylesheet" href="/css/login.css">
-{{/inline}}
-
+{{/inline}} --}}
+ <link rel="stylesheet" href="/css/login.css">
 {{#> main}}
   {{{ styles }}}
   <section class="contenedor-section">
@@ -25,8 +25,8 @@
             <label for="">Email</label>
           </div>
           <div class="inputbox">
-            <i class="ri-eye-line" id="login-eye"></i>
-            <input type="text" id="login-pass" name="contra" required>
+            <i class="ri-eye-off-line" id="login-eye"></i>
+            <input type="password" id="login-pass" name="contra" required>
             <label for="">Contraseña</label>
           </div>
           <div class="select-menu">

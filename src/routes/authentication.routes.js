@@ -5,7 +5,7 @@ import { isLoggedIn, isNotLoggedIn } from "../lib/middleware/auth.js";
 const router = express.Router();
 
 router.get('/login', isNotLoggedIn, (req, res) => {
-  res.render('auth/login', { styles: '<link rel="stylesheet" href="/css/login.css">' });
+  res.render('auth/login');
 });
 
 router.post('/login', (req, res, next) => {
