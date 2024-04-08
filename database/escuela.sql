@@ -28,7 +28,7 @@ CREATE TABLE Estudiante (
   nombre VARCHAR(100) NOT NULL,
   apellidos VARCHAR(100) NOT NULL,
   edad INT NOT NULL,
-  direccio VARCHAR(150) NOT NULL,
+  direccion VARCHAR(150) NOT NULL,
   sexo VARCHAR(1) NOT NULL
 );
 

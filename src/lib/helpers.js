@@ -4,6 +4,12 @@ const helpers = {
       return options.fn(this);
     }
     return options.inverse(this);
+  },
+  prev: function(value) {
+    return value - 1;
+  },
+  next: function(value) {
+    return value + 1;
   }
 };
 
