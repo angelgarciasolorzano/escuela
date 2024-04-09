@@ -1,7 +1,7 @@
 const nombre = document.getElementById('add-nombre');
 const apellido = document.getElementById('add-apellidos');
 const direccion = document.getElementById('add-direccion');
-const edad = document.getElementById('add-edad');
+const fechaNac = document.getElementById('add-fechaNac');
 const form = document.querySelector('form');
 const mensaje = document.querySelector('.contenedor-alerta');
 
@@ -29,9 +29,7 @@ function showError(message) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  let isValid = true;
-
-  if (nombre.value === '' || apellido.value === '' || direccion.value === '' || edad.value === '') {
+  if (nombre.value === '' || apellido.value === '' || direccion.value === '' || fechaNac.value === '') {
     isValid = false;
     showError('Todos los campos son requeridos.');
   } else { form.submit(); }

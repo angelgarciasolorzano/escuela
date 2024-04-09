@@ -16,8 +16,8 @@ router.get('/secretaria/registro', isLoggedIn, (req, res) => {
 
 router.post('/secretaria/registro', async(req, res) => {
   console.log(req.body);
-  const { nombre, apellidos, direccion, edad, sexo } = req.body;
-  const estudiante = { nombre, apellidos, edad, direccion, sexo };
+  const { nombre, apellidos, direccion, fechaNac, sexo } = req.body;
+  const estudiante = { nombre, apellidos, fechaNac, direccion, sexo };
 
   await pool.query('INSERT INTO Estudiante SET ?', [estudiante]);
   res.redirect('/secretaria/lista');
