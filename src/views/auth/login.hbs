@@ -1,58 +1,51 @@
-{{#*inline "styles"}}
-  <link rel="stylesheet" href="/css/login.css">
-{{/inline}}
+<nav class="navbar navbar-expand-lg navbar-dark color-background">
+  <div class="container-fluid">
+    <a class="navbar-brand">Colegio Cristiano Fuente de Vida</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" style="margin-left: auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/">Inicio</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-{{#> main}}
-  {{{ styles }}}
-  <section class="contenedor-section">
-    <header class="header-login">
-      <a class="logo-login">Colegio Cristiano Fuente de Vida</a>
-      <nav class="navbar-login">
-        <a href="/">Inicio</a>
-      </nav>
-    </header>
-    <div class="contenedor-login">
-      <div class="content">
-        <h2>Bienvenido</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis odit dolorum, minus ipsam numquam ipsum, velit ut harum nostrum quae, porro repellat? <em>Quis nulla unde deserunt velit numquam voluptatum ab!</em></p>
-      </div>
-      <div class="login">
-        <form action="/login" method="post">
-          <h2>Iniciar Sesion</h2>
-          <div class="inputbox">
-            <i class="bi bi-envelope"></i>
-            <input type="text" id="login-usuario" autocomplete="off" name="usuario" required>
-            <label for="">Email</label>
-          </div>
-          <div class="inputbox">
-            <i class="ri-eye-line" id="login-eye"></i>
-            <input type="text" id="login-pass" autocomplete="off" name="contra" required>
-            <label for="">Contraseña</label>
-          </div>
-          <div class="select-menu">
-            <div class="select-btn">
-              <input class="sBtn-text" id="login-cargo" name="cargo" autocomplete="off" placeholder="Selecionar cargo"></input>
-              <i class="bi bi-chevron-down"></i>
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card text-center border-secondary">
+        <div class="card-header border-secondary color-background text-white">
+          <h3>Iniciar Sesion</h3>
+        </div>
+        <div class="card-body">
+          <img src="/img/portadaInicio.jpg" alt="logo Fazt" class="card-img-top mx-auto m-2 rounded-circle w-50">
+          <form action="/login" method="post">
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-person-fill"></i></span>
+              <input name="usuario" type="text" class="form-control border-secondary" placeholder="Usuario" aria-label="Usuario" aria-describedby="addon-wrapping">
             </div>
-            <ul class="options">
-              <li class="option">
-                <i class="bi bi-person-fill-gear"></i>
-                <span class="option-text">Administrador</span>
-              </li>
-              <li class="option">
-                <i class="bi bi-person-video3"></i>
-                <span class="option-text">Profesor</span>
-              </li>
-              <li class="option">
-                <i class="bi bi-people-fill"></i>
-                <span class="option-text">Secretaria</span>
-              </li>
-            </ul>
-          </div>
-          <button type="submit" class="sesion">Acceder</button>
-       </form>
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-lock-fill"></i></span>
+              <input name="contra" type="password" class="form-control border-secondary" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="addon-wrapping">
+            </div>
+            <div class="input-group flex-nowrap mb-3">
+              <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-people-fill"></i></span>
+              <select name="cargo" class="form-select border-secondary" aria-label="Default select example">
+                <option value="Administrador">Administrador</option>
+                <option value="Profesor">Profesor</option>
+                <option value="Secretaria">Secretaria</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success btn-block">Acceder</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </section>
-  <script src="/event/loginform.js"></script>
-{{/main}}
+  </div>
+</div>

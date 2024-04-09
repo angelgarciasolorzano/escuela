@@ -5,17 +5,13 @@ import pool from "../../database.js";
 const router = express.Router();
 
 router.get('/secretaria', isLoggedIn, (req, res) => {
-  res.render('interface/client/perfilsecret', { 
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/perfilsecret.css">' 
-  });
+  res.render('interface/client/perfilsecret');
 });
 
 //TODO Rutas de Registros (Estudiantes)
 
 router.get('/secretaria/registro', isLoggedIn, (req, res) => {
-  res.render('interface/client/addestudiantes', { 
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css"><link rel="stylesheet" href="/css/client/addestudiantes.css">' 
-  });
+  res.render('interface/client/addestudiantes');
 });
 
 router.post('/secretaria/registro', async(req, res) => {
@@ -28,7 +24,7 @@ router.post('/secretaria/registro', async(req, res) => {
 });
 
 router.get('/secretaria/lista', isLoggedIn, async(req, res) => {
-  const ITEMS_PER_PAGE = 10; // Número de estudiantes por página
+  const ITEMS_PER_PAGE = 6; // Número de estudiantes por página
   const page = req.query.page || 1; // Página actual, por defecto la primera página
   const offset = (page - 1) * ITEMS_PER_PAGE; // Índice de inicio de los registros a seleccionar
 
@@ -57,7 +53,6 @@ router.get('/secretaria/lista', isLoggedIn, async(req, res) => {
   const hasPrevPage = parseInt(page) > 1; // Determina si hay una página anterior
 
   res.render('interface/client/listestudiantes', {
-    styles: '<link rel="stylesheet" href="/css/client/navsecret.css">',
     estudiantes: estudiantes,
     currentPage: parseInt(page),
     totalPages: totalPages,
@@ -68,7 +63,5 @@ router.get('/secretaria/lista', isLoggedIn, async(req, res) => {
     pages: Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
   });
 });
-
-
 
 export default router;

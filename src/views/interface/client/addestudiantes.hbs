@@ -1,51 +1,37 @@
-<div class="contenedor-todo">
-  <div class="contenedor">
-    <div class="contenedor-titulo">
-      <span>Registro de Estudiantes</span>
+<div class="container p-4 border-secondary">
+  <div class="card border-secondary">
+    <div class="card-header color-background">
+      <h1 class="text-center text-white">Estudiantes: Nuevo Ingresos</h1>
     </div>
-    <div class="contenedor-form">
-      <div class="container">
-        <div class="title">
-          <i class="bi bi-backpack3"></i>
-          <span>Estudiante</span>
+    <div class="card-body">
+      <form action="/secretaria/registro" id="form-validation" class="row g-3" method="post">
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Nombre</label>
+          <input name="nombre" type="text" class="form-control border-secondary" id="inputEmail4">
         </div>
-        <form id="form-validation" action="" method="post">
-          <div class="form-group">
-            <i class="bi bi-person"></i>
-            <label for="">Nombres</label>
-            <input type="text" id="add-nombre" name="nombre" class="form-control" placeholder="Nombre">
-          </div>
-          <div class="form-group">
-            <i class="bi bi-person-add"></i>
-            <label for="">Apellidos</label>
-            <input type="text" id="add-apellidos" name="apellidos" class="form-control" placeholder="Apellidos">
-          </div>
-          <div class="form-group">
-            <i class="bi bi-house-door"></i>
-            <label for="">Direccion</label>
-            <input type="text" id="add-direccion" name="direccion" class="form-control" placeholder="Direccion">
-          </div>
-          <div class="form-group">
-            <i class='bx bx-donate-blood'></i>
-            <label for="">Edad</label>
-            <input type="text" id="add-edad" name="edad" class="form-control" placeholder="Edad">
-          </div>
-          <div class="form-group">
-            <i class="bi bi-gender-ambiguous"></i>
-            <label for="">Seleccionar Genero</label>
-            <div class="radio">
-              <label for="">Hombre</label>
-              <input type="radio" value="M" name="sexo" checked>
-              <label for="">Mujer</label>
-              <input type="radio" value="F" name="sexo">
-            </div>
-          </div>
-          <div class="boton-estudiantes">
-            <button class="ingresar" type="submit">Registrar</button>
-          </div>
-        </form>
-      </div>
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Apellidos</label>
+          <input name="apellidos" type="text" class="form-control border-secondary" id="inputPassword4">
+        </div>
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">Direccion</label>
+          <input name="direccion" type="text" class="form-control border-secondary" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Edad</label>
+          <input name="edad" type="number" class="form-control border-secondary" id="inputEmail4">
+        </div>
+        <div class="col-md-6">
+          <label for="inputState" class="form-label">Seleccionar Genero</label>
+          <select name="sexo" id="inputState" class="form-select border-secondary">
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-success btn-block">Matricular Estudiante</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-<script src="/event/addestudiantes.js"></script>
