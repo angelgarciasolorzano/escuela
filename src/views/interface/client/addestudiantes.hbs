@@ -1,4 +1,4 @@
-<div class="container p-4 border-secondary">
+<div class="container p-2 border-secondary contenedor-alerta">
   <div class="card border-secondary">
     <div class="card-header color-background">
       <h1 class="text-center text-white">Estudiantes: Nuevo Ingresos</h1>
@@ -7,19 +7,19 @@
       <form action="/secretaria/registro" id="form-validation" class="row g-3" method="post">
         <div class="col-md-6">
           <label for="inputEmail4" class="form-label">Nombre</label>
-          <input name="nombre" type="text" class="form-control border-secondary" id="inputEmail4">
+          <input name="nombre" type="text" class="form-control border-secondary" id="add-nombre">
         </div>
         <div class="col-md-6">
           <label for="inputPassword4" class="form-label">Apellidos</label>
-          <input name="apellidos" type="text" class="form-control border-secondary" id="inputPassword4">
+          <input name="apellidos" type="text" class="form-control border-secondary" id="add-apellidos">
         </div>
         <div class="col-12">
           <label for="inputAddress" class="form-label">Direccion</label>
-          <input name="direccion" type="text" class="form-control border-secondary" id="inputAddress" placeholder="1234 Main St">
+          <input name="direccion" type="text" class="form-control border-secondary" id="add-direccion" placeholder="1234 Main St">
         </div>
         <div class="col-md-6">
           <label for="inputEmail4" class="form-label">Edad</label>
-          <input name="edad" type="number" class="form-control border-secondary" id="inputEmail4">
+          <input name="edad" type="number" class="form-control border-secondary" id="add-edad">
         </div>
         <div class="col-md-6">
           <label for="inputState" class="form-label">Seleccionar Genero</label>
@@ -35,3 +35,5 @@
     </div>
   </div>
 </div>
+
+<script src="/event/addestudiantes.js"></script>
