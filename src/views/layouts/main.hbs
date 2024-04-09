@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colegio Cristiano Fuente de Vida</title>
-    <link rel="shortcut icon" href="img/logo_icon.ico">
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   </head>
-  <body>
+  <header>
     {{#if user}}
       {{#if user.nombre_cargo }}
         {{#ifCond user.nombre_cargo "Secretaria"}}
@@ -17,7 +17,8 @@
         {{/ifCond}}
       {{/if}}
     {{/if}}
-    
+  </header>
+  <body>
     {{{ body }}}
   </body>
 </html>

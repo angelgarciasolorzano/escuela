@@ -2,7 +2,8 @@ export function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  // return res.render('error');
+  res.status(404);
+  return res.render('error');
 };
 
 export function isNotLoggedIn(req, res, next) {
