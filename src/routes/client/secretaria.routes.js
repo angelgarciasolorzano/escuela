@@ -29,6 +29,7 @@ router.get('/secretaria/lista', isLoggedIn, (req, res) => {
 
 router.get('/api/estudiante', isLoggedIn, async (req,res)=>{
    const [Data] = await pool.query('select * from Estudiante');
+   if(Data && Data.length > 0)
    res.send(Data);
 });
 
