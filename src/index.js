@@ -9,6 +9,7 @@ import MySQLStoreFactory from "express-mysql-session";
 import passport from "passport";
 import { database } from "./keys.js";
 import helpers from "./lib/helpers.js";
+import * as path from "path"
 
 //*Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
@@ -24,7 +25,7 @@ const MySQLStore = MySQLStoreFactory(session);
 app.set('port', process.env.PORT || 4000);
 
 //TODO Configurando motor de plantilla hbs (handlebars)
-app.set('views', join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', engine({
   defaultLayout: 'main',
   layoutsDir: join(app.set('views'), 'layouts'),
@@ -44,7 +45,7 @@ app.use(session({
 
 //TODO Otras configuraciones
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,7 +66,7 @@ app.use(authenticationRoutes);
 app.use(secretariaRoutes);
 
 //TODO Carpetas publicas
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //*Ejecutando servidor
 app.listen(app.get('port'), () => {
