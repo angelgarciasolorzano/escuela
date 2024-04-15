@@ -1,74 +1,20 @@
-<div class="container">
-  <div class="row mt-1">
-    <h3 class="text-center text-uppercase p-2">Lista de Estudiantes</h3>
-    {{#if estudiantes}}
-    <table class="table text-center">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">Dirección</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each estudiantes}}
-        <tr>
-          <td>{{nombre}}</td>
-          <td>{{apellidos}}</td>
-          <td>{{direccion}}</td>
-          <td>
-            <div class="btn-group gap-3">
-              <a href="/edit/{{id}}" class="btn btn-warning p-2" title="Editar"><i class="bi bi-pencil"></i></a>
-              <a href="/delete/{{id}}" class="btn btn-danger p-2" title="Eliminar"><i class="bi bi-trash"></i></a>
-            </div>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-      <tfoot class="table-dark text-center">
-        <tr>
-          <td colspan="4">
-            <!-- Botones de paginación -->
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                {{#if hasPrevPage}}
-                <li class="page-item">
-                  <a class="page-link text-black" href="?page={{prev currentPage}}" aria-label="Anterior">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {{/if}}
-
-                {{#each pages}}
-                <li class="page-item {{#ifCond this ../currentPage}}active{{/ifCond}}">
-                  <a class="page-link text-black" href="?page={{this}}">{{this}}</a>
-                </li>
-                {{/each}}
-
-                {{#if hasNextPage}}
-                <li class="page-item">
-                  <a class="page-link text-black" href="?page={{next currentPage}}" aria-label="Siguiente">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-                {{/if}}
-              </ul>
-            </nav>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-    {{else}}
-    <div class="card text-center mx-auto" style="width: 350px;">
-      <div class="card-header">
-        <h3>Debes crear una persona</h3>
-      </div>
-      <div class="card-body">
-        <p>Presiona este botón para registrar a una persona en la aplicación</p>
-        <a href="#" class="btn btn-primary">Ir a crear</a>
-      </div>
+<div class="container p-2">
+  <div class="row">
+    <div class="col">
+      <table id="datatable_estudiante" class="table table-striped table-bordered w-100">
+        <thead>
+          <tr class="table-dark">
+            <th class="text-center">Codigo</th>
+            <th class="text-center">Nombres</th>
+            <th class="text-center">Apellidos</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Accion</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody_estudiante" class="text-center"></tbody>
+      </table>
     </div>
-    {{/if}}
   </div>
 </div>
+
+<script src="/event/listestudiantes.js"></script>

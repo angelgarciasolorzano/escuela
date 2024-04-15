@@ -16,6 +16,7 @@ import authenticationRoutes from "./routes/authentication.routes.js";
 import secretariaRoutes from "./routes/client/secretaria.routes.js";
 import "./lib/passport.js";
 
+//TODO Inicializando express y guardando las sesiones del usuarion en MySql
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MySQLStore = MySQLStoreFactory(session);
