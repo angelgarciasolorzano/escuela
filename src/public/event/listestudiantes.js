@@ -10,8 +10,8 @@ $(document).ready(function() {
     },
     columns: [
       { data: "id_Estudiante" },
-      { data: "nombre" },
-      { data: "apellidos" },
+      { data: "nombre_Estudiante" },
+      { data: "apellidos_Estudiante" },
       { 
         data: null, 
         defaultContent: '<i class="fa-solid fa-check"></i>'

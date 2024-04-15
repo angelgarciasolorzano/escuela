@@ -20,12 +20,30 @@ router.get('/secretaria/registro', isLoggedIn, (req, res) => {
 
 //*Obteniendo los datos del registro de estudiantes
 router.post('/secretaria/registro', async(req, res) => {
-  console.log(req.body);
-  const { nombre, apellidos, direccion, edad, sexo } = req.body;
-  const estudiante = { nombre, apellidos, edad, direccion, sexo };
+  try {
+    const estudiante_tutor = req.body;
+    console.log(estudiante_tutor);
 
-  await pool.query('INSERT INTO Estudiante SET ?', [estudiante]);
-  res.redirect('/secretaria/lista');
+    const procedure = 'CALL EstudianteTutor(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const datos = [
+      estudiante_tutor.nombre_est,
+      estudiante_tutor.apellidos_est,
+      estudiante_tutor.direccion_est,
+      estudiante_tutor.fecha_est,
+      estudiante_tutor.sexo_est,
+      estudiante_tutor.nombre_tutor,
+      estudiante_tutor.apellido_tutor,
+      estudiante_tutor.ocupacion_tutor,
+      estudiante_tutor.cedula_tutor,
+      estudiante_tutor.telefono_tutor,
+    ];
+
+    await pool.query(procedure, datos);
+    res.redirect('/secretaria/lista');
+  } catch (error) {
+    console.log(error);
+    res.redirect('/secretaria/registro');
+  }
 });
 
 //TODO Rutas de Listas (Estudiantes)

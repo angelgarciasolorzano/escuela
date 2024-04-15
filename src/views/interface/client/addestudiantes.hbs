@@ -1,38 +1,156 @@
-<div class="container p-2 border-secondary contenedor-alerta">
-  <div class="card border-secondary">
-    <div class="card-header color-background">
-      <h1 class="text-center text-white">Estudiantes: Nuevo Ingresos</h1>
+<!--Titulo-->
+<div class="container text-center contenedor-alerta">
+  <div class="card-header text-uppercase">
+    <h1>hoja de matricula</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <!--Datos del Nivel-->
+    <div class="col">
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-clipboard-data-fill"></i></span>
+        <select name="nivel-est" id="add-nivel-est" class="form-select" aria-label="Default select example">
+          <option selected>Seleccionar Nivel</option>
+          <option value="Primaria">Primaria</option>
+          <option value="Secundaria">Secundaria</option>
+        </select>
+      </div>
     </div>
-    <div class="card-body">
-      <form action="/secretaria/registro" id="form-validation" class="row g-3" method="post">
-        <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">Nombre</label>
-          <input name="nombre" type="text" class="form-control border-secondary" id="add-nombre">
-        </div>
-        <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Apellidos</label>
-          <input name="apellidos" type="text" class="form-control border-secondary" id="add-apellidos">
-        </div>
-        <div class="col-12">
-          <label for="inputAddress" class="form-label">Direccion</label>
-          <input name="direccion" type="text" class="form-control border-secondary" id="add-direccion" placeholder="1234 Main St">
-        </div>
-        <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">Edad</label>
-          <input name="edad" type="number" class="form-control border-secondary" id="add-edad">
-        </div>
-        <div class="col-md-6">
-          <label for="inputState" class="form-label">Seleccionar Genero</label>
-          <select name="sexo" id="inputState" class="form-select border-secondary">
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-          </select>
-        </div>
-        <div class="text-center">
-          <button class="btn btn-success btn-block">Matricular Estudiante</button>
-        </div>
-      </form>
+
+    <!--Datos del Grado-->
+    <div class="col">
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-graph-up-arrow"></i></span>
+        <input id="add-grado-est" name="grado-est" type="number" class="form-control border-secondary" placeholder="Ingresar Grado" aria-label="Usuario" aria-describedby="addon-wrapping">
+      </div>
     </div>
+
+    <!--Datos de la Modalidad-->
+    <div class="col">
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-calendar-check-fill"></i></span>
+        <select id="add-modalidad-est" name="modalidad-est" class="form-select" aria-label="Default select example">
+          <option selected>Seleccionar Modalidad</option>
+          <option value="Matutino">Matutino</option>
+          <option value="Vespertino">Vespertino</option>
+        </select>
+      </div>
+    </div>
+
+    <!--Buscar Tutor-->
+    <div class="col">
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-search"></i></span>
+        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Buscar Tutor">
+        <datalist id="datalistOptions">
+          <option value="San Francisco">
+          <option value="New York">
+          <option value="Seattle">
+          <option value="Los Angeles">
+          <option value="Chicago">
+        </datalist>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-white p-2">
+    <form action="/secretaria/registro" id="form-validation" method="post">
+      <div class="row">
+
+        <!--Datos del Estudiante-->
+        <div class="col">
+          <div class="card border-secondary">
+            <div class="card-header color-background">
+              <h1 class="text-center text-uppercase text-white">nuevo ingreso</h1>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Nombre</label>
+                  <input name="nombre_est" type="text" class="form-control border-secondary" id="add-nombre-est" placeholder="Nombre del Estudiante">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword4" class="form-label">Apellidos</label>
+                  <input name="apellidos_est" type="text" class="form-control border-secondary" id="add-apellidos-est" placeholder="Apellidos del Estudiante">
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Direccion</label>
+                  <input name="direccion_est" type="text" class="form-control border-secondary" id="add-direccion-est" placeholder="Direccion">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Fecha de Nacimiento</label>
+                  <input name="fecha_est" type="date" class="form-control border-secondary" id="add-fecha-est">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputState" class="form-label">Seleccionar Genero</label>
+                  <select name="sexo_est" id="inputState" class="form-select border-secondary">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Datos del Tutor-->
+        <div class="col">
+          <div class="card border-secondary">
+            <div class="card-header color-background">
+              <h1 class="text-center text-uppercase text-white">datos tutor</h1>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Nombre</label>
+                  <input name="nombre_tutor" type="text" class="form-control border-secondary" id="add-nombre-tut" placeholder="Nombre del tutor">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword4" class="form-label">Apellidos</label>
+                  <input name="apellido_tutor" type="text" class="form-control border-secondary" id="add-apellido-tut" placeholder="Apellidos del tutor">
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Ocupacion</label>
+                  <input name="ocupacion_tutor" type="text" class="form-control border-secondary" id="add-ocupacion-tut" placeholder="Ocupacion del tutor">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Cedula</label>
+                  <input name="cedula_tutor" type="text" class="form-control border-secondary" id="add-cedula-tut" placeholder="Cedula del tutor">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Telefono</label>
+                  <input name="telefono_tutor" type="number" class="form-control border-secondary" id="add-telefono-tut" placeholder="Telefono del tutor">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Papeleo a Entregar-->
+      <div class="container text-center p-2 text-black">
+        <div class="form-check text-black form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label class="form-check-label" for="inlineCheckbox1">Partida de Nacimiento</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">Copia de Cedula del Tutor</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">Copia del Boletin</label>
+        </div>
+      </div>
+        
+      <!--Enviar datos al Servidor-->
+      <div class="text-center mt-2">
+        <button class="btn btn-success btn-block">Matricular Estudiante</button>
+      </div>
+    </form>
   </div>
 </div>
 
