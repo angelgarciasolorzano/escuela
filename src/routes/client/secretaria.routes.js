@@ -33,4 +33,8 @@ router.get('/api/estudiante', isLoggedIn, async (req,res)=>{
    res.send(Data);
 });
 
+router.post('/api/matricula', isLoggedIn, async (req, res) => {
+  console.log( await req.body);
+});
+
 export default router;

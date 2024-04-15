@@ -1,39 +1,100 @@
 <div class="container p-2 border-secondary contenedor-alerta">
   <div class="card border-secondary">
     <div class="card-header color-background">
-      <h1 class="text-center text-white">Estudiantes: Nuevo Ingresos</h1>
+      <h1 class="text-center text-white">Matricula Año Lectivo 2024</h1>
     </div>
     <div class="card-body">
-      <form action="/secretaria/registro" id="form-validation" class="row g-3" method="post">
+      <div class="container">
+        <button type="button" class="btn btn-primary mx-auto d-block" data-bs-toggle="modal"
+          data-bs-target="#exampleModal">Buscar Estudiante</button>
+      </div>
+      <!-- Form -->
+      <form action="" id="form-matricula" class="row g-3 py-3" method="">
         <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">Nombre</label>
-          <input name="nombre" type="text" class="form-control border-secondary" id="add-nombre">
+          <label for="inputEmail4" class="form-label">Estudiante:</label>
+          <input name="name-estudiante" type="text" class="form-control border-secondary" id="name-estudiante"
+            placeholder="Nombre del Estudiante" disabled>
         </div>
         <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Apellidos</label>
-          <input name="apellidos" type="text" class="form-control border-secondary" id="add-apellidos">
+          <label for="inputPassword4" class="form-label">Tutor:</label>
+          <input name="name-tutor" type="text" class="form-control border-secondary" id="name-tutor"
+            placeholder="Nombre del Tutor" disabled>
         </div>
         <div class="col-12">
           <label for="inputAddress" class="form-label">Dirección</label>
-          <input name="direccion" type="text" class="form-control border-secondary" id="add-direccion" placeholder="casa 123, barrio">
+          <input name="direccion" type="text" class="form-control border-secondary" id="direccion"
+            placeholder="casa 123, barrio" disabled>
+        </div>
+        <div class="row justify-content-md-center g-3">
+          <div class="col-md-3">
+            <label for="inputPassword4" class="form-label">Nivel:</label>
+            <input name="nivel" type="text" class="form-control border-secondary" id="nivel" disabled>
+          </div>
+          <div class="col-md-3">
+            <label for="inputPassword4" class="form-label">Grupo:</label>
+            <input name="grupo" type="text" class="form-control border-secondary" id="grupo" disabled>
+          </div>
+          <div class="col-md-3">
+            <label for="inputPassword4" class="form-label">Año Lectivo:</label>
+            <input name="anio" type="text" class="form-control border-secondary" id="anio" disabled>
+          </div>
+          <div class="col-md-3">
+            <label for="inputPassword4" class="form-label">Pago:</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">C$</span>
+              <span class="input-group-text">0.00</span>
+              <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+            </div>
+          </div>
         </div>
         <div class="col-md-6">
-          <label for="inputBirthdate" class="form-label">Fecha de Nacimiento</label>
-          <input name="fechaNac" type="date" class="form-control border-secondary" id="add-fechaNac">
-        </div>
-        <div class="col-md-6">
-          <label for="inputState" class="form-label">Seleccionar Género</label>
-          <select name="sexo" id="inputState" class="form-select border-secondary">
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-          </select>
+          <label for="inputPassword4" class="form-label">Secretari@:</label>
+          <input name="name-secretaria" type="text" class="form-control border-secondary" id="name-secretaria"
+            placeholder="Nombre del Secretari@" disabled>
         </div>
         <div class="text-center">
-          <button class="btn btn-success btn-block">Matricular Estudiante</button>
+          <button class="btn btn-success btn-block">Matricular</button>
         </div>
-      </form>
+    </div>
+    </form>
+  </div>
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header color-background">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Estudiantes Disponibles</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg">
+              <div class="table-responsive">
+                <table id="datatable_estudiante" class="table table-striped table-bordered nowrap" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Id</th>
+                      <th>Nombres</th>
+                      <th>Apellidos</th>
+                      <th>Tutor</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody_estudiante"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button id="btn-aceptar" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
     </div>
   </div>
 </div>
-
-<script src="/event/addestudiantes.js"></script>
+<!-- Modal -->
