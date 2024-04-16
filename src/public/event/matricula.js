@@ -1,8 +1,8 @@
+$(document).ready(function(){
 const estudiante = document.getElementById('name-estudiante');
 const form = document.querySelector('form');
 const mensaje = document.querySelector('.contenedor-alerta');
-const table = document.getElementById('tableBody_estudiante');
-var select_row = "";
+let select_row = "";
 
 function showError(message) {
     const mensajeAnterior = document.querySelector('.mensaje');
@@ -26,7 +26,7 @@ function showError(message) {
     mensaje.parentNode.insertBefore(errorDiv, mensaje);
 }; //Mensaje de error
 
-if (form) {
+if (form && estudiante) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (estudiante.value === '') {
@@ -36,9 +36,9 @@ if (form) {
     });
 }; //Formulario matricula
 
-$(document).ready(async function () {
+$('#exampleModal').on('show.bs.modal', function () {
     var url = 'http://localhost:4000/api/estudiante';
-    var table = await $('#datatable_estudiante').DataTable({
+    var table = $('#datatable_estudiante').DataTable({
         ajax: {
             url: url,
             dataSrc: "",
@@ -60,11 +60,13 @@ $(document).ready(async function () {
         ],
         destroy: true,
         select: true,
+        fixedColumns: {
+            start: 2
+        },
         select: {
             style: 'single',
             item: 'row'
         },
-
         responsive: true,
         scrollX: '100%',
         scrollY: 300,
@@ -90,17 +92,20 @@ $(document).ready(async function () {
         $('#datatable_estudiante').on("click", "tr", function () {
             select_row = table.row(this).data();
         })
-    }; //Tabla registro de matricula reciente
+    }; //Seleccionar la fila
+    $('#btn-aceptar').on('click', function () {
+        if (select_row != "") {
+            const options = {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(select_row)
+            };
+            fetch('/api/matricula', options).then(res => res.json());
+        }
+        table.destroy();
+    });
 }); //Cargar Tabla dentro del Modal
 
-
-$('#btn-aceptar').on('click', async function () {
-    const options = {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(select_row)
-    };
-    fetch('/api/matricula', options).then(res => res.json());
-});
+});//Se ejecuta al cargar la pagina
