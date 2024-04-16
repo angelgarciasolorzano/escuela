@@ -1,3 +1,4 @@
+//TODO Importando modulos
 import express from "express";
 import { isLoggedIn } from "../../lib/middleware/auth.js";
 import pool from "../../database.js";
@@ -24,7 +25,10 @@ router.post('/secretaria/registro', async(req, res) => {
     const estudiante_tutor = req.body;
     console.log(estudiante_tutor);
 
+    //? LLamando procedimiento almacenado
     const procedure = 'CALL EstudianteTutor(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+    //? Agregando los datos de estduiantes_tutor a la variable datos
     const datos = [
       estudiante_tutor.nombre_est,
       estudiante_tutor.apellidos_est,
@@ -38,6 +42,7 @@ router.post('/secretaria/registro', async(req, res) => {
       estudiante_tutor.telefono_tutor,
     ];
 
+    //? Ejecutando el procedimiento almacenado
     await pool.query(procedure, datos);
     res.redirect('/secretaria/lista');
   } catch (error) {

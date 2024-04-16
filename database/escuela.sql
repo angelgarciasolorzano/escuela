@@ -52,6 +52,7 @@ INSERT INTO Roles (nombre_Role) VALUES ('Administrador');
 INSERT INTO Roles (nombre_Role) VALUES ('Secretaria');
 INSERT INTO Roles (nombre_Role) VALUES ('Profesor');
 INSERT INTO Usuario (correo, contra, id_Role_FK) VALUES ('angelgarcia', '123', '2');
+INSERT INTO Usuario (correo, contra, id_Role_FK) VALUES ('angel', '123', '1');
 
 --MOSTRANDO DATOS DE LAS TABLAS
 SELECT * FROM Usuario;

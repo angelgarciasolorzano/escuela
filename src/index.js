@@ -14,6 +14,7 @@ import helpers from "./lib/helpers.js";
 import indexRoutes from "./routes/index.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
 import secretariaRoutes from "./routes/client/secretaria.routes.js";
+import administracionRoutes from "./routes/admin/administracion.routes.js";
 import "./lib/passport.js";
 
 //TODO Inicializando express y guardando las sesiones del usuarion en MySql
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 app.use(indexRoutes);
 app.use(authenticationRoutes);
 app.use(secretariaRoutes);
+app.use(administracionRoutes);
 
 //TODO Carpetas publicas
 app.use(express.static(join(__dirname, 'public')));

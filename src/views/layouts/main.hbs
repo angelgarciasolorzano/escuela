@@ -22,14 +22,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   </head>
   <body>
-    <!--Cargando nav (Barra de navegacion) dependiendo del cargo del usuario-->
-    {{#if user}}
-      {{#if user.nombre_Role }}
-        {{#ifCond user.nombre_Role "Secretaria"}}
-          {{> navsecret }}
-        {{/ifCond}}
-      {{/if}}
-    {{/if}}
+     <!--Cargando nav (Barra de navegacion)-->
+    {{> nav}}
     
     <!--Cuerpo de la pagina (Carga de las vistas)-->
     {{{ body }}}

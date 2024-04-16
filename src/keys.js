@@ -1,7 +1,12 @@
+//TODO Importamos dotenv para mayor seguridad en los datos para la conexion BD
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export const database = {
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '86807778',
-  database: 'escuela'
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
 };
