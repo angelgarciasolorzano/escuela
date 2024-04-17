@@ -2,7 +2,6 @@ $(document).ready(function(){
 const estudiante = document.getElementById('name-estudiante');
 const form = document.querySelector('form');
 const mensaje = document.querySelector('.contenedor-alerta');
-let select_row = "";
 
 function showError(message) {
     const mensajeAnterior = document.querySelector('.mensaje');
@@ -55,7 +54,7 @@ $('#exampleModal').on('show.bs.modal', function () {
         ],
         columnDefs: [
             {
-                className: "centered", targets: [0, 3],
+                className: "text-center", targets: [0, 3],
             }
         ],
         destroy: true,
@@ -89,6 +88,7 @@ $('#exampleModal').on('show.bs.modal', function () {
         }
     })
     if (table) {
+        var select_row = "";
         $('#datatable_estudiante').on("click", "tr", function () {
             select_row = table.row(this).data();
         })
