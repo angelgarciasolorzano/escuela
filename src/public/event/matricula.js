@@ -1,17 +1,20 @@
-$(document).ready(function(){
-const estudiante = document.getElementById('name-estudiante');
-const form = document.querySelector('form');
-const mensaje = document.querySelector('.contenedor-alerta');
+$(document).ready(function () {
+    const name_estudiante = document.getElementById('name-estudiante');
+    const direccion = document.getElementById('direccion');
+    const form = document.querySelector('form');
+    const mensaje = document.querySelector('.contenedor-alerta');
+    let select_row = '';
 
-function showError(message) {
-    const mensajeAnterior = document.querySelector('.mensaje');
-    if (mensajeAnterior) {
-        mensajeAnterior.remove();
-    }
 
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'mensaje';
-    errorDiv.innerHTML = `
+    function showError(message) {
+        const mensajeAnterior = document.querySelector('.mensaje');
+        if (mensajeAnterior) {
+            mensajeAnterior.remove();
+        }
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'mensaje';
+        errorDiv.innerHTML = `
     <div class="container p-2">
       <div class="row">
         <div class="col-md-5 mx-auto">
@@ -22,90 +25,112 @@ function showError(message) {
         </di>
       </div>
     </div>`;
-    mensaje.parentNode.insertBefore(errorDiv, mensaje);
-}; //Mensaje de error
+        mensaje.parentNode.insertBefore(errorDiv, mensaje);
+    }; //Mensaje de error
 
-if (form && estudiante) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (estudiante.value === '') {
-            isValid = false;
-            showError('Todos los campos son requeridos.');
-        } else { form.submit(); }
-    });
-}; //Formulario matricula
+    if (form && name_estudiante) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (name_estudiante.value === '') {
+                isValid = false;
+                showError('Todos los campos son requeridos.');
+            } else { form.submit(); }
+        });
+    }; //Formulario matricula
 
-$('#exampleModal').on('show.bs.modal', function () {
-    var url = 'http://localhost:4000/api/estudiante';
-    var table = $('#datatable_estudiante').DataTable({
-        ajax: {
-            url: url,
-            dataSrc: "",
-        },
-        columns: [
-            { data: "id_Estudiante" },
-            { data: "nombre" },
-            { data: "apellidos" },
-            {
-                data: null,
-                orderable: false,
-                targets: 0,
-            }
-        ],
-        columnDefs: [
-            {
-                className: "text-center", targets: [0, 3],
-            }
-        ],
-        destroy: true,
-        select: true,
-        fixedColumns: {
-            start: 2
-        },
-        select: {
-            style: 'single',
-            item: 'row'
-        },
-        responsive: true,
-        scrollX: '100%',
-        scrollY: 300,
-        lengthMenu: [5, 10, 15, 20],
-        pageLength: 5,
-        language: {
-            lengthMenu: "Mostrar _MENU_ registros por página",
-            zeroRecords: "Ningún usuario encontrado",
-            info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-            infoEmpty: "Ningún usuario encontrado",
-            infoFiltered: "(filtrados desde _MAX_ registros totales)",
-            search: "Buscar:",
-            loadingRecords: "Cargando...",
-            paginate: {
-                first: "Primero",
-                last: "Último",
-                next: "Siguiente",
-                previous: "Anterior"
-            }
-        }
-    })
-    if (table) {
-        var select_row = "";
-        $('#datatable_estudiante').on("click", "tr", function () {
-            select_row = table.row(this).data();
-        })
-    }; //Seleccionar la fila
-    $('#btn-aceptar').on('click', function () {
-        if (select_row != "") {
-            const options = {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
+    $('#exampleModal').on('show.bs.modal', function () {
+        var url = '/api/estudiante';
+        var table = $('#datatable_estudiante').DataTable({
+            processing: true,
+            serverMethod: 'get',
+            ajax: {
+                url: url,
+                dataSrc: ''
+            },
+            columns: [
+                { data: "id_Estudiante" },
+                { data: "nombre" },
+                { data: "apellidos" },
+                {
+                    data: null,
+                    orderable: false,
+                    targets: 0,
+                }
+            ],
+            columnDefs: [
+                {
+                    className: "text-center", targets: [0, 3]
+                }
+            ],
+            destroy: true,
+            select: true,
+            select: {
+                style: 'single',
+                toggleable: false,
+                item: 'row',
+                style: 'os',
+                selector: 'td:not(:first-child)'
+            },
+            responsive: true,
+            responsive: {
+                breakpoints: [
+                    { name: 'bigdesktop', width: Infinity },
+                    { name: 'meddesktop', width: 1480 },
+                    { name: 'smalldesktop', width: 1280 },
+                    { name: 'medium', width: 1188 },
+                    { name: 'tabletl', width: 1024 },
+                    { name: 'btwtabllandp', width: 848 },
+                    { name: 'tabletp', width: 768 },
+                    { name: 'mobilel', width: 480 },
+                    { name: 'mobilep', width: 320 }
+                ]
+            },
+            lengthMenu: [5, 10, 15, 20],
+            pageLength: 5,
+            language: {
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Ningún Estudiante encontrado",
+                info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+                infoEmpty: "Ningún Estudiante encontrado",
+                infoFiltered: "(filtrados desde _MAX_ registros totales)",
+                search: "Buscar:",
+                loadingRecords: "Cargando...",
+                paginate: {
+                    first: "Primero",
+                    last: "Último",
+                    next: "Siguiente",
+                    previous: "Anterior"
                 },
-                body: JSON.stringify(select_row)
-            };
-            fetch('/api/matricula', options).then(res => res.json());
-        }
-        table.destroy();
-    });
-}); //Cargar Tabla dentro del Modal
+                select: {
+                    rows: {
+                        _: ' %d Filas seleccionadas',
+                        1: ' 1 Fila Seleccionada'
+                    }
+                }
+            }
+        });
+        if (table) {
+            $('#datatable_estudiante').on("click", "tr", function () {
+                select_row = table.row(this).data();
+                if (typeof select_row != 'undefined')
+                    console.log(select_row);
+            })
+        }; //Seleccionar la fila
+        $('#btn-aceptar').on('click', function () {
+            if (typeof select_row != 'undefined') {
+                name_estudiante.value = select_row.nombre + ' ' + select_row.apellidos;
+                direccion.value = select_row.direccion;
+                // const options = {
+                //     method: 'post',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify(select_row)
+                // };
+                // fetch('/api/matricula', options).then(res => res.json()).catch(console.log(console.log('No hay fetch')));
+                table.destroy();
+            }
+        });
+    }); //Cargar Tabla dentro del Modal
 
 });//Se ejecuta al cargar la pagina

@@ -49,8 +49,8 @@
         </div>
         <div class="col-md-6">
           <label for="inputPassword4" class="form-label">Secretari@:</label>
-          <input name="name-secretaria" type="text" class="form-control border-secondary" id="name-secretaria"
-            placeholder="Nombre del Secretari@" disabled>
+          <input name="name-secretaria" type="text" class="form-control border-secondary" id="name_secretaria"
+            placeholder="Nombre del Secretari@", value={{ user.correo }} disabled>
         </div>
         <div class="text-center">
           <button class="btn btn-success btn-block">Matricular</button>
@@ -69,12 +69,12 @@
         <h5 class="modal-title text-white" id="exampleModalLabel">Estudiantes Disponibles</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
         <div class="container container-fluid">
           <div class="row">
             <div class="col-lg">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered nowrap" id="datatable_estudiante" width="100%">
+                <table class="table table-dark table-striped table-bordered nowrap" id="datatable_estudiante" style="width: 100%;">
                   <thead>
                     <tr>
                       <th class="text-center">Id</th>
@@ -83,7 +83,7 @@
                       <th>Tutor</th>
                     </tr>
                   </thead>
-                  <tbody id="tableBody_estudiante"></tbody>
+                  <tbody></tbody>
                 </table>
               </div>
             </div>
