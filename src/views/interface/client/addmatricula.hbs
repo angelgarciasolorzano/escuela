@@ -26,19 +26,15 @@
             placeholder="casa 123, barrio" disabled>
         </div>
         <div class="row justify-content-md-center g-3">
-          <div class="col-md-3">
-            <label for="inputPassword4" class="form-label">Nivel:</label>
+          <div class="col-md-4">
+            <label for="inputPassword4" class="form-label">Nivel-Grupo:</label>
             <input name="nivel" type="text" class="form-control border-secondary" id="nivel" disabled>
           </div>
-          <div class="col-md-3">
-            <label for="inputPassword4" class="form-label">Grupo:</label>
-            <input name="grupo" type="text" class="form-control border-secondary" id="grupo" disabled>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label for="inputPassword4" class="form-label">Año Lectivo:</label>
             <input name="anio" type="text" class="form-control border-secondary" id="anio" disabled>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label for="inputPassword4" class="form-label">Pago:</label>
             <div class="input-group mb-3">
               <span class="input-group-text">C$</span>
@@ -50,13 +46,13 @@
         <div class="col-md-6">
           <label for="inputPassword4" class="form-label">Secretari@:</label>
           <input name="name-secretaria" type="text" class="form-control border-secondary" id="name_secretaria"
-            placeholder="Nombre del Secretari@", value={{ user.correo }} disabled>
+            placeholder="Nombre del Secretari@" , value={{user.correo}} disabled>
         </div>
         <div class="text-center">
           <button class="btn btn-success btn-block">Matricular</button>
         </div>
+      </form>
     </div>
-    </form>
   </div>
 </div>
 </div>
@@ -69,18 +65,18 @@
         <h5 class="modal-title text-white" id="exampleModalLabel">Estudiantes Disponibles</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" >
+      <div class="modal-body">
         <div class="container container-fluid">
           <div class="row">
             <div class="col-lg">
               <div class="table-responsive">
-                <table class="table table-dark table-striped table-bordered nowrap" id="datatable_estudiante" style="width: 100%;">
+                <table class="table table-dark table-striped table-bordered nowrap" id="datatable_estudiante"
+                  style="width: 100%;">
                   <thead>
                     <tr>
                       <th class="text-center">Id</th>
                       <th>Nombres</th>
                       <th>Apellidos</th>
-                      <th>Tutor</th>
                     </tr>
                   </thead>
                   <tbody></tbody>

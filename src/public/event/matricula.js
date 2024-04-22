@@ -42,24 +42,20 @@ $(document).ready(function () {
         var url = '/api/estudiante';
         var table = $('#datatable_estudiante').DataTable({
             processing: true,
-            serverMethod: 'get',
+            serverSide: true,
             ajax: {
                 url: url,
-                dataSrc: ''
+                type: 'GET'
             },
+            aaSorting : [],
             columns: [
                 { data: "id_Estudiante" },
                 { data: "nombre" },
-                { data: "apellidos" },
-                {
-                    data: null,
-                    orderable: false,
-                    targets: 0,
-                }
+                { data: "apellidos" }
             ],
             columnDefs: [
                 {
-                    className: "text-center", targets: [0, 3]
+                    className: "text-center", targets: 0
                 }
             ],
             destroy: true,
@@ -78,11 +74,11 @@ $(document).ready(function () {
                     { name: 'meddesktop', width: 1480 },
                     { name: 'smalldesktop', width: 1280 },
                     { name: 'medium', width: 1188 },
-                    { name: 'tabletl', width: 1024 },
+                    { name: 'tablet-l', width: 1024 },
                     { name: 'btwtabllandp', width: 848 },
-                    { name: 'tabletp', width: 768 },
-                    { name: 'mobilel', width: 480 },
-                    { name: 'mobilep', width: 320 }
+                    { name: 'tablet-p', width: 768 },
+                    { name: 'mobile-l', width: 480 },
+                    { name: 'mobile-p', width: 320 }
                 ]
             },
             lengthMenu: [5, 10, 15, 20],
@@ -110,7 +106,7 @@ $(document).ready(function () {
             }
         });
         if (table) {
-            $('#datatable_estudiante').on("click", "tr", function () {
+            $('#datatable_estudiante').on("click", "td:not(:first-child)", function () {
                 select_row = table.row(this).data();
                 if (typeof select_row != 'undefined')
                     console.log(select_row);
