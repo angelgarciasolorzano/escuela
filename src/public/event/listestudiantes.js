@@ -1,7 +1,7 @@
 //TODO Configurando DataTables
 
 $(document).ready(function() {
-  var url = 'http://localhost:4000/api/estudiante';
+  var url = '/api/estudiante';
 
   $('#datatable_estudiante').DataTable({
     ajax: {
@@ -18,21 +18,29 @@ $(document).ready(function() {
       },
       { 
         data: null, 
-        defaultContent: '<button type="button" class="btn btn-success">Agregar</button>'
+        defaultContent: `<button type="button" class="btn btn-primary">Registro</button>
+        <button type="button" class="ms-2 btn btn-warning">Editar</button>`
       }
     ],
     columnsDefs: [{
-      className: "centered", targets: [3,4],
+      targets: [3,4],
       orderable: false, targets: "_all",
       searchable: false, targets: [3, 4], 
       width: "10%", targets: [3, 4],
     }],
-    lengthMenu: [5, 8, 10, 15],
+    destroy: true,
+    fixedColumn: {
+      start: 2
+    },
+    responsive: true,
+    scrollX: '100%',
+    scrollY: 300,
+    lengthMenu: [5, 8, 10],
     pageLength: 8,
     language: {
       lengthMenu: "Mostrar _MENU_ registros por página",
       zeroRecords: "Ningún usuario encontrado",
-      info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+      info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros ",
       infoEmpty: "Ningún usuario encontrado",
       infoFiltered: "(filtrados desde _MAX_ registros totales)",
       search: "Buscar:",

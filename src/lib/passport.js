@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import pool from "../database.js";
+import pool from "../config/database.js";
 
 passport.use('sesion.local', new LocalStrategy({
   usernameField: 'usuario',

@@ -7,14 +7,14 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import MySQLStoreFactory from "express-mysql-session";
 import passport from "passport";
-import { database } from "./keys.js";
+import { database } from "./config/keys.js";
 import helpers from "./lib/helpers.js";
 
-//*Importaciones de Caminos (Routes)
+//* Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
-import secretariaRoutes from "./routes/client/secretaria.routes.js";
-import administracionRoutes from "./routes/admin/administracion.routes.js";
+import secretariaRoutes from "./routes/secretaria.routes.js";
+import administracionRoutes from "./routes/administracion.routes.js";
 import "./lib/passport.js";
 
 //TODO Inicializando express y guardando las sesiones del usuarion en MySql
@@ -36,7 +36,7 @@ app.engine('.hbs', engine({
 }));
 app.set('view engine', '.hbs');
 
-//*Configurando sesiones del usuario
+//* Configurando sesiones del usuario
 app.use(session({
   secret: 'secret',
   saveUninitialized: false,
@@ -51,7 +51,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-//*Variables Globales
+//* Variables Globales
 app.use((req, res, next) => {
   if (req.user && Array.isArray(req.user) && req.user.length > 0) {
     app.locals.user = req.user[0];
@@ -61,7 +61,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//*Configurando caminos
+//* Configurando caminos
 app.use(indexRoutes);
 app.use(authenticationRoutes);
 app.use(secretariaRoutes);

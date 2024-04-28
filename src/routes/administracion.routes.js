@@ -1,7 +1,7 @@
 //TODO Importando modulos
 import express from "express";
-import { isLoggedIn } from "../../lib/middleware/auth.js";
-import pool from "../../database.js";
+import { isLoggedIn } from "../middleware/auth.js";
+import pool from "../config/database.js";
 
 const router = express.Router();
 
