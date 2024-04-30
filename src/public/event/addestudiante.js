@@ -6,13 +6,13 @@ const progressSteps = document.querySelectorAll(".progress-step");
 
 let formStepsNum = 0;
 //Efecto del progressbar
-nextBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        formStepsNum++;
-        updateFormSteps();
-        updateProgressbar();
-    });
-});
+// nextBtns.forEach((btn) => {
+//     btn.addEventListener("click", () => {
+//         formStepsNum++;
+//         updateFormSteps();
+//         updateProgressbar();
+//     });
+// });
 
 prevBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -20,7 +20,7 @@ prevBtns.forEach((btn) => {
         updateFormSteps();
         updateProgressbar();
     });
-});
+});//Evento para regresar al otro fomulario
 
 function updateFormSteps() {
     formSteps.forEach((formStep) => {
@@ -46,12 +46,69 @@ function updateProgressbar() {
         ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
 }
 
+$('#btn_documento').on("click", function (e) {
+    e.preventDefault();
+    // declaramos las variables
+    const doc_partida_nac = document.getElementById("doc-partida-nac");
+    const doc_boletin = document.getElementById("doc-boletin");
+    const doc_cedula = document.getElementById("doc-cedula");
+    const forms = [doc_partida_nac, doc_boletin, doc_cedula];
+    var aux = 0;
+
+    // Validados que los campos esten correctos
+    Array.from(forms).forEach(input => {
+        if (!input.checkValidity()) {
+            input.classList.add('is-invalid');
+            aux++;
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+    
+    $("input[type='checkbox']").change(function () {
+        if ($(this).is(':checked')){
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    if (aux == 0) {
+        formStepsNum++;
+        updateFormSteps();
+        updateProgressbar();
+    }
+});//Validamos los documentos obligatorios
+
+$('#btn_tutor').on("click", function (e) {
+    e.preventDefault();
+    const nombres_tutor = document.getElementById('nombres-tutor');
+    const apellidos_tutor = document.getElementById('apellidos-tutor');
+    const correo_tutor = document.getElementById('correo-tutor');
+    const cedula_tutor = document.getElementById('cedula-tutor');
+    const telefono_tutor = document.getElementById('telefono-tutor');
+    const form = [nombres_tutor, apellidos_tutor, correo_tutor, cedula_tutor, cedula_tutor, telefono_tutor];
+
+    const data = {nombres: nombres_tutor.value, apellidos: apellidos_tutor.value, 
+        correo_e: correo_tutor.value, cedula: cedula_tutor.value, telefono: telefono_tutor.value};
+
+    axios.post('/api/verificar_tutor', data)
+        .then(response => console.log(response.data))
+        .catch(err => console.log('Error', err.message));
+    
+    // Validados que los campos esten correctos
+    Array.from(form).forEach(input => {
+        if (!input.checkValidity()) {
+            input.classList.add('is-invalid');
+        }
+    });
+    
+});//Validamos el formulario del tutor
+
 $("#btn_ingresar").on("click", function (e) {
     e.preventDefault();
     formStepsNum++;
     updateFormSteps();
     updateProgressbar();
-});
+});//Ingresa todos los formularios
 
 //Agregar Estudiantes
 $("#btn-addestudiante").on("click", function (e) {
@@ -82,9 +139,8 @@ function getEstudiantes() {
     let estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
     let estudiantesView = document.getElementById('cargar-estudiantes');
 
-    estudiantesView.innerHTML = '';
-
-    if (estudiantes != null) {
+    if (estudiantes != null && estudiantesView != null) {
+        estudiantesView.innerHTML = '';
         for (let i = 0; i < estudiantes.length; i++) {
             estudiantesView.innerHTML +=
                 `<div class="d-flex pt-3">

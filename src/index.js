@@ -9,7 +9,7 @@ import MySQLStoreFactory from "express-mysql-session";
 import passport from "passport";
 import { database } from "./keys.js";
 import helpers from "./lib/helpers.js";
-import * as path from "path"
+import * as path from 'path';
 
 //*Importaciones de Caminos (Routes)
 import indexRoutes from "./routes/index.routes.js";
@@ -28,8 +28,8 @@ app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', engine({
   defaultLayout: 'main',
-  layoutsDir: join(app.set('views'), 'layouts'),
-  partialsDir: join(app.set('views'), 'partials'),
+  layoutsDir: path.join(app.set('views'), 'layouts'),
+  partialsDir: path.join(app.set('views'), 'partials'),
   extname: '.hbs',
   helpers: helpers
 }));
@@ -67,6 +67,13 @@ app.use(secretariaRoutes);
 
 //TODO Carpetas publicas
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Manda un error 404 si la pagina no existe
+app.use((req, res, next) => {
+    if (res.status(404)) {
+        res.send('Error 404');
+    }
+});
 
 //*Ejecutando servidor
 app.listen(app.get('port'), () => {

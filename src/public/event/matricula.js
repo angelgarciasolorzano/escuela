@@ -39,10 +39,11 @@ $(document).ready(function () {
     }; //Formulario matricula
 
     $('#exampleModal').on('show.bs.modal', function () {
-        var url = '/api/estudiante';
+        var url = '/api/estudiante_disponible';
         var table = $('#datatable_estudiante').DataTable({
             processing: true,
             serverSide: true,
+            deferRender: true,
             ajax: {
                 url: url,
                 type: 'GET'

@@ -23,58 +23,84 @@
 
                 <!-- Step-Documentos -->
                 <div class="form-step form-step-active">
-                    <div class="d-grid justify-content-center p-2 text-black">
+                    <div class="d-grid justify-content-center p-2 text-black" id="form1" novalidate>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="option1">
+                            <input class="form-check-input" type="checkbox" id="doc-partida-nac" required>
                             <label class="form-check-label ms-3 py-1" for="flexCheckChecked">Partida de Nacimiento:
-                                Original y Copia</label>
+                                Original y Copia
+                            </label>
+                            <div class="invalid-feedback ms-3">
+                                Este documento es obligatorio!
+                            </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="option3">
+                            <input class="form-check-input" type="checkbox" id="doc-boletin" required>
                             <label class="form-check-label ms-3 py-1" for="flexCheckChecked">Boletin: Original y
-                                Copia</label>
+                                Copia
+                            </label>
+                            <div class="invalid-feedback ms-3">
+                                Este documento es obligatorio!
+                            </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" value="option2">
+                            <input class="form-check-input" type="checkbox" id="doc-cedula" required>
                             <label class="form-check-label ms-3 py-1" for="flexCheckChecked">Cedula del Tutor</label>
+                            <div class="invalid-feedback ms-3">
+                                Este documento es obligatorio!
+                            </div>
                         </div>
-                    </div>
-                    <div class="container pt-4">
-                        <a href="#" class="btn btn-next width-50 ml-auto">Siguiente</a>
+                        <div class="container pt-4">
+                            <a href="#" class="btn btn-next width-50 ml-auto" id="btn_documento">Siguiente</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Step-Tutor -->
                 <div class="form-step">
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 position-relative">
                             <label for="inputEmail4" class="form-label">Nombres:</label>
                             <input name="nombres_tutor" type="text" class="form-control border-secondary"
-                                id="add-nombres-tut" placeholder="Nombre del tutor">
+                                id="nombres-tutor" placeholder="Juan Pablo" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 position-relative">
                             <label for="inputPassword4" class="form-label">Apellidos:</label>
                             <input name="apellidos_tutor" type="text" class="form-control border-secondary"
-                                id="add-apellidos-tut" placeholder="Apellidos del tutor">
+                                id="apellidos-tutor" placeholder="Zamora Ulises" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 position-relative">
                             <label for="inputAddress" class="form-label">Correo-e:</label>
-                            <input name="correo_tutor" type="text" class="form-control border-secondary"
-                                id="add-correo-tut" placeholder="Ocupacion del tutor">
+                            <input name="correo_tutor" type="email" class="form-control border-secondary"
+                                id="correo-tutor" placeholder="juan_pablo12@gmail.com" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 position-relative">
                             <label for="inputEmail4" class="form-label">Cedula:</label>
                             <input name="cedula_tutor" type="text" class="form-control border-secondary"
-                                id="add-cedula-tut" placeholder="Cedula del tutor">
+                                id="cedula-tutor" placeholder="000-011280-0000B" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 position-relative">
                             <label for="inputEmail4" class="form-label">Telefono:</label>
                             <input name="telefono_tutor" type="number" class="form-control border-secondary"
-                                id="add-telefono-tut" placeholder="Telefono del tutor">
+                                id="telefono-tutor" placeholder="84125477" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
                         </div>
                     </div>
                     <div class="btns-group pt-5">
                         <a href="#" class="btn btn-prev">Atras</a>
-                        <a href="#" class="btn btn-next">Siguiente</a>
+                        <a href="#" class="btn btn-next" id="btn_tutor">Siguiente</a>
                     </div>
                 </div>
                 <!-- Step-Estudiante -->
@@ -133,7 +159,8 @@
                 <div class="form-step">
                     <div class="container d-flex justify-content-center text-center text-black m-30">
                         <h2>Los datos se ingresaron correctamente!!</h2>
-                        <a href="/secretaria/registro/estudiante" type="button" class="btn btn-block" id="btn-recargar">Recargar</a>
+                        <a href="/secretaria/registro/estudiante" type="button" class="btn btn-block"
+                            id="btn-recargar">Recargar</a>
                     </div>
                 </div>
             </form>
