@@ -56,9 +56,9 @@
                 </div>
                 <!-- Step-Tutor -->
                 <div class="form-step">
-                    <div class="row g-3">
+                    <div class="row g-3" id="form-tutor">
                         <div class="col-md-6 position-relative">
-                            <label for="inputEmail4" class="form-label">Nombres:</label>
+                            <label for="inputText" class="form-label">Nombres:</label>
                             <input name="nombres_tutor" type="text" class="form-control border-secondary"
                                 id="nombres-tutor" placeholder="Juan Pablo" required>
                             <div class="invalid-tooltip">
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inputPassword4" class="form-label">Apellidos:</label>
+                            <label for="inputText" class="form-label">Apellidos:</label>
                             <input name="apellidos_tutor" type="text" class="form-control border-secondary"
                                 id="apellidos-tutor" placeholder="Zamora Ulises" required>
                             <div class="invalid-tooltip">
@@ -75,14 +75,14 @@
                         </div>
                         <div class="col-12 position-relative">
                             <label for="inputAddress" class="form-label">Correo-e:</label>
-                            <input name="correo_tutor" type="email" class="form-control border-secondary"
+                            <input name="correo_tutor" type="text" class="form-control border-secondary"
                                 id="correo-tutor" placeholder="juan_pablo12@gmail.com" required>
                             <div class="invalid-tooltip">
                                 Campo vacio!
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inputEmail4" class="form-label">Cedula:</label>
+                            <label for="inputText" class="form-label">Cedula:</label>
                             <input name="cedula_tutor" type="text" class="form-control border-secondary"
                                 id="cedula-tutor" placeholder="000-011280-0000B" required>
                             <div class="invalid-tooltip">
@@ -90,9 +90,17 @@
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inputEmail4" class="form-label">Telefono:</label>
-                            <input name="telefono_tutor" type="number" class="form-control border-secondary"
+                            <label for="inputNumber" class="form-label">Telefono:</label>
+                            <input name="telefono_tutor" type="text" class="form-control border-secondary"
                                 id="telefono-tutor" placeholder="84125477" required>
+                            <div class="invalid-tooltip">
+                                Campo vacio!
+                            </div>
+                        </div>
+                        <div class="col-12 position-relative">
+                            <label for="inputText" class="form-label">Dirección:</label>
+                            <input name="direccion_tutor" type="text" class="form-control border-secondary"
+                                id="direccion-tutor" placeholder="municipio, distrito-barrio, casa#" required>
                             <div class="invalid-tooltip">
                                 Campo vacio!
                             </div>

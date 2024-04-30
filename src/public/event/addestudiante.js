@@ -5,14 +5,12 @@ const formSteps = document.querySelectorAll(".form-step");
 const progressSteps = document.querySelectorAll(".progress-step");
 
 let formStepsNum = 0;
-//Efecto del progressbar
-// nextBtns.forEach((btn) => {
-//     btn.addEventListener("click", () => {
-//         formStepsNum++;
-//         updateFormSteps();
-//         updateProgressbar();
-//     });
-// });
+
+function siguienteFormulario() {
+    formStepsNum++;
+    updateFormSteps();
+    updateProgressbar();
+}//Habilita al siguiente formulario
 
 prevBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -29,7 +27,7 @@ function updateFormSteps() {
     });
 
     formSteps[formStepsNum].classList.add("form-step-active");
-}
+}//Efecto css para los formStep
 
 function updateProgressbar() {
     progressSteps.forEach((progressStep, idx) => {
@@ -44,7 +42,7 @@ function updateProgressbar() {
 
     progress.style.width =
         ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
-}
+}//Efecto css para el progressBar
 
 $('#btn_documento').on("click", function (e) {
     e.preventDefault();
@@ -64,17 +62,15 @@ $('#btn_documento').on("click", function (e) {
             input.classList.remove('is-invalid');
         }
     });
-    
+
     $("input[type='checkbox']").change(function () {
-        if ($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             this.classList.remove('is-invalid');
         }
     });
 
     if (aux == 0) {
-        formStepsNum++;
-        updateFormSteps();
-        updateProgressbar();
+        siguienteFormulario();
     }
 });//Validamos los documentos obligatorios
 
@@ -85,29 +81,72 @@ $('#btn_tutor').on("click", function (e) {
     const correo_tutor = document.getElementById('correo-tutor');
     const cedula_tutor = document.getElementById('cedula-tutor');
     const telefono_tutor = document.getElementById('telefono-tutor');
-    const form = [nombres_tutor, apellidos_tutor, correo_tutor, cedula_tutor, cedula_tutor, telefono_tutor];
+    const direccion_tutor = document.getElementById('direccion-tutor');
+    const form = document.getElementById('form-tutor');
 
-    const data = {nombres: nombres_tutor.value, apellidos: apellidos_tutor.value, 
-        correo_e: correo_tutor.value, cedula: cedula_tutor.value, telefono: telefono_tutor.value};
+    const data = {
+        nombres: nombres_tutor.value, apellidos: apellidos_tutor.value,
+        correo_e: correo_tutor.value, cedula: cedula_tutor.value, telefono: telefono_tutor.value
+        , direccion: direccion_tutor.value
+    };
 
+    //Mandamos a evaluar con el express-validator
     axios.post('/api/verificar_tutor', data)
-        .then(response => console.log(response.data))
+        .then(response => {
+            const dataErrors = response.data;
+            // Validados que los campos esten correctos
+            if (dataErrors && dataErrors.status === true) {
+                if (dataErrors.errors.nombres) {
+                    nombres_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[0].lastElementChild.innerHTML = dataErrors.errors.nombres.msg;
+                } else {
+                    nombres_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+                if (dataErrors.errors.apellidos) {
+                    apellidos_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[1].lastElementChild.innerHTML = dataErrors.errors.apellidos.msg;
+                } else {
+                    apellidos_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+                if (dataErrors.errors.correo_e) {
+                    correo_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[2].lastElementChild.innerHTML = dataErrors.errors.correo_e.msg;
+                } else {
+                    correo_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+                if (dataErrors.errors.cedula) {
+                    cedula_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[3].lastElementChild.innerHTML = dataErrors.errors.cedula.msg;
+                } else {
+                    cedula_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+                if (dataErrors.errors.telefono) {
+                    telefono_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[4].lastElementChild.innerHTML = dataErrors.errors.telefono.msg;
+                } else {
+                    telefono_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+
+                if (dataErrors.errors.direccion) {
+                    direccion_tutor.parentElement.children[1].classList.add('is-invalid');
+                    form.children[5].lastElementChild.innerHTML = dataErrors.errors.direccion.msg;
+                } else {
+                    direccion_tutor.parentElement.children[1].classList.remove('is-invalid');
+                }
+            } else {
+                siguienteFormulario();
+            }
+        })
         .catch(err => console.log('Error', err.message));
-    
-    // Validados que los campos esten correctos
-    Array.from(form).forEach(input => {
-        if (!input.checkValidity()) {
-            input.classList.add('is-invalid');
-        }
+
+    $("input[type='text']").on( 'input', function () {
+        this.classList.remove('is-invalid');
     });
-    
+
 });//Validamos el formulario del tutor
 
 $("#btn_ingresar").on("click", function (e) {
     e.preventDefault();
-    formStepsNum++;
-    updateFormSteps();
-    updateProgressbar();
 });//Ingresa todos los formularios
 
 //Agregar Estudiantes
@@ -161,7 +200,7 @@ function getEstudiantes() {
                     </div>`;
         };
     }
-}
+}//Obtenemos los estudiantes, si es que existen lo ingresarlos a un div de clase card
 getEstudiantes();
 
 function eliminarEstudiante(nombres) {

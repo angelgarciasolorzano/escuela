@@ -15,25 +15,30 @@ router.get('/secretaria/registro', isLoggedIn, (req, res) => {
   res.render('interface/client/addmatricula');
 });//Cargar plantilla matricula
 
-router.get('/secretaria/registro/estudiante', isLoggedIn, (req, res) => {
+router.get('/secretaria/registro/estudiante', isLoggedIn, async (req, res) => {
   res.render('interface/client/addestudiante');
 });//Cargar plantilla Registro estudiante
 
 router.post('/api/verificar_tutor', isLoggedIn,
-[
-  body('nombres').notEmpty().withMessage('Falta llenar los campos'),
-  body('apellidos').notEmpty().withMessage('Falta llenar los campos')
-], 
+  [
+    body('nombres').notEmpty().withMessage('Falta llenar los campos'),
+    body('apellidos').notEmpty().withMessage('Falta llenar los campos'),
+    body('correo_e').notEmpty().withMessage('Falta llenar los campos')
+    .isEmail().withMessage('Este no es un Email'),
+    body('cedula').notEmpty().withMessage('Falta llenar los campos'),
+    body('telefono').notEmpty().withMessage('Falta llenar los campos')
+    .isNumeric().withMessage('Solo se aceptan numeros')
+    .isLength({ min: 8}).withMessage('Tiene que ingresar 8 digitos'),
+    body('direccion').notEmpty().withMessage('Falta llenar los campos')
+  ],
   async (req, res) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
-      //const tutor_info = req.body;
-      const errores = error.array();
-      res.send(errores);
+      res.send({ errors: error.mapped(), status: true });
     } else {
-      res.send('Validacion existosa!');
+      res.send({ errors: '', status: false });
     }
-});
+  });
 
 router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
 
