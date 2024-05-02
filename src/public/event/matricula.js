@@ -51,7 +51,7 @@ $(document).ready(function () {
             aaSorting : [],
             columns: [
                 { data: "id_Estudiante" },
-                { data: "nombre" },
+                { data: "nombres" },
                 { data: "apellidos" }
             ],
             columnDefs: [

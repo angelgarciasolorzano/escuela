@@ -59,50 +59,61 @@
                     <div class="row g-3" id="form-tutor">
                         <div class="col-md-6 position-relative">
                             <label for="inputText" class="form-label">Nombres:</label>
-                            <input name="nombres_tutor" type="text" class="form-control border-secondary"
+                            <input name="nombres" type="text" class="form-control border border-secondary"
                                 id="nombres-tutor" placeholder="Juan Pablo" required>
                             <div class="invalid-tooltip">
-                                Campo vacio!
+                                ¡Mensaje de Error!
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
                             <label for="inputText" class="form-label">Apellidos:</label>
-                            <input name="apellidos_tutor" type="text" class="form-control border-secondary"
+                            <input name="apellidos" type="text" class="form-control border-secondary"
                                 id="apellidos-tutor" placeholder="Zamora Ulises" required>
                             <div class="invalid-tooltip">
-                                Campo vacio!
-                            </div>
-                        </div>
-                        <div class="col-12 position-relative">
-                            <label for="inputAddress" class="form-label">Correo-e:</label>
-                            <input name="correo_tutor" type="text" class="form-control border-secondary"
-                                id="correo-tutor" placeholder="juan_pablo12@gmail.com" required>
-                            <div class="invalid-tooltip">
-                                Campo vacio!
+                                Mensaje de Error!
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inputText" class="form-label">Cedula:</label>
-                            <input name="cedula_tutor" type="text" class="form-control border-secondary"
+                            <label for="inputText" class="form-label">Cédula:</label>
+                            <input name="cedula" type="text" class="form-control border-secondary"
                                 id="cedula-tutor" placeholder="000-011280-0000B" required>
                             <div class="invalid-tooltip">
-                                Campo vacio!
+                                Mensaje de Error!
                             </div>
                         </div>
                         <div class="col-md-6 position-relative">
-                            <label for="inputNumber" class="form-label">Telefono:</label>
-                            <input name="telefono_tutor" type="text" class="form-control border-secondary"
+                            <label for="inputAddress" class="form-label">Correo-e:</label>
+                            <input name="correo_e" type="text" class="form-control border-secondary"
+                                id="correo-tutor" placeholder="juan_pablo12@gmail.com" required>
+                            <div class="invalid-tooltip">
+                                Mensaje de Error!
+                            </div>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inputState" class="form-label">Género:</label>
+                            <select name="sexo" id="sexo-tutor" class="form-select border border-secondary">
+                                <option selected disabled value="">Elegir...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                            <div class="invalid-tooltip">
+                                Mensaje de Error!
+                            </div>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inputNumber" class="form-label">Teléfono:</label>
+                            <input name="telefono" type="text" class="form-control border-secondary"
                                 id="telefono-tutor" placeholder="84125477" required>
                             <div class="invalid-tooltip">
-                                Campo vacio!
+                                Mensaje de Error!
                             </div>
                         </div>
                         <div class="col-12 position-relative">
                             <label for="inputText" class="form-label">Dirección:</label>
-                            <input name="direccion_tutor" type="text" class="form-control border-secondary"
+                            <input name="direccion" type="text" class="form-control border-secondary"
                                 id="direccion-tutor" placeholder="municipio, distrito-barrio, casa#" required>
                             <div class="invalid-tooltip">
-                                Campo vacio!
+                                Mensaje de Error!
                             </div>
                         </div>
                     </div>
@@ -140,13 +151,6 @@
                             <select name="grado_est" id="grado_est" class="form-select border-secondary">
                                 <option value="">Primer Grado</option>
                                 <option value="">Segundo Grado</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputState" class="form-label">Estado:</label>
-                            <select name="estado_est" id="estado_est" class="form-select border-secondary" disabled>
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
                             </select>
                         </div>
                     </div>

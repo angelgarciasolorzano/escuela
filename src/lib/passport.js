@@ -13,14 +13,14 @@ passport.use('sesion.local', new LocalStrategy({
     const usuarioDatos = datos[0][0];
     console.log(usuarioDatos);
 
-    if (usuarioDatos.contra === contra) { done(null, usuarioDatos); } 
+    if (usuarioDatos.Contrasena === contra) { done(null, usuarioDatos); } 
     else { done(null, false); }
     
   } else { return done(null, false); }
 }));
 
 passport.serializeUser((user, done) => {
-  done(null, user.id_Usuario);
+  done(null, user.Id_Usuario);
 });
 
 passport.deserializeUser(async(id, done) => {

@@ -9,8 +9,6 @@ router.get('/secretaria', isLoggedIn, (req, res) => {
   res.render('interface/client/perfilsecret');
 });
 
-//TODO Rutas de Registros (Estudiantes)
-
 router.get('/secretaria/registro', isLoggedIn, (req, res) => {
   res.render('interface/client/addmatricula');
 });//Cargar plantilla matricula
@@ -21,24 +19,41 @@ router.get('/secretaria/registro/estudiante', isLoggedIn, async (req, res) => {
 
 router.post('/api/verificar_tutor', isLoggedIn,
   [
-    body('nombres').notEmpty().withMessage('Falta llenar los campos'),
-    body('apellidos').notEmpty().withMessage('Falta llenar los campos'),
-    body('correo_e').notEmpty().withMessage('Falta llenar los campos')
-    .isEmail().withMessage('Este no es un Email'),
-    body('cedula').notEmpty().withMessage('Falta llenar los campos'),
-    body('telefono').notEmpty().withMessage('Falta llenar los campos')
-    .isNumeric().withMessage('Solo se aceptan numeros')
-    .isLength({ min: 8}).withMessage('Tiene que ingresar 8 digitos'),
-    body('direccion').notEmpty().withMessage('Falta llenar los campos')
-  ],
-  async (req, res) => {
+    body('nombres').notEmpty().withMessage('El campo esta vacío!')
+      .isAlpha().withMessage('Solo Letras sin acento'),
+    body('apellidos').notEmpty().withMessage('El campo esta vacío!')
+      .isAlpha().withMessage('Solo Letras sin acento'),
+    body('correo_e').notEmpty().withMessage('El campo esta vacío!')
+      .isEmail().withMessage('Este no es un Email')
+      .custom( async value => {
+        const searchCorreo = await pool.query('select Correo_e from Tutor where Correo_e = ?', value);
+        if (searchCorreo[0].length > 0) {
+          throw new Error('Este Email ya esta registrado!');
+        } else { return true; }}),
+    body('cedula').notEmpty().withMessage('El campo esta vacío!')
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false) {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }})
+      .custom( async value => {
+        const searchCedula = await pool.query('select Cedula from Tutor where Cedula = ?', value);
+        if (searchCedula[0].length > 0) {
+          throw new Error('Esta cédula ya esta registrada!');
+        } else { return true; }}),
+    body('sexo').notEmpty().withMessage('El campo esta vacío!'),
+    body('telefono').notEmpty().withMessage('El campo esta vacío!')
+      .isNumeric().withMessage('Solo se aceptan numeros')
+      .isLength({ min: 8 }).withMessage('Tiene que ingresar 8 digitos'),
+    body('direccion').notEmpty().withMessage('El campo esta vacío!')
+  ], (req, res) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
-      res.send({ errors: error.mapped(), status: true });
+      res.send({ errors: error.array({ onlyFirstError: true }), status: true });
     } else {
-      res.send({ errors: '', status: false });
+      res.send({ status: false });
     }
-  });
+});//Verifica el formulario del tutor para su registro
 
 router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
 
@@ -50,7 +65,7 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     var order_data = req.query.order;
 
     if (typeof order_data == 'undefined') {
-      var column_name = 'Estudiante.id_Estudiante';
+      var column_name = 'Estudiante.Id_Estudiante';
       var column_sort_order = 'asc';
     }
     else {
@@ -62,9 +77,9 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     //Buscador datos
     var search_value = req.query.search['value'];
     var search_query = `
-     AND (id_Estudiante LIKE '%${search_value}%' 
-      OR nombre LIKE '%${search_value}%' 
-      OR apellidos LIKE '%${search_value}%'
+     AND (Id_Estudiante LIKE '%${search_value}%' 
+      OR Nombres LIKE '%${search_value}%' 
+      OR Apellidos LIKE '%${search_value}%'
      )
     `;
 
@@ -87,10 +102,10 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     var [Data3] = await pool.query(query);
     Data3.forEach(function (row) {
       data_arr.push({
-        'id_Estudiante': row.id_Estudiante,
-        'nombre': row.nombre,
-        'apellidos': row.apellidos,
-        'direccion': row.direccion
+        'id_Estudiante': row.Id_Estudiante,
+        'nombres': row.Nombres,
+        'apellidos': row.Apellidos,
+        'direccion': row.Direccion
       });//Agregamos al arreglo todos los campos que queros que contenga la data
     });
 

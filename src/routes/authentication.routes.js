@@ -12,13 +12,13 @@ router.post('/login', (req, res, next) => {
   passport.authenticate('sesion.local', (err, user, info) => {
     if (err) { return next(err); } 
     if (!user) { return res.redirect('/login'); }
-    if (user.nombre_cargo !== req.body.cargo) { return res.redirect('/login'); }
+    if (user.Nombre_Rol !== req.body.cargo) { return res.redirect('/login'); }
 
     req.logIn(user, (err) => {
       if (err) { return next(err); }
 
-      if (user.nombre_cargo === 'Administrador') { return res.redirect('administrador') }
-      else if (user.nombre_cargo === 'Secretaria') { return res.redirect('secretaria') }
+      if (user.Nombre_Rol === 'Administrador') { return res.redirect('administrador') }
+      else if (user.Nombre_Rol === 'Secretaria') { return res.redirect('secretaria') }
       else { return res.redirect('profesor') }
     });
   })(req, res, next);

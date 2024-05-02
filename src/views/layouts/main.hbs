@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Colegio FDV</title>
+  <link rel="shortcut icon" href="#">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
     integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -24,8 +25,8 @@
 
 <body>
   {{#if user}}
-  {{#if user.nombre_cargo }}
-  {{#ifCond user.nombre_cargo "Secretaria"}}
+  {{#if user.Nombre_Rol }}
+  {{#ifCond user.Nombre_Rol "Secretaria"}}
   {{> navsecret }}
   {{/ifCond}}
   {{/if}}

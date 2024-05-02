@@ -78,16 +78,21 @@ $('#btn_tutor').on("click", function (e) {
     e.preventDefault();
     const nombres_tutor = document.getElementById('nombres-tutor');
     const apellidos_tutor = document.getElementById('apellidos-tutor');
-    const correo_tutor = document.getElementById('correo-tutor');
     const cedula_tutor = document.getElementById('cedula-tutor');
+    const correo_tutor = document.getElementById('correo-tutor');
+    const sexo_tutor = document.getElementById('sexo-tutor')
     const telefono_tutor = document.getElementById('telefono-tutor');
     const direccion_tutor = document.getElementById('direccion-tutor');
     const form = document.getElementById('form-tutor');
 
     const data = {
-        nombres: nombres_tutor.value, apellidos: apellidos_tutor.value,
-        correo_e: correo_tutor.value, cedula: cedula_tutor.value, telefono: telefono_tutor.value
-        , direccion: direccion_tutor.value
+        nombres: nombres_tutor.value.trim().toUpperCase(), 
+        apellidos: apellidos_tutor.value.trim().toUpperCase(),
+        cedula: cedula_tutor.value.trim(),
+        correo_e: correo_tutor.value.trim(),
+        sexo: sexo_tutor.value,
+        telefono: telefono_tutor.value.trim(),
+        direccion: direccion_tutor.value.trim()
     };
 
     //Mandamos a evaluar con el express-validator
@@ -95,43 +100,15 @@ $('#btn_tutor').on("click", function (e) {
         .then(response => {
             const dataErrors = response.data;
             // Validados que los campos esten correctos
-            if (dataErrors && dataErrors.status === true) {
-                if (dataErrors.errors.nombres) {
-                    nombres_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[0].lastElementChild.innerHTML = dataErrors.errors.nombres.msg;
-                } else {
-                    nombres_tutor.parentElement.children[1].classList.remove('is-invalid');
-                }
-                if (dataErrors.errors.apellidos) {
-                    apellidos_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[1].lastElementChild.innerHTML = dataErrors.errors.apellidos.msg;
-                } else {
-                    apellidos_tutor.parentElement.children[1].classList.remove('is-invalid');
-                }
-                if (dataErrors.errors.correo_e) {
-                    correo_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[2].lastElementChild.innerHTML = dataErrors.errors.correo_e.msg;
-                } else {
-                    correo_tutor.parentElement.children[1].classList.remove('is-invalid');
-                }
-                if (dataErrors.errors.cedula) {
-                    cedula_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[3].lastElementChild.innerHTML = dataErrors.errors.cedula.msg;
-                } else {
-                    cedula_tutor.parentElement.children[1].classList.remove('is-invalid');
-                }
-                if (dataErrors.errors.telefono) {
-                    telefono_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[4].lastElementChild.innerHTML = dataErrors.errors.telefono.msg;
-                } else {
-                    telefono_tutor.parentElement.children[1].classList.remove('is-invalid');
-                }
-
-                if (dataErrors.errors.direccion) {
-                    direccion_tutor.parentElement.children[1].classList.add('is-invalid');
-                    form.children[5].lastElementChild.innerHTML = dataErrors.errors.direccion.msg;
-                } else {
-                    direccion_tutor.parentElement.children[1].classList.remove('is-invalid');
+            if (dataErrors.status === true) {
+                for (let i = 0; form.children.length > i; i++) {
+                    for (let j = 0; dataErrors.errors.length > j; j++){
+                        if (dataErrors.errors[j].path === form.children[i].children[1].getAttribute('name')) {
+                            form.children[i].children[1].classList.add('is-invalid');
+                            form.children[i].children[1].classList.replace('border-secondary','border-danger');
+                            form.children[i].lastElementChild.innerHTML = dataErrors.errors[j].msg;
+                        }
+                    }
                 }
             } else {
                 siguienteFormulario();
@@ -139,8 +116,14 @@ $('#btn_tutor').on("click", function (e) {
         })
         .catch(err => console.log('Error', err.message));
 
-    $("input[type='text']").on( 'input', function () {
+    $("input[type='text']").on('input', function () {
         this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    
+    $('#sexo-tutor').on('change', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
     });
 
 });//Validamos el formulario del tutor

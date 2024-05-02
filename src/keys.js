@@ -2,6 +2,6 @@ export const database = {
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: 'Nisekoi23',
-  database: 'escuela'
+  password: '1234',
+  database: 'colegioFDV'
 };
