@@ -1,4 +1,4 @@
-//TODO Importaciones modulos
+//TODO Importaciones
 import express from "express";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
@@ -17,7 +17,7 @@ import secretariaRoutes from "./routes/secretaria.routes.js";
 import administracionRoutes from "./routes/administracion.routes.js";
 import "./lib/passport.js";
 
-//TODO Inicializando express y guardando las sesiones del usuarion en MySql
+//TODO Inicializando express y guardando las sesiones del usuario en MySql
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MySQLStore = MySQLStoreFactory(session);

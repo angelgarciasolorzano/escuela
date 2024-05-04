@@ -1,4 +1,4 @@
-//TODO Configurando DataTables
+//TODO CONFIGURANDO DATATABLE
 
 $(document).ready(function() {
   var url = '/api/estudiante';
@@ -39,9 +39,9 @@ $(document).ready(function() {
     pageLength: 8,
     language: {
       lengthMenu: "Mostrar _MENU_ registros por página",
-      zeroRecords: "Ningún usuario encontrado",
+      zeroRecords: "Estudiante No Encontrado",
       info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros ",
-      infoEmpty: "Ningún usuario encontrado",
+      infoEmpty: "Ningún Estudiante encontrado",
       infoFiltered: "(filtrados desde _MAX_ registros totales)",
       search: "Buscar:",
       loadingRecords: "Cargando...",

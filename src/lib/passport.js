@@ -11,7 +11,6 @@ passport.use('sesion.local', new LocalStrategy({
 
   if (datos && datos[0].length > 0) {
     const usuarioDatos = datos[0][0];
-    console.log(usuarioDatos);
 
     if (usuarioDatos.contra === contra) { done(null, usuarioDatos); } 
     else { done(null, false); }

@@ -45,10 +45,16 @@ const estudiantesDatosAPI = async (req, res) => {
   if(data && data.length > 0) { res.send(data); }
 };
 
+const tutoresDatosAPI = async (req, res) => {
+  const [data] = await pool.query('SELECT * FROM Tutor');
+  if(data && data.length > 0) { res.send(data); }
+};
+
 export {
   perfilSecretaria,
   matricula,
   listaEstudiantes,
   estudianteMatricula,
-  estudiantesDatosAPI
+  estudiantesDatosAPI,
+  tutoresDatosAPI
 };
