@@ -16,9 +16,8 @@ const ocupacionTutor = document.getElementById('add-ocupacion-tut');
 const cedulaTutor = document.getElementById('add-cedula-tut');
 const telefonoTutor = document.getElementById('add-telefono-tut');
 
-//TODO FORMULARIO, MENSAJE Y FILA (DATATABLE)
+//TODO MENSAJE Y FILA (DATATABLE)
 
-const form = document.querySelector('form');
 const mensaje = document.querySelector('.contenedor-alerta');
 let select_row = '';
 
@@ -44,19 +43,41 @@ function showError(message) {
   mensaje.parentNode.insertBefore(errorDiv, mensaje);
 };
 
-//TODO VALIDANDO FORMULARIO
-
-form.addEventListener('submit', (e) => {
+//TODO VERIFICAR DATOS DEL FORMULARIO
+$('#btn_tutor').on("click", function (e) {
   e.preventDefault();
-  let isValid = true;
+  const formu = document.getElementById('form-tutor');
 
-  if (nombreEst.value === '' || apellidoEst.value === '' || direccionEst.value === '' || fechaEst.value === '' 
-  || nombreTutor.value === '' || apellidoTutor.value === '' || ocupacionTutor.value === '' || telefonoTutor.value === '' 
-  || cedulaTutor.value === '') {
-    isValid = false;
-    showError('Todos los campos son requeridos.');
-    
-  } else { form.submit(); }
+  const data = {
+    nombre_tutor: nombreTutor.value.trim().toUpperCase(), 
+    apellido_tutor: apellidoTutor.value.trim().toUpperCase(),
+    cedula_tutor: cedulaTutor.value.trim(),
+    telefono_tutor: telefonoTutor.value.trim(),
+    ocupacion_tutor: ocupacionTutor.value.trim()
+  };
+
+  axios.post('/api/verificar_tutor', data)
+  .then(response => {
+    const dataErrors = response.data;
+    console.log(dataErrors);
+
+    if (dataErrors.status === true) {
+      for (let i = 0; formu.children.length > i; i++) {
+        for (let j = 0; dataErrors.errors.length > j; j++){
+          if (dataErrors.errors[j].path === formu.children[i].children[1].getAttribute('name')) {
+            formu.children[i].children[1].classList.add('is-invalid');
+            formu.children[i].children[1].classList.replace('border-secondary','border-danger');
+            formu.children[i].lastElementChild.innerHTML = dataErrors.errors[j].msg;
+          }
+        }
+      } 
+    } 
+  }).catch(error => console.log('Error', error.message));
+
+  $("input[type='text']").on('input', function () {
+      this.classList.remove('is-invalid');
+      this.classList.replace('border-danger', 'border-secondary');
+  });
 });
 
 //TODO DATOS DEL MODAL

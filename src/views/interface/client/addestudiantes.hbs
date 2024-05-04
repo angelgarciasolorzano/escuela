@@ -95,26 +95,31 @@
               <h1 class="text-center text-uppercase text-white">datos tutor</h1>
             </div>
             <div class="card-body">
-              <div class="row g-3">
+              <div class="row g-3" id="form-tutor">
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Nombre</label>
+                  <label for="inputText" class="form-label">Nombre</label>
                   <input name="nombre_tutor" type="text" class="form-control border-secondary" id="add-nombre-tut" placeholder="Nombre del tutor">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
-                  <label for="inputPassword4" class="form-label">Apellidos</label>
+                  <label for="inputText" class="form-label">Apellidos</label>
                   <input name="apellido_tutor" type="text" class="form-control border-secondary" id="add-apellido-tut" placeholder="Apellidos del tutor">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-12">
-                  <label for="inputAddress" class="form-label">Ocupacion</label>
+                  <label for="inputText" class="form-label">Ocupacion</label>
                   <input name="ocupacion_tutor" type="text" class="form-control border-secondary" id="add-ocupacion-tut" placeholder="Ocupacion del tutor">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Cedula</label>
+                  <label for="inputText" class="form-label">Cedula</label>
                   <input name="cedula_tutor" type="text" class="form-control border-secondary" id="add-cedula-tut" placeholder="Cedula del tutor">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Telefono</label>
-                  <input name="telefono_tutor" type="number" class="form-control border-secondary" id="add-telefono-tut" placeholder="Telefono del tutor">
+                  <label for="inputNumber" class="form-label">Telefono</label>
+                  <input name="telefono_tutor" type="text" class="form-control border-secondary" id="add-telefono-tut" placeholder="Telefono del tutor">
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -140,7 +145,7 @@
         
       <!--Enviar datos al Servidor-->
       <div class="text-center mt-2">
-        <button class="btn btn-success btn-block">Matricular Estudiante</button>
+        <button class="btn btn-success btn-block" id="btn_tutor">Matricular Estudiante</button>
       </div>
     </form>
   </div>
