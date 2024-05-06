@@ -1,7 +1,7 @@
 <div class="container p-2 border-secondary contenedor-alerta">
   <div class="card border-secondary">
     <div class="card-header color-background">
-      <h1 class="text-center text-white">Matricula Año Lectivo 2024</h1>
+      <h1 class="text-center text-white">Matricula Año Lectivo {{anioActual}}</h1>
     </div>
     <div class="card-body">
       <div class="container">
@@ -11,12 +11,12 @@
       <!-- Form -->
       <form action="" id="form-matricula" class="row g-3 py-3" method="">
         <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">Estudiante:</label>
+          <label for="inputText" class="form-label">Estudiante:</label>
           <input name="name-estudiante" type="text" class="form-control border-secondary" id="name-estudiante"
             placeholder="Nombre del Estudiante" disabled>
         </div>
         <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Tutor:</label>
+          <label for="inputText" class="form-label">Tutor:</label>
           <input name="name-tutor" type="text" class="form-control border-secondary" id="name-tutor"
             placeholder="Nombre del Tutor" disabled>
         </div>
@@ -27,15 +27,15 @@
         </div>
         <div class="row justify-content-md-center g-3">
           <div class="col-md-4">
-            <label for="inputPassword4" class="form-label">Nivel-Grupo:</label>
+            <label for="inputSelect" class="form-label">Nivel-Grupo:</label>
             <input name="nivel" type="text" class="form-control border-secondary" id="nivel" disabled>
           </div>
           <div class="col-md-4">
-            <label for="inputPassword4" class="form-label">Año Lectivo:</label>
+            <label for="inputText" class="form-label">Año Lectivo:</label>
             <input name="anio" type="text" class="form-control border-secondary" id="anio" disabled>
           </div>
           <div class="col-md-4">
-            <label for="inputPassword4" class="form-label">Pago:</label>
+            <label for="inputText" class="form-label">Pago:</label>
             <div class="input-group mb-3">
               <span class="input-group-text">C$</span>
               <span class="input-group-text">0.00</span>
@@ -44,9 +44,9 @@
           </div>
         </div>
         <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Secretari@:</label>
+          <label for="inputText" class="form-label">Secretari@:</label>
           <input name="name-secretaria" type="text" class="form-control border-secondary" id="name_secretaria"
-            placeholder="Nombre del Secretari@" , value={{user.correo}} disabled>
+            placeholder="Nombre del Secretari@" , value={{user.correo_e}} disabled>
         </div>
         <div class="text-center">
           <button class="btn btn-success btn-block">Matricular</button>

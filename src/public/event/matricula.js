@@ -1,10 +1,8 @@
 $(document).ready(function () {
     const name_estudiante = document.getElementById('name-estudiante');
-    const direccion = document.getElementById('direccion');
     const form = document.querySelector('form');
     const mensaje = document.querySelector('.contenedor-alerta');
     let select_row = '';
-
 
     function showError(message) {
         const mensajeAnterior = document.querySelector('.mensaje');
@@ -50,7 +48,7 @@ $(document).ready(function () {
             },
             aaSorting : [],
             columns: [
-                { data: "id_Estudiante" },
+                { data: "id_estudiante" },
                 { data: "nombres" },
                 { data: "apellidos" }
             ],
@@ -115,16 +113,7 @@ $(document).ready(function () {
         }; //Seleccionar la fila
         $('#btn-aceptar').on('click', function () {
             if (typeof select_row != 'undefined') {
-                name_estudiante.value = select_row.nombre + ' ' + select_row.apellidos;
-                direccion.value = select_row.direccion;
-                // const options = {
-                //     method: 'post',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify(select_row)
-                // };
-                // fetch('/api/matricula', options).then(res => res.json()).catch(console.log(console.log('No hay fetch')));
+                name_estudiante.value = select_row.nombres + ' ' + select_row.apellidos;
                 table.destroy();
             }
         });

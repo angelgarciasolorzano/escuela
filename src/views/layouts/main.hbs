@@ -25,8 +25,8 @@
 
 <body>
   {{#if user}}
-  {{#if user.Nombre_Rol }}
-  {{#ifCond user.Nombre_Rol "Secretaria"}}
+  {{#if user.nombre_rol }}
+  {{#ifCond user.nombre_rol "Secretaria"}}
   {{> navsecret }}
   {{/ifCond}}
   {{/if}}

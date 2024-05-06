@@ -1,71 +1,72 @@
-CREATE DATABASE colegioFDV;
-USE colegioFDV;
+create database colegiofdv;
+use colegiofdv;
 
-CREATE TABLE Rol(
-	Id_Rol INT PRIMARY KEY AUTO_INCREMENT,
-	Nombre_Rol VARCHAR(30) NOT NULL UNIQUE);
+create table rol(
+	id_rol int primary key auto_increment,
+	nombre_rol varchar(30) not null unique);
     
-CREATE TABLE Usuario(
-	Id_Usuario INT PRIMARY KEY AUTO_INCREMENT,
-	Nombres VARCHAR(30) NOT NULL,
-	Apellidos VARCHAR(40) NOT NULL,
-	Cedula VARCHAR(30) NOT NULL,
-	Sexo CHAR(1) NOT NULL,
-	Direccion VARCHAR(100) NOT NULL,
-	Correo_e VARCHAR(60) NOT NULL UNIQUE,
-	Contrasena VARCHAR(100) NOT NULL,
-	Estado VARCHAR(10) DEFAULT 'ACTIVO',
-	Id_Rol_FK INT NOT NULL,
-	Telefono INT NOT NULL UNIQUE,
-	FOREIGN KEY (Id_Rol_FK) REFERENCES Rol(Id_Rol),
-	CONSTRAINT CK_Usuario_Sexo CHECK (Sexo IN ('M', 'F')),
-	CONSTRAINT UE_Usuario_Cedula UNIQUE (Cedula),
-	CONSTRAINT CK_Usuario_Estado CHECK(Estado IN ('ACTIVO','INACTIVO'))
+create table usuario(
+	id_usuario int primary key auto_increment,
+	nombres varchar(50) not null,
+	apellidos varchar(50) not null,
+	cedula varchar(30) not null unique,
+	sexo char(1) not null,
+	direccion varchar(100) not null,
+	correo_e varchar(60) not null unique,
+	contrasena varchar(100) not null,
+	estado varchar(10) default 'Activo',
+	id_rol_fk int not null,
+	telefono int not null unique,
+	foreign key (id_rol_fk) references rol(id_rol),
+	constraint ck_usuario_sexo check (sexo in ('M', 'F')),
+	constraint ck_usuario_estado check(estado in ('Activo','Inactivo'))
 );
 
-INSERT INTO Rol (Nombre_Rol) VALUE ('Administrador'),('Secretaria'),('Profesor');
-INSERT INTO Usuario (Nombres, Apellidos, Cedula, Sexo, Direccion, 
-			Correo_e, Contrasena, Id_Rol_FK, Telefono)
-            VALUES ('Christian', 'Velasquez', '000-547150-0005C', 
+insert into rol(nombre_rol) values ('Administrador'),('Secretaria'),('Profesor');
+insert into usuario(nombres, apellidos, cedula, sexo, direccion, 
+			correo_e, contrasena, id_rol_fk, telefono)
+            values ('Christian', 'Velasquez', '000-547150-0005C', 
 					'M', 'Managua', 'cristian@gmail.com', '123', 2, 75845248),
                     ('Angel', 'Garcia', '000-544122-4555A', 
 					'M', 'Managua', 'angelgarcia', '123', 2, 87451254);
 
-CREATE TABLE Tutor(
-	Id_Tutor INT PRIMARY KEY AUTO_INCREMENT,
-	Nombres VARCHAR(30) NOT NULL,
-	Apellidos VARCHAR(40) NOT NULL,
-	Cedula VARCHAR(30) NOT NULL,
-    Correo_e VARCHAR(50) NOT NULL,
-	Sexo CHAR(1) NOT NULL,
-    Telefono INT NOT NULL UNIQUE,
-	Direccion VARCHAR(100) NOT NULL,
-	CONSTRAINT CK_Tutor_Sexo CHECK (Sexo IN ('M', 'F')),
-	CONSTRAINT UE_Tutor_Cedula UNIQUE (Cedula)
+create table tutor(
+	id_tutor int primary key auto_increment,
+	nombres varchar(50) not null,
+	apellidos varchar(50) not null,
+	cedula varchar(30) not null unique,
+    correo_e varchar(50) not null,
+	sexo char(1) not null,
+    telefono int not null unique,
+	direccion varchar(100) not null,
+	constraint ck_tutor_sexo check (sexo in ('M', 'F'))
 );
 
-CREATE TABLE Estudiante(
-	Id_Estudiante INT PRIMARY KEY AUTO_INCREMENT,
-	Nombres VARCHAR(30) NOT NULL,
-	Apellidos VARCHAR(40) NOT NULL,
-    Estado VARCHAR(10) NOT NULL DEFAULT 'ACTIVO',
-	FechaNac DATE NOT NULL,
-	Sexo CHAR(1),
-	Direccion VARCHAR(100),
-    Id_Tutor_FK INT NOT NULL,
-	CONSTRAINT CK_Estudiante_Sexo CHECK (Sexo IN ('M', 'F')), CONSTRAINT CK_Estudiante_Estado CHECK
-	(Estado IN ('ACTIVO', 'INACTIVO'))
+create table nivel(
+	id_nivel int primary key auto_increment,
+	nombre varchar(50) not null unique,
+    tipo varchar(50) not null,
+    jerarquia int not null,
+	turno varchar(30) not null,
+	constraint ck_nivel_turno check (turno in ('Matutino', 'Vespertino')),
+    constraint ck_tipo check (tipo in ('Preescolar','Primaria', 'Secundaria')),
+    constraint ck_jerarquia check (jerarquia > 0 and jerarquia < 20)
 );
 
-CREATE TABLE Nivel(
-	Id_Nivel INT PRIMARY KEY AUTO_INCREMENT,
-	Nombre VARCHAR(30) NOT NULL UNIQUE,
-    Tipo VARCHAR(30) NOT NULL,
-    Jerarquia INT NOT NULL,
-	Turno VARCHAR(30) NOT NULL,
-	CONSTRAINT CK_Nivel_Turno CHECK (Turno IN ('Matutino', 'Vespertino')),
-    CONSTRAINT CK_Tipo CHECK (Tipo IN ('Preescolar','Primaria', 'Secundaria')),
-    CONSTRAINT CK_Jerarquia CHECK (Jerarquia > 0 AND Jerarquia < 20)
+create table estudiante(
+	id_estudiante int primary key auto_increment,
+	nombres varchar(50) not null,
+	apellidos varchar(50) not null,
+    registroNac varchar(30) not null,
+    fechaNac date not null,
+	sexo char(1),
+    estado varchar(10) not null default 'Activo',
+    id_tutor_fk int not null,
+    id_nivel_fk int not null,
+    foreign key (id_tutor_fk) references tutor(id_tutor),
+    foreign key (id_nivel_fk) references nivel(id_nivel),
+	constraint ck_estudiante_sexo check (sexo in ('M', 'F')),
+    constraint ck_estudiante_estado check (estado in ('Activo', 'Inactivo'))
 );
 
 --PROCEDIMIENTO ALMACENADO: BUSCANDO INFORMACION DE USUARIOS

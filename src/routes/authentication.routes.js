@@ -9,16 +9,16 @@ router.get('/login', isNotLoggedIn, (req, res) => {
 });
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('sesion.local', (err, user, info) => {
+  passport.authenticate('sesion.local', (err, user) => {
     if (err) { return next(err); } 
     if (!user) { return res.redirect('/login'); }
-    if (user.Nombre_Rol !== req.body.cargo) { return res.redirect('/login'); }
+    if (user.nombre_rol !== req.body.rol) { return res.redirect('/login'); }
 
     req.logIn(user, (err) => {
       if (err) { return next(err); }
 
-      if (user.Nombre_Rol === 'Administrador') { return res.redirect('administrador') }
-      else if (user.Nombre_Rol === 'Secretaria') { return res.redirect('secretaria') }
+      if (user.nombre_rol === 'Administrador') { return res.redirect('administrador') }
+      else if (user.nombre_rol === 'Secretaria') { return res.redirect('secretaria') }
       else { return res.redirect('profesor') }
     });
   })(req, res, next);

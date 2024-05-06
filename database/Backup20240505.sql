@@ -25,18 +25,23 @@ DROP TABLE IF EXISTS `estudiante`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estudiante` (
-  `Id_Estudiante` int NOT NULL AUTO_INCREMENT,
-  `Nombres` varchar(30) NOT NULL,
-  `Apellidos` varchar(40) NOT NULL,
-  `Estado` varchar(10) NOT NULL DEFAULT 'ACTIVO',
-  `FechaNac` date NOT NULL,
-  `Sexo` char(1) DEFAULT NULL,
-  `Direccion` varchar(100) DEFAULT NULL,
-  `Id_Tutor_FK` int NOT NULL,
-  PRIMARY KEY (`Id_Estudiante`),
-  CONSTRAINT `CK_Estudiante_Estado` CHECK ((`Estado` in (_utf8mb4'ACTIVO',_utf8mb4'INACTIVO'))),
-  CONSTRAINT `CK_Estudiante_Sexo` CHECK ((`Sexo` in (_utf8mb4'M',_utf8mb4'F')))
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_estudiante` int NOT NULL AUTO_INCREMENT,
+  `nombres` varchar(50) NOT NULL,
+  `apellidos` varchar(50) NOT NULL,
+  `registroNac` varchar(30) NOT NULL,
+  `fechaNac` date NOT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `estado` varchar(10) NOT NULL DEFAULT 'Activo',
+  `id_tutor_fk` int NOT NULL,
+  `id_nivel_fk` int NOT NULL,
+  PRIMARY KEY (`id_estudiante`),
+  KEY `id_tutor_fk` (`id_tutor_fk`),
+  KEY `id_nivel_fk` (`id_nivel_fk`),
+  CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`id_tutor_fk`) REFERENCES `tutor` (`id_tutor`),
+  CONSTRAINT `estudiante_ibfk_2` FOREIGN KEY (`id_nivel_fk`) REFERENCES `nivel` (`id_nivel`),
+  CONSTRAINT `ck_estudiante_estado` CHECK ((`estado` in (_utf8mb4'Activo',_utf8mb4'Inactivo'))),
+  CONSTRAINT `ck_estudiante_sexo` CHECK ((`sexo` in (_utf8mb4'M',_utf8mb4'F')))
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +50,7 @@ CREATE TABLE `estudiante` (
 
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
-INSERT INTO `estudiante` VALUES (1,'Stephanie Michelle','Silva Gonzalez','ACTIVO','2013-05-15','F','dakhkasdhllsah',1),(2,'Jonathan Jose','Alvarado Mercado','ACTIVO','2010-06-08','M','falklsajnddskjdaj',2),(3,'Maria Antonieta','Bismarck Estrada','ACTIVO','2008-01-28','F','gewaerwerwer',3);
+INSERT INTO `estudiante` VALUES (1,'Pepe Antonio','Ruiz Garcia','014-587-695','2024-05-15','M','Activo',1,13),(2,'Paula Antonieta','Ruiz Garcia','254-125-856','2024-05-30','F','Activo',1,7),(3,'Raul Alexander','Mujica Soza','0147-574-869','2015-02-12','M','Activo',2,2),(4,'Fernando Steven','Mujica Soza','574-745-522','2004-12-16','M','Activo',2,10),(5,'Jessica Sarahi','Mujica Soza','247-852-698','2014-09-23','F','Activo',2,8),(6,'Yolanda Fabricia','Silva Solorzano','241-578-145','2000-04-16','F','Activo',3,8),(7,'Carlos Yubrant','Keller Sequeira','102-475-872','2017-12-11','M','Activo',4,4);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,16 +62,16 @@ DROP TABLE IF EXISTS `nivel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `nivel` (
-  `Id_Nivel` int NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(30) NOT NULL,
-  `Tipo` varchar(30) NOT NULL,
-  `Jerarquia` int NOT NULL,
-  `Turno` varchar(30) NOT NULL,
-  PRIMARY KEY (`Id_Nivel`),
-  UNIQUE KEY `Nombre` (`Nombre`),
-  CONSTRAINT `CK_Jerarquia` CHECK (((`Jerarquia` > 0) and (`Jerarquia` < 20))),
-  CONSTRAINT `CK_Nivel_Turno` CHECK ((`Turno` in (_utf8mb4'Matutino',_utf8mb4'Vespertino'))),
-  CONSTRAINT `CK_Tipo` CHECK ((`Tipo` in (_utf8mb4'Preescolar',_utf8mb4'Primaria',_utf8mb4'Secundaria')))
+  `id_nivel` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `tipo` varchar(50) NOT NULL,
+  `jerarquia` int NOT NULL,
+  `turno` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_nivel`),
+  UNIQUE KEY `nombre` (`nombre`),
+  CONSTRAINT `ck_jerarquia` CHECK (((`jerarquia` > 0) and (`jerarquia` < 20))),
+  CONSTRAINT `ck_nivel_turno` CHECK ((`turno` in (_utf8mb4'Matutino',_utf8mb4'Vespertino'))),
+  CONSTRAINT `ck_tipo` CHECK ((`tipo` in (_utf8mb4'Preescolar',_utf8mb4'Primaria',_utf8mb4'Secundaria')))
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -76,7 +81,7 @@ CREATE TABLE `nivel` (
 
 LOCK TABLES `nivel` WRITE;
 /*!40000 ALTER TABLE `nivel` DISABLE KEYS */;
-INSERT INTO `nivel` VALUES (1,'Primer Nivel','Preescolar',1,'Matutino'),(2,'Segundo Nivel','Preescolar',2,'Matutino'),(3,'Tercer Nivel','Preescolar',3,'Matutino'),(4,'Primer Grado','Primaria',4,'Matutino'),(5,'Segundo Grado','Primaria',5,'Matutino'),(6,'Tercer Grado','Primaria',6,'Matutino'),(7,'Cuarto Grado','Primaria',7,'Matutino'),(8,'Quinto Grado','Primaria',8,'Matutino'),(9,'Sexto  Grado','Primaria',9,'Matutino'),(10,'Septimo Grado','Secundaria',10,'Matutino'),(11,'Octavo Grado','Secundaria',11,'Matutino'),(12,'Noveno Grado','Secundaria',12,'Matutino'),(13,'Decimo Grado','Secundaria',13,'Matutino'),(14,'Undecimo Grado','Secundaria',14,'Matutino');
+INSERT INTO `nivel` VALUES (1,'Primer Nivel','Preescolar',1,'Matutino'),(2,'Segundo Nivel','Preescolar',2,'Matutino'),(3,'Tercer Nivel','Preescolar',3,'Matutino'),(4,'Primer Grado','Primaria',4,'Matutino'),(5,'Segundo Grado','Primaria',5,'Matutino'),(6,'Tercer Grado','Primaria',6,'Matutino'),(7,'Cuarto Grado','Primaria',7,'Matutino'),(8,'Quinto Grado','Primaria',8,'Matutino'),(9,'Sexto Grado','Primaria',9,'Matutino'),(10,'Septimo Grado','Secundaria',10,'Matutino'),(11,'Octavo Grado','Secundaria',11,'Matutino'),(12,'Noveno Grado','Secundaria',12,'Matutino'),(13,'Decimo Grado','Secundaria',13,'Matutino'),(14,'Undecimo Grado','Secundaria',14,'Matutino');
 /*!40000 ALTER TABLE `nivel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,10 +93,10 @@ DROP TABLE IF EXISTS `rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rol` (
-  `Id_Rol` int NOT NULL AUTO_INCREMENT,
-  `Nombre_Rol` varchar(30) NOT NULL,
-  PRIMARY KEY (`Id_Rol`),
-  UNIQUE KEY `Nombre_Rol` (`Nombre_Rol`)
+  `id_rol` int NOT NULL AUTO_INCREMENT,
+  `nombre_rol` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_rol`),
+  UNIQUE KEY `nombre_rol` (`nombre_rol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -126,7 +131,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('DQKoOVuf2bqinAxMUyEHusu2zejBdJBY',1714768915,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}');
+INSERT INTO `sessions` VALUES ('DOl59Uv4_iGIx7y7PHgfKzeE_CIMCbP9',1715005005,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('a8A0Hhghlbrx-eZ3IIHjGhvoIp1kHwu9',1715040939,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,19 +143,19 @@ DROP TABLE IF EXISTS `tutor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tutor` (
-  `Id_Tutor` int NOT NULL AUTO_INCREMENT,
-  `Nombres` varchar(30) NOT NULL,
-  `Apellidos` varchar(40) NOT NULL,
-  `Cedula` varchar(30) NOT NULL,
-  `Correo_e` varchar(50) NOT NULL,
-  `Sexo` char(1) NOT NULL,
-  `Telefono` int NOT NULL,
-  `Direccion` varchar(100) NOT NULL,
-  PRIMARY KEY (`Id_Tutor`),
-  UNIQUE KEY `Telefono` (`Telefono`),
-  UNIQUE KEY `UE_Tutor_Cedula` (`Cedula`),
-  CONSTRAINT `CK_Tutor_Sexo` CHECK ((`Sexo` in (_utf8mb4'M',_utf8mb4'F')))
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_tutor` int NOT NULL AUTO_INCREMENT,
+  `nombres` varchar(50) NOT NULL,
+  `apellidos` varchar(50) NOT NULL,
+  `cedula` varchar(30) NOT NULL,
+  `correo_e` varchar(50) NOT NULL,
+  `sexo` char(1) NOT NULL,
+  `telefono` int NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_tutor`),
+  UNIQUE KEY `cedula` (`cedula`),
+  UNIQUE KEY `telefono` (`telefono`),
+  CONSTRAINT `ck_tutor_sexo` CHECK ((`sexo` in (_utf8mb4'M',_utf8mb4'F')))
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +164,7 @@ CREATE TABLE `tutor` (
 
 LOCK TABLES `tutor` WRITE;
 /*!40000 ALTER TABLE `tutor` DISABLE KEYS */;
-INSERT INTO `tutor` VALUES (1,'Marco Jose','Silva Benavidez','231-150486-0012B','marcos_silva23@gmail.com','M',87412525,'dakhkasdhllsah'),(2,'Vanessa Sophia','Mercado Sotelo','123-200195-0123C','vane245@yahoo.com','F',72145685,'falklsajnddskjdaj'),(3,'Carolina Judith','Estrada Carcamo','254-020998-0178T','cjestrada@outlook.com','F',85412541,'gewaerwerwer');
+INSERT INTO `tutor` VALUES (1,'Pepe Antonio','Ruiz Zamorano','852-201099-0142K','pepe_yt1@outlook.com','M',84545417,'urbanizacion xochitlan'),(2,'Josefina Belen','Soza Fernandez','525-241196-0125J','josef_874@gmail.com','M',84554152,'Praderas el doral'),(3,'Leonardo Fabio','Silva Mendez','287-121292-2451B','Leo-475@yahoo.com','M',87585652,'Laureles Norte'),(4,'Cristina Yamileth','Sequeria Baltodano','281-250398-0014J','Cris_Ya878@hotmail.com','F',87458568,'Tipitapa');
 /*!40000 ALTER TABLE `tutor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,26 +176,26 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
-  `Id_Usuario` int NOT NULL AUTO_INCREMENT,
-  `Nombres` varchar(30) NOT NULL,
-  `Apellidos` varchar(40) NOT NULL,
-  `Cedula` varchar(30) NOT NULL,
-  `Sexo` char(1) NOT NULL,
-  `Direccion` varchar(100) NOT NULL,
-  `Correo_e` varchar(60) NOT NULL,
-  `Contrasena` varchar(100) NOT NULL,
-  `Estado` varchar(10) DEFAULT 'ACTIVO',
-  `Id_Rol_FK` int NOT NULL,
-  `Telefono` int NOT NULL,
-  PRIMARY KEY (`Id_Usuario`),
-  UNIQUE KEY `Correo_e` (`Correo_e`),
-  UNIQUE KEY `Telefono` (`Telefono`),
-  UNIQUE KEY `UE_Usuario_Cedula` (`Cedula`),
-  KEY `Id_Rol_FK` (`Id_Rol_FK`),
-  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Id_Rol_FK`) REFERENCES `rol` (`Id_Rol`),
-  CONSTRAINT `CK_Usuario_Estado` CHECK ((`Estado` in (_utf8mb4'ACTIVO',_utf8mb4'INACTIVO'))),
-  CONSTRAINT `CK_Usuario_Sexo` CHECK ((`Sexo` in (_utf8mb4'M',_utf8mb4'F')))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_usuario` int NOT NULL AUTO_INCREMENT,
+  `nombres` varchar(50) NOT NULL,
+  `apellidos` varchar(50) NOT NULL,
+  `cedula` varchar(30) NOT NULL,
+  `sexo` char(1) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  `correo_e` varchar(60) NOT NULL,
+  `contrasena` varchar(100) NOT NULL,
+  `estado` varchar(10) DEFAULT 'Activo',
+  `id_rol_fk` int NOT NULL,
+  `telefono` int NOT NULL,
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE KEY `cedula` (`cedula`),
+  UNIQUE KEY `correo_e` (`correo_e`),
+  UNIQUE KEY `telefono` (`telefono`),
+  KEY `id_rol_fk` (`id_rol_fk`),
+  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol_fk`) REFERENCES `rol` (`id_rol`),
+  CONSTRAINT `ck_usuario_estado` CHECK ((`estado` in (_utf8mb4'Activo',_utf8mb4'Inactivo'))),
+  CONSTRAINT `ck_usuario_sexo` CHECK ((`sexo` in (_utf8mb4'M',_utf8mb4'F')))
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +204,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (3,'Christian','Velasquez','000-547150-0005C','M','Managua','cristian@gmail.com','123','ACTIVO',2,75845248),(4,'Angel','Garcia','000-544122-4555A','M','Managua','angelgarcia','123','ACTIVO',2,87451254);
+INSERT INTO `usuario` VALUES (1,'Christian','Velasquez','000-547150-0005C','M','Managua','cristian@gmail.com','123','Activo',2,75845248),(2,'Angel','Garcia','000-544122-4555A','M','Managua','angelgarcia','123','Activo',2,87451254);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,13 +228,13 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UsuarioInformacion`(IN CorreoUsuario VARCHAR(100), IN IdUsuario INT)
 BEGIN
   IF CorreoUsuario IS NOT NULL THEN
-    SELECT * FROM Usuario AS U 
-    INNER JOIN Rol AS R ON U.Id_Rol_FK = R.Id_Rol
+    SELECT * FROM usuario AS U 
+    INNER JOIN rol AS R ON U.id_rol_fk = R.id_rol
     WHERE U.correo_e = CorreoUsuario;
   ELSEIF IdUsuario IS NOT NULL THEN
-    SELECT * FROM Usuario AS U 
-    INNER JOIN Rol AS R ON U.Id_Rol_FK = R.Id_Rol
-    WHERE U.Id_Usuario = IdUsuario;
+    SELECT * FROM usuario AS U 
+    INNER JOIN rol AS R ON U.id_rol_fk = R.id_rol
+    WHERE U.id_usuario = IdUsuario;
   END IF;  
 END ;;
 DELIMITER ;
@@ -247,4 +252,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-02 15:08:11
+-- Dump completed on 2024-05-05 18:18:00
