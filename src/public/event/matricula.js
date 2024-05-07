@@ -80,6 +80,7 @@ $(document).ready(function () {
             pageLength: 5,
             language: {
                 lengthMenu: "Mostrar _MENU_ registros por página",
+                emptyTable: "A la espera de búsqueda...",
                 zeroRecords: "Ningún Estudiante encontrado",
                 info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
                 infoEmpty: "Ningún Estudiante encontrado",
