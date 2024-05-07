@@ -58,7 +58,7 @@ $('#btn_documento').on("click", function (e) {
     });
 
     if (aux == 0) {
-        siguienteFormulario();
+        nextForm();
     }
 });//Evento Validar los documentos obligatorios
 $('#btn_tutor').on("click", function (e) {
@@ -79,20 +79,11 @@ $('#btn_tutor').on("click", function (e) {
             const dataErrors = response.data;
             const validado = validarFormularios(dataErrors, form_tutor); // Validados que los campos sean correctos
             if (validado === true) {
-                siguienteFormulario();
+                nextForm();
             }
         })
         .catch(err => console.log('Error', err.message));
-
-    $("input[type='text']").on('input', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
-
-    $('#sexo-tutor').on('change', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
+    cleanErrors();
 });//Evento validar el formulario del tutor
 $("#btn-addestudiante").on("click", function (e) {
     e.preventDefault();
@@ -136,23 +127,7 @@ $("#btn-addestudiante").on("click", function (e) {
             }
         })
         .catch(err => console.log('Error', err.message));
-    //console.log(matchRegistro());
-    $("input[type='text']").on('input', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
-    $("input[type='date']").on('input', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
-    $('#sexo-est').on('change', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
-    $('#nivel-est').on('change', function () {
-        this.classList.remove('is-invalid');
-        this.classList.replace('border-danger', 'border-secondary');
-    });
+    cleanErrors();
 });//Evento validar y añadir card estudiante
 $("#btn_registrar").on("click", function (e) {
     e.preventDefault();
@@ -166,7 +141,7 @@ $("#btn_registrar").on("click", function (e) {
             .then(response => {
                 const result = response.data;
                 if (result.success == true) {
-                    siguienteFormulario();
+                    nextForm();
                 } else { showError('Ocurrío un error inesperado, por favor intente más tarde!'); }
             })
             .catch(err => console.log('Error', err.message));
@@ -176,7 +151,7 @@ $("#btn_registrar").on("click", function (e) {
 });//Evento para ingresar todos los formularios
 
 //Espacio para declarar funciones
-function siguienteFormulario() {
+function nextForm() {
     formStepsNum++;
     updateFormSteps();
     updateProgressbar();
@@ -260,8 +235,37 @@ function accionEstudiante(registroNac, accion) {
         }
     };
     localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
+    cleanAll_Errors(form_estudiante);
     getEstudiantes();
 };//Funcion para eliminar o modificar estudiantes
+function cleanErrors() {
+    $("input[type='text']").on('input', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    $("input[type='date']").on('input', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    $('#sexo-est').on('change', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    $('#sexo-tutor').on('change', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    $('#nivel-est').on('change', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+}//Funcion para eliminar los inputs y selects al momento de modificar
+function cleanAll_Errors(form) {
+    for (let i = 0; form.children.length > i; i++) {
+        form.children[i].children[1].classList.remove('is-invalid');
+        form.children[i].children[1].classList.replace('border-danger', 'border-secondary');
+    }
+}////Funcion para eliminar todos los inputs y selects
 function matchRegistro() {
     let estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
     var aux = false;
@@ -313,4 +317,4 @@ $(document).keypress(
         if (event.which == '13') {
             event.preventDefault();
         }
-    });//Para Evitar el submit del formulario
+    });//Para Evitar el submit del formulario con presionar Enter

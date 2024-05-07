@@ -46,7 +46,7 @@ $(document).ready(function () {
                 url: url,
                 type: 'GET'
             },
-            aaSorting : [],
+            aaSorting: [],
             columns: [
                 { data: "id_estudiante" },
                 { data: "nombres" },
@@ -69,12 +69,8 @@ $(document).ready(function () {
             responsive: true,
             responsive: {
                 breakpoints: [
-                    { name: 'bigdesktop', width: Infinity },
-                    { name: 'meddesktop', width: 1480 },
-                    { name: 'smalldesktop', width: 1280 },
-                    { name: 'medium', width: 1188 },
+                    { name: 'desktop', width: Infinity },
                     { name: 'tablet-l', width: 1024 },
-                    { name: 'btwtabllandp', width: 848 },
                     { name: 'tablet-p', width: 768 },
                     { name: 'mobile-l', width: 480 },
                     { name: 'mobile-p', width: 320 }

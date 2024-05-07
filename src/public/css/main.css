@@ -15,3 +15,9 @@ body {
 .cerrar-sesion:hover {
   color: aqua;
 }
+
+@media screen and (max-width: 435px) {
+  .container-fluid .navbar-brand {
+    display: none;
+  }
+}

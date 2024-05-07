@@ -49,9 +49,9 @@
                                 Este documento es obligatorio!
                             </div>
                         </div>
-                        <div class="container pt-4">
-                            <a href="#" class="btn btn-next width-50 ml-auto" id="btn_documento">Siguiente</a>
-                        </div>
+                    </div>
+                    <div class="container pt-4">
+                        <a href="#" class="btn btn-next width-50 ml-auto" id="btn_documento">Siguiente</a>
                     </div>
                 </div>
                 <!-- Step-Tutor -->
@@ -138,16 +138,16 @@
                         </div>
                         <div class="col-md-6 position-relative">
                             <label for="inputText" class="form-label">Apellidos:</label>
-                            <input name="apellidos" type="text" class="form-control border-secondary"
-                                id="apellidos-est" placeholder="Fernandez Ortiz">
+                            <input name="apellidos" type="text" class="form-control border-secondary" id="apellidos-est"
+                                placeholder="Fernandez Ortiz">
                             <div class="invalid-tooltip">
                                 ¡Error!
                             </div>
                         </div>
                         <div class="col-md-3 position-relative">
                             <label for="inputText" class="form-label">#Registro de Nacimiento:</label>
-                            <input name="registroNac" type="text" class="form-control border-secondary" id="registroNac-est"
-                                placeholder="#Tomo-#Folio-#Partida">
+                            <input name="registroNac" type="text" class="form-control border-secondary"
+                                id="registroNac-est" placeholder="#Tomo-#Folio-#Partida">
                             <div class="invalid-tooltip">
                                 ¡Error!
                             </div>
@@ -172,13 +172,12 @@
                         </div>
                         <div class="col-md-3 position-relative">
                             <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
-                            <select class="form-select border-secondary"
-                             name="nivel_value" id="nivel-est">
+                            <select class="form-select border-secondary" name="nivel_value" id="nivel-est">
                                 <option selected disabled value="">Elegir...</option>
                                 {{#if nivel}}
-                                    {{#each nivel}}
-                                        <option value={{this.id_nivel}}>{{this.nombre}} {{this.tipo}}</option>
-                                    {{/each}}
+                                {{#each nivel}}
+                                <option value={{this.id_nivel}}>{{this.nombre}} {{this.tipo}}</option>
+                                {{/each}}
                                 {{/if}}
                             </select>
                             <div class="invalid-tooltip">

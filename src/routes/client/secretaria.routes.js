@@ -36,8 +36,9 @@ router.post('/api/verificar_tutor', isLoggedIn,
     body('correo_e').notEmpty().withMessage('Esta vacío!')
       .isEmail().withMessage('Este no es un Email')
       .custom( async value => {
-        const searchCorreo = await pool.query('select correo_e from tutor where correo_e = ?', value);
-        if (searchCorreo[0].length > 0) {
+        const correo_e_tutor = await pool.query('select correo_e from tutor where correo_e = ?', value);
+        const correo_e_usuario = await pool.query('select correo_e from usuario where correo_e = ?', value);
+        if (correo_e_tutor[0].length > 0 || correo_e_usuario[0].length > 0) {
           throw new Error('Ya esta registrado!');
         } else { return true; }}),
     body('cedula').notEmpty().withMessage('Esta vacío!')
@@ -47,8 +48,9 @@ router.post('/api/verificar_tutor', isLoggedIn,
           throw new Error('Formato de cédula incorrecto');
         } else { return true; }})
       .custom( async value => {
-        const searchCedula = await pool.query('select cedula from tutor where cedula = ?', value);
-        if (searchCedula[0].length > 0) {
+        const cedula_tutor = await pool.query('select cedula from tutor where cedula = ?', value);
+        const cedula_usuario = await pool.query('select cedula from usuario where cedula = ?', value);
+        if (cedula_tutor[0].length > 0 || cedula_usuario[0].length > 0) {
           throw new Error('Ya esta registrado!');
         } else { return true; }}),
     body('sexo').notEmpty().withMessage('Falta seleccionar!'),
@@ -56,8 +58,9 @@ router.post('/api/verificar_tutor', isLoggedIn,
       .isInt().withMessage('Solo se aceptan numeros enteros')
       .isLength({ min: 8 }).withMessage('Tiene que ingresar 8 digitos')
       .custom( async value => {
-        const searchTelefono = await pool.query('select telefono from tutor where telefono= ?', value);
-        if (searchTelefono[0].length > 0) {
+        const telefono_tutor = await pool.query('select telefono from tutor where telefono= ?', value);
+        const telefono_usuario = await pool.query('select telefono from usuario where telefono= ?', value);
+        if (telefono_tutor[0].length > 0 || telefono_usuario[0].length > 0) {
           throw new Error('Ya esta registrado!');
         } else { return true; }}),
     body('direccion').notEmpty().withMessage('Esta vacío!')

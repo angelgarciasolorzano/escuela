@@ -25,28 +25,30 @@
           <input name="direccion" type="text" class="form-control border-secondary" id="direccion"
             placeholder="casa 123, barrio" disabled>
         </div>
-        <div class="row justify-content-md-center g-3">
-          <div class="col-md-4">
-            <label for="inputSelect" class="form-label">Nivel-Grupo:</label>
-            <input name="nivel" type="text" class="form-control border-secondary" id="nivel" disabled>
+        <div class="col-md-4">
+          <label for="inputSelect" class="form-label">Nivel-Grupo:</label>
+          <input name="nivel" type="text" class="form-control border-secondary" id="nivel" disabled>
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
+          <select class="form-select border-secondary" name="nivel_value" id="nivel-est">
+            <option selected disabled value="">Elegir...</option>
+          </select>
+          <div class="invalid-tooltip">
+            ¡Error!
           </div>
-          <div class="col-md-4">
-            <label for="inputText" class="form-label">Año Lectivo:</label>
-            <input name="anio" type="text" class="form-control border-secondary" id="anio" disabled>
-          </div>
-          <div class="col-md-4">
-            <label for="inputText" class="form-label">Pago:</label>
-            <div class="input-group mb-3">
-              <span class="input-group-text">C$</span>
-              <span class="input-group-text">0.00</span>
-              <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-            </div>
+        </div>
+        <div class="col-md-4">
+          <label for="inputText" class="form-label">Comprobante de Pago:</label>
+          <div class="input-group">
+            <span class="input-group-text">#</span>
+            <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
           </div>
         </div>
         <div class="col-md-6">
           <label for="inputText" class="form-label">Secretari@:</label>
           <input name="name-secretaria" type="text" class="form-control border-secondary" id="name_secretaria"
-            placeholder="Nombre del Secretari@" , value={{user.correo_e}} disabled>
+            placeholder="Nombre del Secretari@" value={{user.correo_e}} disabled>
         </div>
         <div class="text-center">
           <button class="btn btn-success btn-block">Matricular</button>
