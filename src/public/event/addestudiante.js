@@ -23,7 +23,8 @@ const fechaNac_est = document.getElementById('fecha-est');
 const sexo_est = document.getElementById('sexo-est');
 const nivel_est = document.getElementById('nivel-est');
 const form_estudiante = document.getElementById('form-estudiante');
-var estudiante = {}
+var estudiante = {};
+
 localStorage.clear();//Limpiar el localstorage
 prevBtns.forEach((btn) => {
     btn.addEventListener("click", () => {

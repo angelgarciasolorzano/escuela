@@ -206,7 +206,35 @@
                             id="btn-recargar">Regresar</a>
                     </div>
                 </div>
-            </form>
+            <form/>
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="modal-message" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" style="border-radius: 2px;">
+        <div class="modal-content">
+            <div class="modal-body border border-secondary" style="background-color: #17171c;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="text-center">
+                            <i class="fa-solid fa-triangle-exclamation"
+                                style="color: rgb(244, 197, 5); font-size: 80px;"></i>
+                        </div>
+                        <div class="py-3" style="color: white;">
+                            <div class="text-center">
+                                <h2>¿Estás Seguro?</h2>
+                            </div>
+                            <div class="text-center">
+                                <strong>¿Deseas efectuar el registro?</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border border-secondary" style="background-color:  #5dade2">
+                <button type="button" class="btn btn-danger mx-auto w-30px" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary mx-auto w-30px" data-bs-dismiss="modal" id="btn-modal-aceptar">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div><!-- modal-message -->

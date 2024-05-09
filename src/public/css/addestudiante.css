@@ -93,7 +93,7 @@
   
   .form-step {
     display: none;
-    transform-origin: top;
+    transform-origin: bottom;
     animation: animate 0.5s;
   }
   
