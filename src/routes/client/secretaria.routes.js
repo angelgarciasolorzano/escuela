@@ -108,13 +108,7 @@ router.post('/api/verificar_estudiante', isLoggedIn,
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
-    body('fechaNac').notEmpty().withMessage('Esta vacío!')
-      .custom(value => {
-        const regex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/g;
-        if (regex.test(value) === false) {
-          throw new Error('Formato incorrecto');
-        } else { return true; }
-      }),
+    body('fechaNac').notEmpty().withMessage('Esta vacío ó incompleto!'),
     body('sexo_value').notEmpty().withMessage('Falta seleccionar!'),
     body('nivel_value').notEmpty().withMessage('Falta seleccionar!')
   ], (req, res) => {

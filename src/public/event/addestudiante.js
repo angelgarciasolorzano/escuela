@@ -82,8 +82,7 @@ $('#btn_tutor').on("click", function (e) {
             if (validado === true) {
                 nextForm();
             }
-        })
-        .catch(err => console.log('Error', err.message));
+        }).catch(err => console.log('Error', err.message));
     cleanErrors();
 });//Evento validar el formulario del tutor
 $("#btn-addestudiante").on("click", function (e) {
@@ -104,52 +103,55 @@ $("#btn-addestudiante").on("click", function (e) {
         .then(response => {
             const dataErrors = response.data;
             const validado = validarFormularios(dataErrors, form_estudiante); //Validados que los campos sean correctos
-            if (validado == true) {
-                if (matchRegistro() == false) {
-                    if (localStorage.getItem('ls-estudiantes') == null) {
-                        let estudiantes = [];
-                        estudiantes.push(estudiante);
-                        localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
-                    } else {
-                        let estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
-                        estudiantes.push(estudiante);
-                        localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
-                    }
-                    $('#nombres-est, #apellidos-est, #registroNac-est, #fecha-est, #sexo-est, #nivel-est').val(''); //limpiar los inputs mediante jquery
-                    getEstudiantes();
-                    registroNac_est.classList.remove('is-invalid');
-                    registroNac_est.classList.replace('border-danger', 'border-secondary');
+            if (validado == true && matchRegistro() == false) {
+                if (localStorage.getItem('ls-estudiantes') == null) {
+                    let estudiantes = [];
+                    estudiantes.push(estudiante);
+                    localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
                 } else {
-                    showError(`Error! Ya agregaste el #Registro de Nacimiento: ${registroNac_est.value.trim()}!`);
-                    registroNac_est.classList.add('is-invalid');
-                    registroNac_est.classList.replace('border-secondary', 'border-danger');
-                    form_estudiante.children[2].lastElementChild.innerHTML = '¡Ya ésta agregado!';
+                    let estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
+                    estudiantes.push(estudiante);
+                    localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
                 }
+                $('#nombres-est, #apellidos-est, #registroNac-est, #fecha-est, #sexo-est, #nivel-est').val(''); //limpiar los inputs mediante jquery
+                getEstudiantes();
+                registroNac_est.classList.remove('is-invalid');
+                registroNac_est.classList.replace('border-danger', 'border-secondary');
+            } else if (matchRegistro() == true){
+                showError(`Error! Ya agregaste el #Registro de Nacimiento: ${registroNac_est.value.trim()}!`);
+                registroNac_est.classList.add('is-invalid');
+                registroNac_est.classList.replace('border-secondary', 'border-danger');
+                form_estudiante.children[2].lastElementChild.innerHTML = '¡Ya ésta agregado!';
             }
         })
         .catch(err => console.log('Error', err.message));
     cleanErrors();
 });//Evento validar y añadir card estudiante
 $("#btn_registrar").on("click", function (e) {
-    e.preventDefault();
+    e.preventDefault()
     const estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
     if (estudiantes != null && estudiantes.length > 0) {
-        const form = {
-            tutor: tutor,
-            estudiante: estudiantes
-        };
-        axios.post('/api/registrar', form)
-            .then(response => {
-                const result = response.data;
-                if (result.success == true) {
-                    nextForm();
-                } else { showError('Ocurrío un error inesperado, por favor intente más tarde!'); }
-            })
-            .catch(err => console.log('Error', err.message));
+        $("#modal-message").modal("show")
     } else {
         showError('Error! Debes agregar al ménos uno o más estudiantes!');//Mostramos el error si el arreglo de estudiantes esta vacio
     }
 });//Evento para ingresar todos los formularios
+$("#btn-modal-aceptar").on("click", function (e) {
+    e.preventDefault();
+    const estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
+    const form = {
+        tutor: tutor,
+        estudiante: estudiantes
+    };
+    axios.post('/api/registrar', form)
+        .then(response => {
+            const result = response.data;
+            if (result.success == true) {
+                nextForm();
+            } else { showError('Ocurrío un error inesperado, por favor intente más tarde!'); }
+        })
+        .catch(err => console.log('Error', err.message));
+})//Evento del boton aceptar modal para permitir el ingreso de los datos dde el tutor y estudiante
 
 //Espacio para declarar funciones
 function nextForm() {
