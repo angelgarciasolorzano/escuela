@@ -23,7 +23,7 @@ router.post('/api/mostrar_nivel', isLoggedIn, async(req,res) => {
   const id_modalidad = req.body.id_modalidad;
   const nivel_est = await pool.query(`select id_nivel, nombre from nivel where id_modalidad_fk = ${id_modalidad}`);
   res.send(nivel_est[0]);
-})
+})//Carga los niveles o grados mediante el id de la modalidad 
 
 router.post('/api/verificar_tutor', isLoggedIn,
   [
