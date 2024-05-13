@@ -185,7 +185,7 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     var { draw, start, length, order, columns, search } = req.query; //DesEstructuramos el request query
 
     if (typeof order == 'undefined') {
-      var column_name = 'estudiante.id_estudiante';
+      var column_name = 'vw_estudianteMatricula.id_estudiante';
       var column_sort_order = 'asc';
     }
     else {
@@ -199,16 +199,17 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     var search_query = `
     AND (id_estudiante LIKE '%${search_value}%' 
     OR nombres LIKE '%${search_value}%' 
-    OR apellidos LIKE '%${search_value}%')`;
+    OR apellidos LIKE '%${search_value}%'
+    OR tutor_cedula LIKE '%${search_value}%')`;
     //Número total de registros sin filtrar
-    var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM estudiante");
+    var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM vw_estudianteMatricula");
     var total_records = Data1[0].Total;
 
     //Número total de registros con filtrado
-    var [Data2] = await pool.query(`SELECT COUNT(*) AS Total FROM estudiante WHERE 1 ${search_query}`);
+    var [Data2] = await pool.query(`SELECT COUNT(*) AS Total FROM vw_estudianteMatricula WHERE 1 ${search_query}`);
     var total_records_with_filter = Data2[0].Total;
     var query = `
-            select * from estudiante
+            select * from vw_estudianteMatricula
             where 1 ${search_query} 
             order by ${column_name} ${column_sort_order} 
             limit ${start}, ${length}`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
@@ -220,7 +221,12 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
         'id_estudiante': row.id_estudiante,
         'nombres': row.nombres,
         'apellidos': row.apellidos,
-        'direccion': row.direccion
+        'tutor': row.tutor_nombres +' '+ row.tutor_apellidos,
+        'direccion': row.direccion,
+        'nivel_grado': row.nivel_grado,
+        'modalidad': row.modalidad,
+        'estado': row.estado,
+        'id_nivel_grado': row.id_nivel_fk
       });//Agregamos al arreglo todos los campos que queremos que contenga la data
     });
 
@@ -236,8 +242,33 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
   }
 });//Metodo para buscar en tiempo real los estudiantes disponibles para matricular
 
-router.post('/api/matricula', isLoggedIn, async (req, res) => {
-  console.log(await req.body);
+router.post('/api/mostrar_grupo', isLoggedIn, async (req, res) => {
+  const id_nivel_grado = req.body.id_nivel_grado;
+  const grupo_est = await pool.query(`select DG.id_detallegrupo, G.nombre from detallegrupo as DG 
+                                      inner join nivel as N on DG.id_nivel_fk = N.id_nivel
+                                      inner join grupo as G on DG.id_grupo_fk = G.id_grupo
+                                      where DG.id_nivel_fk = ?`,id_nivel_grado);
+  res.send(grupo_est[0]);
+});
+router.post('/api/agregar_matricula', isLoggedIn, async (req, res) => {
+  const {id_estudiante, grupo, name_secretaria} = req.body;
+  const verif_matricula = await pool.query(`select M.id_matricula from matricula as M 
+                                            inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
+                                            inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
+                                            where E.id_estudiante = ? and AL.anio = year(now());`,id_estudiante);
+  if(verif_matricula[0].length > 0){
+    res.send({success: false});
+  } else {
+    try {
+      const id_aniolectivo = await pool.query(`select id_aniolectivo from aniolectivo where anio = year(now());`);
+      const id_secretaria = await pool.query(`select id_usuario from usuario where correo_e = ?`, name_secretaria);
+      await pool.query(`insert into matricula(id_estudiante_fk, id_aniolectivo_fk, id_usuario_fk, id_detallegrupo_fk)
+                        values(?,?,?,?)`,[id_estudiante,id_aniolectivo[0][0].id_aniolectivo,id_secretaria[0][0].id_usuario,grupo]);
+      res.send({success: true});
+    } catch (error) {
+      console.log(error);
+    }
+  }
 });//Metodo para matricular
 
 export default router;
