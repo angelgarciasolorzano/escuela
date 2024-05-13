@@ -12,11 +12,12 @@
     <div class="col">
       <div class="input-group flex-nowrap mb-3">
         <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-clipboard-data-fill"></i></span>
-        <select name="nivel-est" id="add-nivel-est" class="form-select" aria-label="Default select example">
-          <option selected>Seleccionar Nivel</option>
+        <select name="nivel_est" id="add-nivel-est" class="form-select" aria-label="Default select example">
+          <option selected disabled>Seleccionar Nivel</option>
           <option value="Primaria">Primaria</option>
           <option value="Secundaria">Secundaria</option>
         </select>
+        <div class="invalid-tooltip"></div>
       </div>
     </div>
 
@@ -24,7 +25,8 @@
     <div class="col">
       <div class="input-group flex-nowrap mb-3">
         <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-graph-up-arrow"></i></span>
-        <input id="add-grado-est" name="grado-est" type="number" class="form-control border-secondary" placeholder="Ingresar Grado" aria-label="Usuario" aria-describedby="addon-wrapping">
+        <input id="add-grado-est" name="grado_est" placeholder="Ingresar grado/año" type="number" class="form-control border-secondary" aria-describedby="addon-wrapping">
+        <div class="invalid-tooltip"></div>
       </div>
     </div>
 
@@ -32,7 +34,7 @@
     <div class="col">
       <div class="input-group flex-nowrap mb-3">
         <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-calendar-check-fill"></i></span>
-        <select id="add-modalidad-est" name="modalidad-est" class="form-select" aria-label="Default select example">
+        <select id="add-modalidad-est" name="modalidad_est" class="form-select" aria-label="Default select example">
           <option selected>Seleccionar Modalidad</option>
           <option value="Matutino">Matutino</option>
           <option value="Vespertino">Vespertino</option>
@@ -43,13 +45,13 @@
     <!--Buscar Tutor-->
     <div class="col">
       <div class="input-group flex-nowrap mb-3">
-        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Buscar Tutor</button>
+        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalTutores">Buscar Tutor</button>
       </div>
     </div>
   </div>
 
   <div class="container text-white p-2">
-    <form action="/secretaria/registro" id="form-validation" method="post">
+    <div id="formulario-matricula">
       <div class="row">
 
         <!--Datos del Estudiante-->
@@ -61,24 +63,28 @@
             <div class="card-body">
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Nombre</label>
+                  <label for="inputText" class="form-label">Nombre</label>
                   <input name="nombre_est" type="text" class="form-control border-secondary" id="add-nombre-est" placeholder="Nombre del Estudiante">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
-                  <label for="inputPassword4" class="form-label">Apellidos</label>
+                  <label for="inputText" class="form-label">Apellidos</label>
                   <input name="apellidos_est" type="text" class="form-control border-secondary" id="add-apellidos-est" placeholder="Apellidos del Estudiante">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-12">
-                  <label for="inputAddress" class="form-label">Direccion</label>
+                  <label for="inputText" class="form-label">Direccion</label>
                   <input name="direccion_est" type="text" class="form-control border-secondary" id="add-direccion-est" placeholder="Direccion">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
                   <label for="inputEmail4" class="form-label">Fecha de Nacimiento</label>
                   <input name="fecha_est" type="date" class="form-control border-secondary" id="add-fecha-est">
+                  <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-md-6">
                   <label for="inputState" class="form-label">Seleccionar Genero</label>
-                  <select name="sexo_est" id="inputState" class="form-select border-secondary">
+                  <select name="sexo_est" id="add-genero-est" class="form-select border-secondary">
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
                   </select>
@@ -95,7 +101,7 @@
               <h1 class="text-center text-uppercase text-white">datos tutor</h1>
             </div>
             <div class="card-body">
-              <div class="row g-3" id="form-tutor">
+              <div class="row g-3">
                 <div class="col-md-6">
                   <label for="inputText" class="form-label">Nombre</label>
                   <input name="nombre_tutor" type="text" class="form-control border-secondary" id="add-nombre-tut" placeholder="Nombre del tutor">
@@ -130,34 +136,55 @@
       <!--Papeleo a Entregar-->
       <div class="container text-center p-2 text-black">
         <div class="form-check text-black form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Partida de Nacimiento">
           <label class="form-check-label" for="inlineCheckbox1">Partida de Nacimiento</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Copia de cedula del Tutor">
           <label class="form-check-label" for="inlineCheckbox2">Copia de Cedula del Tutor</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Copia del boletin">
           <label class="form-check-label" for="inlineCheckbox2">Copia del Boletin</label>
         </div>
+        <div id="mensaje-error" class="invalid-feedback">Debe seleccionar al menos un documento</div>
       </div>
         
       <!--Enviar datos al Servidor-->
       <div class="text-center mt-2">
-        <button class="btn btn-success btn-block" id="btn_tutor">Matricular Estudiante</button>
+        <button class="btn btn-success btn-block" id="btn-formulario" data-bs-toggle="modal" data-bs-target="#modalMatricula">Matricular Estudiante</button>
       </div>
-    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Aviso de Matricula -->
+<div class="modal fade" id="modalMatricula" tabindex="-1" aria-labelledby="modalMensajeMatricula" aria-hidden="true" role="document">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header color-background">
+        <h5 class="modal-title text-white" id="modalMensajeMatricula">Aviso <i class="bi bi-exclamation-triangle-fill text-warning"></i></h1>
+        <button type="button" class="btn-close bg-primary-subtle" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container container-fluid text-center">
+          <h5>¿Desea efectuar el Registro?</h5>
+        </div>
+      </div>
+      <div class="modal-footer color-background">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btn-aceptarMatricula" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  role="document">
+<div class="modal fade" id="modalTutores" tabindex="-1" aria-labelledby="modalLabelTutores" aria-hidden="true" role="document">
   <div class="modal-dialog modal-fullscreen-lg modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header color-background">
-        <h5 class="modal-title text-white" id="exampleModalLabel">Tutores Registrados</h5>
+        <h5 class="modal-title text-white" id="modalLabelTutores">Tutores Registrados</h5>
         <button type="button" class="btn-close bg-primary-subtle" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -165,11 +192,11 @@
           <div class="row">
             <div class="col-lg">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered nowrap w-100" id="datatable_estudiante">
+                <table class="table table-striped table-bordered nowrap w-100" id="datatableTutores">
                   <thead>
                     <tr class="table-dark">
                       <th class="text-center">Nombre</th>
-                      <th class="text-center">Apellidos</th>
+                      <th class="text-center">Apellido</th>
                       <th class="text-center">Telefono</th>
                     </tr>
                   </thead>
@@ -180,8 +207,8 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <div class="modal-footer color-background">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
         <button id="btn-aceptar" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
       </div>
     </div>

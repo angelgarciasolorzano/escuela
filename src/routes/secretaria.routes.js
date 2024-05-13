@@ -12,6 +12,6 @@ router.get('/api/estudiante', isLoggedIn, estudiantesDatosAPI);
 router.get('/api/tutores', isLoggedIn, tutoresDatosAPI);
 
 router.post('/secretaria/registro', isLoggedIn, estudianteMatricula);
-router.post('/api/verificar_tutor', isLoggedIn, verificarDatosBodyAPI, verificarMatriculaAPI);
+router.post('/api/verificarMatricula', isLoggedIn, verificarDatosBodyAPI, verificarMatriculaAPI);
 
 export default router;

@@ -1,8 +1,6 @@
 import passport from "passport";
 
-const login = (req, res) => {
-  res.render('auth/login');
-};
+const login = (req, res) => { res.render('auth/login'); };
 
 const autenticacion = (req, res, next) => {
   passport.authenticate('sesion.local', (err, user, info) => {
