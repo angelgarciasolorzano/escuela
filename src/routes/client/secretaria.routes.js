@@ -15,9 +15,15 @@ router.get('/secretaria/registro', isLoggedIn, (req, res) => {
 });//Cargar plantilla matricula
 
 router.get('/secretaria/registro/estudiante', isLoggedIn, async (req, res) => {
-  const [nivel] = await pool.query('SELECT id_nivel, nombre, tipo FROM nivel');
-  res.render('interface/client/addestudiante', { nivel: nivel });
+  const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
+  res.render('interface/client/addestudiante', { modalidad: modalidad });
 });//Cargar plantilla Registro estudiante
+
+router.post('/api/mostrar_nivel', isLoggedIn, async(req,res) => {
+  const id_modalidad = req.body.id_modalidad;
+  const nivel_est = await pool.query(`select id_nivel, nombre from nivel where id_modalidad_fk = ${id_modalidad}`);
+  res.send(nivel_est[0]);
+})
 
 router.post('/api/verificar_tutor', isLoggedIn,
   [
@@ -77,7 +83,7 @@ router.post('/api/verificar_tutor', isLoggedIn,
     } else {
       res.send({ status: false });
     }
-  });//Verifica el formulario del tutor para su registro
+});//Verifica el formulario del tutor para su registro
 
 router.post('/api/verificar_estudiante', isLoggedIn,
   [
@@ -110,6 +116,7 @@ router.post('/api/verificar_estudiante', isLoggedIn,
       }),
     body('fechaNac').notEmpty().withMessage('Esta vacío ó incompleto!'),
     body('sexo_value').notEmpty().withMessage('Falta seleccionar!'),
+    body('modalidad_value').notEmpty().withMessage('Falta seleccionar!'),
     body('nivel_value').notEmpty().withMessage('Falta seleccionar!')
   ], (req, res) => {
     const error = validationResult(req);
@@ -118,7 +125,7 @@ router.post('/api/verificar_estudiante', isLoggedIn,
     } else {
       res.send({ status: false });
     }
-  });//Verifica el formulario del estudiante para su registro
+});//Verifica el formulario del estudiante para su registro
 
 router.post('/api/registrar', isLoggedIn, async (req, res) => {
 
@@ -126,26 +133,46 @@ router.post('/api/registrar', isLoggedIn, async (req, res) => {
   req.body.tutor.correo_e, req.body.tutor.sexo, req.body.tutor.telefono, req.body.tutor.direccion];
   const estudiante = req.body.estudiante;
 
-  try {
-    await pool.query(`INSERT INTO tutor(nombres, apellidos, cedula, correo_e, sexo, telefono, direccion)
-                      VALUES(?,?,?,?,?,?,?)`, tutor);
-  } catch (error) {
-    console.log(error);
-    res.send({ success: false });
-  }
+  const verif_cedula = await pool.query(`select cedula from tutor where cedula = ?`, req.body.tutor.cedula);
+  
+  var verif_RegistroNac = '';
+  var aux = false;
 
-  try {
-    const search_tutor = await pool.query('SELECT id_tutor FROM tutor WHERE cedula =?', req.body.tutor.cedula);
-    for (let i = 0; i < estudiante.length; i++) {
-      await pool.query(`INSERT INTO estudiante(nombres, apellidos, registroNac, fechaNac, sexo, id_tutor_fk, id_nivel_fk)
-                      VALUES(?,?,?,?,?,?,?)`,
-        [estudiante[i].nombres, estudiante[i].apellidos, estudiante[i].registroNac,
-        estudiante[i].fechaNac, estudiante[i].sexo_value, search_tutor[0][0].id_tutor,
-        estudiante[i].nivel_value]);
+  console.log(verif_cedula[0].length);
+
+  for(let i = 0; i < estudiante.length; i++){
+    verif_RegistroNac = await pool.query(`select registroNac from estudiante where registroNac =?`,estudiante[i].registroNac);
+    if(verif_RegistroNac && verif_RegistroNac[0].length > 0){
+      console.log(verif_RegistroNac[0].length);
+      aux = true;
+      break;
     }
-    res.send({ success: true });
-  } catch (error) {
-    console.log(error)
+  }
+  
+  if(verif_cedula && verif_cedula[0].length === 0 && aux === false) {
+    try {
+      await pool.query(`INSERT INTO tutor(nombres, apellidos, cedula, correo_e, sexo, telefono, direccion)
+                        VALUES(?,?,?,?,?,?,?)`, tutor);
+    } catch (error) {
+      console.log(error);
+      res.send({ success: false });
+    }
+
+    try {
+      const search_tutor = await pool.query('SELECT id_tutor FROM tutor WHERE cedula =?', req.body.tutor.cedula);
+      for (let i = 0; i < estudiante.length; i++) {
+        await pool.query(`INSERT INTO estudiante(nombres, apellidos, registroNac, fechaNac, sexo, id_tutor_fk, id_nivel_fk)
+                        VALUES(?,?,?,?,?,?,?)`,
+          [estudiante[i].nombres, estudiante[i].apellidos, estudiante[i].registroNac,
+          estudiante[i].fechaNac, estudiante[i].sexo_value, search_tutor[0][0].id_tutor,
+          estudiante[i].nivel_value]);
+      }
+      res.send({ success: true });
+    } catch (error) {
+      console.log(error)
+      res.send({ success: false });
+    }
+  } else{
     res.send({ success: false });
   }
 
@@ -166,53 +193,44 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
       var column_name = columns[column_index]['data'];
       var column_sort_order = order[0]['dir'];
     }
-    
+
     //Buscador datos
     var search_value = search['value'].trim();
     var search_query = `
     AND (id_estudiante LIKE '%${search_value}%' 
     OR nombres LIKE '%${search_value}%' 
     OR apellidos LIKE '%${search_value}%')`;
+    //Número total de registros sin filtrar
+    var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM estudiante");
+    var total_records = Data1[0].Total;
 
-    if (search_value == '') {
-      res.json({
-        'iTotalDisplayRecords': 0,
-        'iTotalRecords': 0,
-      });
-    } else {
-      //Número total de registros sin filtrar
-      var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM estudiante");
-      var total_records = Data1[0].Total;
-
-      //Número total de registros con filtrado
-      var [Data2] = await pool.query(`SELECT COUNT(*) AS Total FROM estudiante WHERE 1 ${search_query}`);
-      var total_records_with_filter = Data2[0].Total;
-
-      var query = `
+    //Número total de registros con filtrado
+    var [Data2] = await pool.query(`SELECT COUNT(*) AS Total FROM estudiante WHERE 1 ${search_query}`);
+    var total_records_with_filter = Data2[0].Total;
+    var query = `
             select * from estudiante
             where 1 ${search_query} 
             order by ${column_name} ${column_sort_order} 
             limit ${start}, ${length}`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
 
-      var data_arr = [];
-      var [Data3] = await pool.query(query);
-      Data3.forEach(function (row) {
-        data_arr.push({
-          'id_estudiante': row.id_estudiante,
-          'nombres': row.nombres,
-          'apellidos': row.apellidos,
-          'direccion': row.direccion
-        });//Agregamos al arreglo todos los campos que queremos que contenga la data
-      });
+    var data_arr = [];
+    var [Data3] = await pool.query(query);
+    Data3.forEach(function (row) {
+      data_arr.push({
+        'id_estudiante': row.id_estudiante,
+        'nombres': row.nombres,
+        'apellidos': row.apellidos,
+        'direccion': row.direccion
+      });//Agregamos al arreglo todos los campos que queremos que contenga la data
+    });
 
-      var output = {
-        'draw': draw,
-        'iTotalRecords': total_records,
-        'iTotalDisplayRecords': total_records_with_filter,
-        'aaData': data_arr
-      };//Estructura datatable
-      res.json(output);//Envianmos al datatable la estructura en formato json
-    }
+    var output = {
+      'draw': draw,
+      'iTotalRecords': total_records,
+      'iTotalDisplayRecords': total_records_with_filter,
+      'aaData': data_arr
+    };//Estructura datatable
+    res.json(output);//Envianmos al datatable la estructura en formato json
   } catch (error) {
     res.status(500).send('Error 500');
   }

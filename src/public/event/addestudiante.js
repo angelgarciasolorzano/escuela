@@ -21,6 +21,7 @@ const apellidos_est = document.getElementById('apellidos-est');
 const registroNac_est = document.getElementById('registroNac-est');
 const fechaNac_est = document.getElementById('fecha-est');
 const sexo_est = document.getElementById('sexo-est');
+const modalidad_est = document.getElementById('modalidad-est');
 const nivel_est = document.getElementById('nivel-est');
 const form_estudiante = document.getElementById('form-estudiante');
 var estudiante = {};
@@ -94,6 +95,8 @@ $("#btn-addestudiante").on("click", function (e) {
         fechaNac: fechaNac_est.value,
         sexo_text: sexo_est.options[sexo_est.selectedIndex].text.trim(),
         sexo_value: sexo_est.value.trim(),
+        modalidad_text: modalidad_est.options[modalidad_est.selectedIndex].text.trim(),
+        modalidad_value: modalidad_est.value.trim(),
         nivel_text: nivel_est.options[nivel_est.selectedIndex].text.trim(),
         nivel_value: nivel_est.value.trim()
     }; //Body para mandarlo con el axios
@@ -113,7 +116,8 @@ $("#btn-addestudiante").on("click", function (e) {
                     estudiantes.push(estudiante);
                     localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
                 }
-                $('#nombres-est, #apellidos-est, #registroNac-est, #fecha-est, #sexo-est, #nivel-est').val(''); //limpiar los inputs mediante jquery
+                $('#nombres-est, #apellidos-est, #registroNac-est, #fecha-est, #sexo-est, #modalidad-est, #nivel-est').val(''); //limpiar los inputs mediante jquery
+                $('#nivel-est').attr('disabled', 'disabled');//Vuelvo a deshabilitar el select de nivel estudiante
                 getEstudiantes();
                 registroNac_est.classList.remove('is-invalid');
                 registroNac_est.classList.replace('border-danger', 'border-secondary');
@@ -127,15 +131,6 @@ $("#btn-addestudiante").on("click", function (e) {
         .catch(err => console.log('Error', err.message));
     cleanErrors();
 });//Evento validar y añadir card estudiante
-$("#btn_registrar").on("click", function (e) {
-    e.preventDefault()
-    const estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
-    if (estudiantes != null && estudiantes.length > 0) {
-        $("#modal-message").modal("show")
-    } else {
-        showError('Error! Debes agregar al ménos uno o más estudiantes!');//Mostramos el error si el arreglo de estudiantes esta vacio
-    }
-});//Evento para ingresar todos los formularios
 $("#btn-modal-aceptar").on("click", function (e) {
     e.preventDefault();
     const estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
@@ -148,10 +143,33 @@ $("#btn-modal-aceptar").on("click", function (e) {
             const result = response.data;
             if (result.success == true) {
                 nextForm();
-            } else { showError('Ocurrío un error inesperado, por favor intente más tarde!'); }
+            } else { showError('Otra secretaria, ya realizo este registro!'); }
         })
         .catch(err => console.log('Error', err.message));
-})//Evento del boton aceptar modal para permitir el ingreso de los datos dde el tutor y estudiante
+})//Evento del boton aceptar modal para permitir el ingreso de los datos de el tutor y estudiante
+$('#modalidad-est').on('change', function () {
+    const nivelView = document.getElementById('nivel-est');
+    $('#nivel-est').removeAttr('disabled');
+    axios.post('/api/mostrar_nivel', { id_modalidad: this.value })
+        .then(response => {
+            const nivel = response.data;
+            nivelView.innerHTML = '<option selected disabled value="">Elegir...</option>';
+            for (let i = 0; i < nivel.length; i++) {
+                nivelView.innerHTML += `
+                <option value=${nivel[i].id_nivel}>${nivel[i].nombre}</option>`; 
+            }
+        })
+        .catch(err => console.log('Error', err.message));
+});//Muestra los niveles o grados al momento de cambiar el select de modalidad-est
+$("#btn_registrar").on("click", function (e) {
+    e.preventDefault()
+    const estudiantes = JSON.parse(localStorage.getItem('ls-estudiantes'));
+    if (estudiantes != null && estudiantes.length > 0) {
+        $("#modal-message").modal("show")
+    } else {
+        showError('Error! Debes agregar al ménos uno o más estudiantes!');//Mostramos el error si el arreglo de estudiantes esta vacio
+    }
+});//Evento para ingresar todos los formularios
 
 //Espacio para declarar funciones
 function nextForm() {
@@ -207,6 +225,10 @@ function getEstudiantes() {
                                     Sexo: ${estudiantes[i].sexo_text}.</p>
                             </div>
                             <div class="w-100">
+                                <p class="card-text" value=${estudiantes[i].modalidad_value}>
+                                Modalidad: ${estudiantes[i].modalidad_text}.</p>
+                            </div>
+                            <div class="w-100">
                                 <p class="card-text" value=${estudiantes[i].nivel_value}>
                                 Grado/Nivel: ${estudiantes[i].nivel_text}.</p>
                             </div>
@@ -233,10 +255,14 @@ function accionEstudiante(registroNac, accion) {
             registroNac_est.value = estudiantes[i].registroNac;
             fechaNac_est.value = estudiantes[i].fechaNac;
             sexo_est.value = estudiantes[i].sexo_value;
+            modalidad_est.value = estudiantes[i].modalidad_value;
             nivel_est.value = estudiantes[i].nivel_value;//Mandamos a los inputs y select la informacion
             estudiantes.splice(i, 1);//Eliminamos el estudiante
         }
     };
+    if(accion === 'modificar'){
+        $('#nivel-est').removeAttr('disabled');
+    }
     localStorage.setItem('ls-estudiantes', JSON.stringify(estudiantes));
     cleanAll_Errors(form_estudiante);
     getEstudiantes();
@@ -255,6 +281,10 @@ function cleanErrors() {
         this.classList.replace('border-danger', 'border-secondary');
     });
     $('#sexo-tutor').on('change', function () {
+        this.classList.remove('is-invalid');
+        this.classList.replace('border-danger', 'border-secondary');
+    });
+    $('#modalidad-est').on('change', function () {
         this.classList.remove('is-invalid');
         this.classList.replace('border-danger', 'border-secondary');
     });

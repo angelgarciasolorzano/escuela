@@ -1,6 +1,6 @@
 $(document).ready(function () {
     const name_estudiante = document.getElementById('name-estudiante');
-    const form = document.querySelector('form');
+    //const form = document.querySelector('form');
     const mensaje = document.querySelector('.contenedor-alerta');
     let select_row = '';
 
@@ -26,15 +26,19 @@ $(document).ready(function () {
         mensaje.parentNode.insertBefore(errorDiv, mensaje);
     }; //Mensaje de error
 
-    if (form && name_estudiante) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (name_estudiante.value === '') {
-                isValid = false;
-                showError('Todos los campos son requeridos.');
-            } else { form.submit(); }
-        });
-    }; //Formulario matricula
+    // if (form && name_estudiante) {
+    //     form.addEventListener('submit', (e) => {
+    //         e.preventDefault();
+    //         if (name_estudiante.value === '') {
+    //             isValid = false;
+    //             showError('Todos los campos son requeridos.');
+    //         } else { form.submit(); }
+    //     });
+    // }; //Formulario matricula
+
+    $('#btn-pagos').on('click', function(e){
+        e.preventDefault();
+    });
 
     $('#exampleModal').on('show.bs.modal', function () {
         var url = '/api/estudiante_disponible';
@@ -63,7 +67,6 @@ $(document).ready(function () {
                 style: 'single',
                 toggleable: false,
                 item: 'row',
-                style: 'os',
                 selector: 'td:not(:first-child)'
             },
             responsive: true,
@@ -111,9 +114,66 @@ $(document).ready(function () {
         $('#btn-aceptar').on('click', function () {
             if (typeof select_row != 'undefined') {
                 name_estudiante.value = select_row.nombres + ' ' + select_row.apellidos;
-                table.destroy();
+                mostrarPagos();
             }
         });
     }); //Cargar Tabla dentro del Modal
 
+function mostrarPagos(){
+    const mostrar_detalles = document.getElementById('mostrar-detalles');
+    const mostrar_pagos = document.getElementById('mostrar-pagos');
+    mostrar_detalles.innerHTML = '';
+    mostrar_detalles.innerHTML = `<div class="container text-center" id="mostrar-detalles"> 
+                                    <strong>Detalles</strong>
+                                 </div>
+                <div class="row g-3 py-2">
+                    <div class="col-md-6">
+                        <label for="inputState" class="form-label">Modo:</label>
+                        <select class="form-select border-secondary" name="modo" id="modo">
+                            <option selected disabled value="">Elegir...</option>
+                            <option value="">Efectivo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputState" class="form-label">Moneda:</label>
+                        <select class="form-select border-secondary" name="moneda" id="moneda">
+                            <option selected disabled value="">Elegir...</option>
+                            <option value="">Córdobas</option>
+                            <option value="">Dólares</option>
+                        </select>
+                    </div>
+                </div>`;
+
+    mostrar_pagos.innerHTML = '';
+    mostrar_pagos.innerHTML = `<table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Concepto</th>
+            <th scope="col" class="text-center">Precio</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr>
+            <th>Matricula</th>
+            <td class="text-end">2545.00</td>
+        </tr>
+        <tr>
+            <th>Mensualidad: Enero</th>
+            <td class="text-end">900.00</td>
+        </tr>
+        <tr>
+            <th>Mensualidad: Febrero</th>
+            <td class="text-end">900.00</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="d-flex flex-row-reverse bd-highlight">
+        <strong class="p-2 bd-highlight">4345.00</strong>
+        <strong class="p-2 bd-highlight">Total C$:</strong>
+    </div>
+    <div class="d-flex flex-row-reverse bd-highlight">
+        <strong class="p-2 bd-highlight">118.64</strong>
+        <strong class="p-2 bd-highlight">Total $:</strong>
+    </div>`;
+}
 });//Se ejecuta al cargar la pagina

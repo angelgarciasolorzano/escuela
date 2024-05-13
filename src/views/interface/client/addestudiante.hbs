@@ -144,7 +144,7 @@
                                 ¡Error!
                             </div>
                         </div>
-                        <div class="col-md-3 position-relative">
+                        <div class="col-md-4 position-relative">
                             <label for="inputText" class="form-label">#Registro de Nacimiento:</label>
                             <input name="registroNac" type="text" class="form-control border-secondary"
                                 id="registroNac-est" placeholder="#Tomo-#Folio-#Partida">
@@ -152,14 +152,14 @@
                                 ¡Error!
                             </div>
                         </div>
-                        <div class="col-md-3 position-relative">
+                        <div class="col-md-4 position-relative">
                             <label for="inputDate" class="form-label">Fecha de Nacimiento:</label>
                             <input name="fechaNac" type="date" class="form-control border-secondary" id="fecha-est">
                             <div class="invalid-tooltip">
                                 ¡Error!
                             </div>
                         </div>
-                        <div class="col-md-3 position-relative">
+                        <div class="col-md-4 position-relative">
                             <label for="inputState" class="form-label">Género:</label>
                             <select class="form-select border-secondary" name="sexo_value" id="sexo-est">
                                 <option selected disabled value="">Elegir...</option>
@@ -170,15 +170,24 @@
                                 ¡Error!
                             </div>
                         </div>
-                        <div class="col-md-3 position-relative">
-                            <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
-                            <select class="form-select border-secondary" name="nivel_value" id="nivel-est">
+                        <div class="col-md-6 position-relative">
+                            <label for="inputState" class="form-label">Modalidad:</label>
+                            <select class="form-select border-secondary" name="modalidad_value" id="modalidad-est">
                                 <option selected disabled value="">Elegir...</option>
-                                {{#if nivel}}
-                                {{#each nivel}}
-                                <option value={{this.id_nivel}}>{{this.nombre}} {{this.tipo}}</option>
+                                {{#if modalidad}}
+                                {{#each modalidad}}
+                                <option value={{this.id_modalidad}}>{{this.nombre}}</option>
                                 {{/each}}
                                 {{/if}}
+                            </select>
+                            <div class="invalid-tooltip">
+                                ¡Error!
+                            </div>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
+                            <select class="form-select border-secondary" name="nivel_value" id="nivel-est" disabled>
+                                <option selected disabled value="">Elegir...</option>
                             </select>
                             <div class="invalid-tooltip">
                                 ¡Error!
