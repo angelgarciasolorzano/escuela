@@ -226,7 +226,8 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
         'nivel_grado': row.nivel_grado,
         'modalidad': row.modalidad,
         'estado': row.estado,
-        'id_nivel_grado': row.id_nivel_fk
+        'id_nivel_grado': row.id_nivel_fk,
+        'cedula': row.tutor_cedula
       });//Agregamos al arreglo todos los campos que queremos que contenga la data
     });
 

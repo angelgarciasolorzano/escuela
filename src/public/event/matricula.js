@@ -26,11 +26,12 @@ $(document).ready(function () {
                 { data: "nombres" },
                 { data: "apellidos" },
                 { data: "estado" },
-                { data: "tutor" }
+                { data: "tutor" },
+                { data: "cedula" }
             ],
             columnDefs: [
                 {
-                    className: "text-center", targets: [0, 3]
+                    className: "text-center", targets: 0
                 }
             ],
             destroy: true,
@@ -164,18 +165,24 @@ $(document).ready(function () {
             form.children[7].children[1].classList.replace('border-secondary', 'border-danger');
             form.children[7].lastElementChild.innerHTML = 'Falta seleccionar!';
         } else {
-            matricula = {
-                id_estudiante: select_row.id_estudiante,
-                grupo: parseInt(grupo.value),
-                name_secretaria: name_secretaria.value
-            }
-            evaluarMatricula(matricula);
+            $("#modal-message").modal("show")
         }
         $('#grupo').on('change', function () {
             this.classList.remove('is-invalid');
             this.classList.replace('border-danger', 'border-secondary');
         });
     });
+
+    $("#btn-aceptar-matricula").on("click", function (e) {
+        e.preventDefault();
+        matricula = {
+            id_estudiante: select_row.id_estudiante,
+            grupo: parseInt(grupo.value),
+            name_secretaria: name_secretaria.value
+        }
+        evaluarMatricula(matricula);
+        
+    })//Evento del boton aceptar modal para permitir el ingreso de la matricula del estudiante
 
     function mostrarGrupos(id_nivel_grado) {
         const grupoView = document.getElementById('grupo');
