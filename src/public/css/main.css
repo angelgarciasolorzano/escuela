@@ -8,6 +8,10 @@ body {
   background-color: #0d2033;
 }
 
+.color-cardBackground{
+  background-color: #2069A1;
+}
+
 .cerrar-sesion {
   color: white;
 }
@@ -16,8 +20,141 @@ body {
   color: aqua;
 }
 
+/* sidebar */
+.container-inicio_admin {
+  position: absolute;
+  top: 55px;
+  min-height: calc(100vh - 55px);
+  width: calc(100% - 60px);
+  left: 55px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 55px;
+  /* width: 220px; */
+  width: 60px;
+  height: calc(100% - 55px);
+  background: #0d2033;
+  overflow-x: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.sidebar ul {
+  margin-top: 20px;
+  padding-left: 0%;
+}
+
+.sidebar ul li {
+  margin-top: 30px;
+  /* padding-left: 1.5rem; */
+  padding-left: 0rem; 
+  width: 100%;
+  list-style: none;
+}
+
+.sidebar ul li:hover {
+  background: #fff;
+}
+
+.sidebar ul li:hover a {
+  color: #0d2033;
+}
+
+.sidebar ul li a {
+  width: 100%;
+  text-decoration: none;
+  color: #fff;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li a i {
+  min-width: 60px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.submenu {
+  display: none;
+}
+
+#submenu li a {
+  padding-left: 0.2rem !important;
+}
+
+.sidebar_show{
+  pointer-events: none;
+}
+
+.sidebarShow {
+  display: fixed;
+}
+
+.submenuShow{
+  display: block;
+}
+
+li.moveIconOpen {
+  padding-left: 1.5rem !important;
+}
+
+.showBarOpen {
+  width: 230px;
+}
+
+.moveMainOpen {
+  width: calc(100% - 230px);
+  left: 230px;
+}
+
+li.moveIconCloser {
+  padding-left: 0rem !important;
+}
+
+.showBarCloser {
+  width: 60px;
+}
+
+.moveMainCloser {
+  width: calc(100% - 60px);
+  left: 60px;
+}
+
+@media screen and (max-width:800px) {
+  .container-inicio_admin {
+      width: calc(100% - 60px);
+      left: 60px;
+  }
+}
+
 @media screen and (max-width: 435px) {
   .container-fluid .navbar-brand {
     display: none;
   }
+  .sidebar{
+    display: none;
+  }
+  .sidebar_show{
+    pointer-events: auto;
+  }
+  .container-inicio_admin {
+    width: 100%;
+    left: auto;
+}
+}
+
+@media screen and (max-width: 800px) {
+.sidebar{
+  display: none;
+}
+.sidebar_show{
+  pointer-events: auto;
+}
+.container-inicio_admin {
+  width: 100%;
+  left: auto;
+}
 }

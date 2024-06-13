@@ -1,25 +1,38 @@
-<link rel="stylesheet" href="/css/inicio.css">
-{{#> main}}
-   <header class="header-inicio">
-    <nav class="nav-inicio">
-      <a href="#">Inicio</a>
-      <a href="#">Acerca de</a>
-      <a href="#">Servicios</a>
-      <a href="#">Comunidad</a>
-      <a href="/login">Iniciar Sesion</a>
-    </nav>
-    <section class="textos-header">
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/inicio.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <header class="header-inicio">
+    <div class="container-header">
+      <img src="/img/logo_colegio.png" class="img-fluid pe-3" alt="" width="50" height="50">
+      <nav class="nav-inicio">
+        <a href="#inicio" class="active">Inicio</a>
+        <a href="#acerca_de">Acerca de</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#comunidad">Comunidad</a>
+        <a href="/login">Iniciar Sesión</a>
+      </nav>
+    </div>
+    <section id="inicio" class="textos-header">
       <h1>Colegio Cristiano Fuente de Vida</h1>
       <h2>Educación con Valores y Excelencia Académica</h2>
     </section>
-    <div class="wave" style="height: 150px; overflow: hidden;" >
+    <div class="wave" style="height: 150px; overflow: hidden;">
       <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
-        <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #fff;"></path>
+        <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+          style="stroke: none; fill: #E6E6E6;"></path>
       </svg>
     </div>
   </header>
-  <section class="mt-4">
-    <div class="container">
+  <section id="acerca_de" class="mt-0" style="background-color: #E6E6E6;">
+    <div class="container pt-5">
       <div class="text-center">
         <h2>Conoce Nuestra Identidad</h2>
         <h5>Descubre Nuestro Compromiso y Pasión por la Educación</h5>
@@ -34,12 +47,14 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Excelencia en Educación</h4>
-                  <p>En el Colegio Cristiano Fuente de Vida, nos comprometemos a brindar una educación de calidad que prepare a nuestros estudiantes para enfrentar los desafíos del mundo moderno con confianza y éxito.</p>
+                  <p>En el Colegio Cristiano Fuente de Vida, nos comprometemos a brindar una educación de calidad que
+                    prepare a nuestros estudiantes para enfrentar los desafíos del mundo moderno con confianza y éxito.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>  
+        </div>
         <div class="col-lg-6">
           <div class="card-item">
             <div class="row">
@@ -49,7 +64,8 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Unidos por la Educación</h4>
-                  <p>Nuestra comunidad educativa está unida en su compromiso de proporcionar un ambiente de aprendizaje inclusivo y estimulante, donde cada estudiante pueda alcanzar su máximo potencial.</p>
+                  <p>Nuestra comunidad educativa está unida en su compromiso de proporcionar un ambiente de aprendizaje
+                    inclusivo y estimulante, donde cada estudiante pueda alcanzar su máximo potencial.</p>
                 </div>
               </div>
             </div>
@@ -64,7 +80,9 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Guiados por Valores</h4>
-                  <p>En el Colegio Cristiano Fuente de Vida, nuestros valores cristianos son el fundamento de todo lo que hacemos. Promovemos el amor, la honestidad y el respeto en cada aspecto de la vida estudiantil.</p>
+                  <p>En el Colegio Cristiano Fuente de Vida, nuestros valores cristianos son el fundamento de todo lo
+                    que
+                    hacemos. Promovemos el amor, la honestidad y el respeto en cada aspecto de la vida estudiantil.</p>
                 </div>
               </div>
             </div>
@@ -79,22 +97,25 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Crecimiento Personal y Espiritual</h4>
-                  <p>Más allá de la educación académica, nos comprometemos a guiar a nuestros estudiantes en su crecimiento personal, emocional y espiritual, preparándolos para ser ciudadanos responsables y compasivos en la sociedad.</p>
+                  <p>Más allá de la educación académica, nos comprometemos a guiar a nuestros estudiantes en su
+                    crecimiento personal, emocional y espiritual, preparándolos para ser ciudadanos responsables y
+                    compasivos en la sociedad.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </section>
-  <section class="mt-5" style="background-color: #efefef;">
+  <section id="servicios" class="mt-0" style="background-color: #ffff;">
     <div class="container p-5">
       <div class="section-header text-center">
         <h2>Nuestros Servicios Educativos</h2>
-        <p>Descubre una amplia gama de servicios educativos diseñados para apoyar el crecimiento integral de nuestros estudiantes en el Colegio Cristiano Fuente de Vida. </p>
+        <p>Descubre una amplia gama de servicios educativos diseñados para apoyar el crecimiento integral de nuestros
+          estudiantes en el Colegio Cristiano Fuente de Vida. </p>
       </div>
-      <div class="row gy-5">
+      <div class="row gt-0">
         <div class="col-md-4 mx-auto">
           <div class="card text-center">
             <div class="card">
@@ -102,7 +123,11 @@
                 <h5 class="text-white">Programa Académico Integral</h5>
               </div>
               <div class="card-body">
-                <p>Nuestro programa académico integral está diseñado para brindar una educación de calidad que abarca todas las áreas del conocimiento, desde las ciencias y las matemáticas hasta las artes y las humanidades. Nos esforzamos por ofrecer un currículo riguroso y enriquecedor que despierte la curiosidad intelectual y promueva el pensamiento crítico en nuestros estudiantes.</p>
+                <p>Nuestro programa académico integral está diseñado para brindar una educación de calidad que abarca
+                  todas las áreas del conocimiento, desde las ciencias y las matemáticas hasta las artes y las
+                  humanidades. Nos esforzamos por ofrecer un currículo riguroso y enriquecedor que despierte la
+                  curiosidad
+                  intelectual y promueva el pensamiento crítico en nuestros estudiantes.</p>
               </div>
             </div>
           </div>
@@ -114,7 +139,10 @@
                 <h5 class="text-white">Apoyo y Orientación Estudiantil</h5>
               </div>
               <div class="card-body">
-                <p>En el Colegio Cristiano Fuente de Vida, nos preocupamos por el bienestar integral de nuestros estudiantes. Nuestro equipo de consejeros y orientadores está disponible para ofrecer apoyo emocional, académico y vocacional a los estudiantes, ayudándoles a desarrollar habilidades de autoconocimiento, resiliencia y toma de decisiones.</p>
+                <p>En el Colegio Cristiano Fuente de Vida, nos preocupamos por el bienestar integral de nuestros
+                  estudiantes. Nuestro equipo de consejeros y orientadores está disponible para ofrecer apoyo emocional,
+                  académico y vocacional a los estudiantes, ayudándoles a desarrollar habilidades de autoconocimiento,
+                  resiliencia y toma de decisiones.</p>
               </div>
             </div>
           </div>
@@ -126,7 +154,11 @@
                 <h5 class="text-white">Programas Extracurriculares y Actividades</h5>
               </div>
               <div class="card-body">
-                <p>Además de la educación en el aula, ofrecemos una amplia gama de programas extracurriculares y actividades para enriquecer la experiencia estudiantil. Desde clubes y equipos deportivos hasta actividades artísticas y culturales, brindamos oportunidades para que los estudiantes exploren sus intereses, desarrollen habilidades y establezcan relaciones significativas fuera del horario escolar.</p>
+                <p>Además de la educación en el aula, ofrecemos una amplia gama de programas extracurriculares y
+                  actividades para enriquecer la experiencia estudiantil. Desde clubes y equipos deportivos hasta
+                  actividades artísticas y culturales, brindamos oportunidades para que los estudiantes exploren sus
+                  intereses, desarrollen habilidades y establezcan relaciones significativas fuera del horario escolar.
+                </p>
               </div>
             </div>
           </div>
@@ -134,11 +166,12 @@
       </div>
     </div>
   </section>
-  <section class="mt-5">
-    <div class="container">
+  <section id="comunidad" class="mt-0" style="background-color: #E6E6E6;">
+    <div class="container p-5">
       <div class="text-center">
         <h2>Únete a Nuestra Comunidad</h2>
-        <p>Te damos la bienvenida a formar parte de la comunidad del Colegio Cristiano Fuente de Vida! Descubre cómo puedes involucrarte, participar y contribuir al ambiente educativo vibrante que ofrecemos.</p>
+        <p>Te damos la bienvenida a formar parte de la comunidad del Colegio Cristiano Fuente de Vida! Descubre cómo
+          puedes involucrarte, participar y contribuir al ambiente educativo vibrante que ofrecemos.</p>
       </div>
       <div class="row gy-4 mt-4">
         <div class="col-lg-6">
@@ -150,12 +183,16 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Oportunidades de Voluntariado</h4>
-                  <p>Explora nuestras oportunidades de voluntariado y descubre cómo puedes hacer una diferencia en la vida de nuestros estudiantes y en la comunidad en general. Únete a nosotros en nuestro compromiso de servir y apoyar el crecimiento de las futuras generaciones.</p>
+                  <p>Explora nuestras oportunidades de voluntariado y descubre cómo puedes hacer una diferencia en la
+                    vida
+                    de nuestros estudiantes y en la comunidad en general. Únete a nosotros en nuestro compromiso de
+                    servir
+                    y apoyar el crecimiento de las futuras generaciones.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>  
+        </div>
         <div class="col-lg-6">
           <div class="card-item">
             <div class="row">
@@ -165,16 +202,18 @@
               <div class="col-xl-7 d-flex align-items-center">
                 <div class="card-body p-2">
                   <h4 class="card-title">Eventos y Actividades Comunitarias</h4>
-                  <p>Mantente al tanto de nuestros emocionantes eventos y actividades comunitarias. Desde ferias educativas hasta eventos deportivos y culturales, hay algo para todos en nuestra comunidad escolar. Únete a nosotros y sé parte de momentos memorables y enriquecedores para toda la familia.</p>
+                  <p>Mantente al tanto de nuestros emocionantes eventos y actividades comunitarias. Desde ferias
+                    educativas hasta eventos deportivos y culturales, hay algo para todos en nuestra comunidad escolar.
+                    Únete a nosotros y sé parte de momentos memorables y enriquecedores para toda la familia.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </section>
-  <footer class="footer mt-5">
+  <footer class="footer mt-0">
     <div class="text-center position-relative">
       <div class="container">
         <h6>&copy; Copyright <strong><span>Colegio Cristiano Fuente de Vida</span></strong>. Derechos Reservados</h6>
@@ -182,4 +221,24 @@
       </div>
     </div>
   </footer>
-{{/main}}
+  <script>
+    let sections = document.querySelectorAll('section');
+    let navLinks = document.querySelectorAll('header nav a');
+    window.onscroll = () => {
+      sections.forEach(sec => {
+        let top = window.scrollY;
+        let offset = sec.offsetTop - 150;
+        let height = sec.offsetHeight;
+        let id = sec.getAttribute('id');
+        if (top >= offset && top < offset + height) {
+          navLinks.forEach(links => {
+            links.classList.remove('active');
+            document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+          });
+        };
+      });
+    };
+  </script>
+</body>
+
+</html>

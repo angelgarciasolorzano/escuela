@@ -1,9 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark color-background">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark color-background">
   <div class="container-fluid">
-    <img src="/img/logo_colegio.png" class="img-fluid pe-3" alt="" width="50" height="50">
-    <a class="navbar-brand">Colegio Cristiano Fuente de Vida</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="sidebar_show" id="btn_sidebar" >
+      <img src="/img/logo_colegio.png" class="img-fluid pe-3" id="imgprueba" alt="" width="50" height="50">
+      <a class="navbar-brand">Colegio Cristiano Fuente de Vida</a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -11,28 +12,8 @@
         <li class="nav-item">
           <a class="nav-link text-white" href="/">Inicio</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Estudiantes
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/estudiante/datos_personales">Datos Personales</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Servicios
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/secretaria/matricula">Matrícula</a></li>
-            <li><a class="dropdown-item" href="#">Otros</a></li>
-          </ul>
-        </li>
         <li class="nav-item">
-          <a class="nav-link cerrar-sesion" href="#" data-bs-toggle="modal" data-bs-target="#modalSession">Cerrar
-            sesion</a>
+          <a class="nav-link cerrar-sesion" data-bs-toggle="modal" data-bs-target="#modalSession" href="#">Cerrar sesion</a>
         </li>
       </ul>
     </div>
@@ -62,17 +43,17 @@
       <div class="modal-footer border border-secondary" style="background-color:  #5dade2">
         <button type="button" class="btn btn-danger mx-auto w-30px" data-bs-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary mx-auto w-30px" data-bs-dismiss="modal"
-          id="btn-aceptar">Aceptar</button>
+          id="btn-aceptar-cerrarsession">Aceptar</button>
       </div>
     </div>
   </div>
 </div>
-	
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script>
-  $("#btn-aceptar").on("click", function (e) {
+  $("#btn-aceptar-cerrarsession").on("click", function (e) {
     e.preventDefault();
     cerrarSession();
+    localStorage.clear();
   });
 
   async function cerrarSession() {
@@ -82,4 +63,3 @@
     } catch (error) { console.log('Error', error.message); }
   };
 </script>
-<!-- modal-session -->

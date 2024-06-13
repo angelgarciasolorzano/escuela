@@ -15,6 +15,7 @@ import * as path from 'path';
 import indexRoutes from "./routes/index.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
 import secretariaRoutes from "./routes/client/secretaria.routes.js";
+import administracionRoutes from "./routes/client/administrador.routes.js";
 import "./lib/passport.js";
 
 const app = express();
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 app.use(indexRoutes);
 app.use(authenticationRoutes);
 app.use(secretariaRoutes);
+app.use(administracionRoutes);
 
 //TODO Carpetas publicas
 app.use(express.static(path.join(__dirname, 'public')));
@@ -71,7 +73,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Manda un error 404 si la pagina no existe
 app.use((req, res, next) => {
     if (res.status(404)) {
-        res.send('Error 404');
+        res.send('Error 404: No encontrado');
     }
 });
 

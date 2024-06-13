@@ -1,26 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Hind Madurai", sans-serif;
+}
+
+
 .header-inicio {
   width: 100%;
   height: 600px;
-  background: url(../img/portada2.jpg) center;
+  background: url(../img/inicio-colegio.jpg) center;
   background-size: cover;
   position: relative;
 }
 
-.nav-inicio {
-  text-align: right;
-  padding: 30px 50px 0 0;
+
+.container-header{
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.2)
 }
 
-.nav-inicio > a {
-  color: #eeff00;
+.nav-inicio {
+  align-items: center;
+}
+
+.nav-inicio a {
+  color: #fff;
+  text-shadow: 1px 1px 2px black;
   font-weight: 800;
   text-decoration: none;
-  margin-right: 10px;
+  margin-right: 15px;
   font-size: 20px;
+  transition: .3s;
 }
 
-.nav-inicio > a:hover {
+.nav-inicio a:hover,
+.nav-inicio a.active{
   text-decoration: underline;
+  color: #2B8ED9;
 }
 
 .header-inicio .textos-header {
@@ -33,15 +61,25 @@
   text-align: center;
 }
 
+section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .textos-header h1 {
   font-size: 50px;
   color: #fff;
+  text-shadow: 1px 1px 2px black;
 }
 
 .textos-header h2 {
   font-size: 30px;
   font-weight: 300;
   color: #fff;
+  text-shadow: 1px 1px 2px black;
 }
 
 .wave {
@@ -67,7 +105,7 @@
   color: #fff;
   background-color: #0d2033;
   font-size: 14px;
-  padding: 80px 0 60px 0;
+  padding: 20px 50px;
   position: relative;
 }
 
@@ -82,12 +120,15 @@
     text-align: center;
     padding: 30px 0 0 0;
   }
-  .nav-inicio > a {
+
+  .nav-inicio>a {
     margin-right: 5px;
   }
+
   .textos-header h1 {
     font-size: 35px;
   }
+
   .textos-header h2 {
     font-size: 20px;
   }
