@@ -66,12 +66,11 @@
     }
   }
 
-  @media (max-width:500px){
-        .cards {
-        grid-template-columns: 1fr;
+  @media (max-width:500px) {
+    .cards {
+      grid-template-columns: 1fr;
     }
   }
-
 </style>
 
 <div class="container-inicio">
@@ -115,24 +114,29 @@
   </div>
 </div>
 <div class="px-4 pb-2">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="w-50 mx-auto">
-                                <img src="/img/secretary_6186232.png" class="img-fluid rounded">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="fs-1 text-center">Bienvenid@</p>
-                            <p class="fs-2">Usuari@: {{user.nombres}} {{user.apellidos}}</p>
-                            <p class="fs-2">Cuenta: {{user.correo_e}}</p>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="w-50 mx-auto">
+                {{#ifCond user.sexo "F"}} 
+                <img src="/img/professor_4232276.png" class="img-fluid rounded">
+                {{/ifCond}}
+                {{#ifCond user.sexo "M"}} 
+                <img src="/img/teacher_5590486.png" class="img-fluid rounded">
+                {{/ifCond}}
+              </div>
             </div>
+            <div class="col-md-6">
+              <p class="fs-1 text-center">Bienvenid@</p>
+              <p class="fs-2">Usuari@: {{user.nombres}} {{user.apellidos}}</p>
+              <p class="fs-2">Cuenta: {{user.correo_e}}</p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

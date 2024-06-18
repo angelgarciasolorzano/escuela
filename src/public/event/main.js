@@ -6,7 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebarList = document.querySelector('#sidebarList');
     var icono = document.querySelectorAll('#sidebar ul li');
     const btn_submenuEstudiante = document.getElementById('btn_submenuEstudiante');
-    const submenuE = document.querySelector('#submenu');
+    const elementEstudiante = document.querySelector('#elementEstudiante');
+    const btn_submenuGrupo = document.getElementById('btn_submenuGrupo');
+    const elementGrupo = document.querySelector('#elementGrupo');
+    const btn_submenuProfesor = document.getElementById('btn_submenuProfesor');
+    const elementProfesor = document.querySelector('#elementProfesor');
+    const btn_submenuAcademico = document.getElementById('btn_submenuAcademico');
+    const elementAcademico = document.querySelector('#elementAcademico');
 
     if (btn_sidebar) {
         btn_sidebar.addEventListener('click', function() {
@@ -22,7 +28,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         btn_submenuEstudiante.addEventListener('click', function () {
-            submenuE.classList.toggle('submenuShow');
+            elementEstudiante.classList.toggle('submenuShow');
+        });
+        btn_submenuGrupo.addEventListener('click', function () {
+            elementGrupo.classList.toggle('submenuShow');
+        });
+        btn_submenuProfesor.addEventListener('click', function () {
+            elementProfesor.classList.toggle('submenuShow');
+        });
+        btn_submenuAcademico.addEventListener('click', function () {
+            elementAcademico.classList.toggle('submenuShow');
         });
        sidebarList.addEventListener('mouseover', function(){
             sidebar.classList.add('showBarOpen');
@@ -34,16 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
         main_show.addEventListener('mouseover', function(){
             sidebar.classList.remove('showBarOpen');
             main_show.classList.remove('moveMainOpen');
-            submenuE.classList.remove('submenuShow');
+            elementEstudiante.classList.remove('submenuShow');
+            elementGrupo.classList.remove('submenuShow');
+            elementProfesor.classList.remove('submenuShow');
+            elementAcademico.classList.remove('submenuShow');
             icono.forEach(i => {
                 i.classList.remove('moveIconOpen');
             });
         });
     }
-
-    function showSidebar() {
-        
-    }
-
-    // Comprobar el tamaño de la ventana al cambiar el tamaño
 });

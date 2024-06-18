@@ -328,9 +328,9 @@ var tabla_usuario = new DataTable('#dt-usuario', {
     language: {
         lengthMenu: "Mostrar _MENU_ registros por página",
         emptyTable: "A la espera de búsqueda...",
-        zeroRecords: "Ningún Estudiante encontrado",
+        zeroRecords: "Ningún Usuario encontrado",
         info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-        infoEmpty: "Ningún Estudiante encontrado",
+        infoEmpty: "Ningún Usuario encontrado",
         infoFiltered: "(filtrados desde _MAX_ registros totales)",
         search: "Buscar:",
         loadingRecords: "Cargando...",

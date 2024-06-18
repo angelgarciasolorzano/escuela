@@ -11,9 +11,9 @@ passport.use('sesion.local', new LocalStrategy({
 
   if (datos && datos[0].length > 0) {
     const usuarioDatos = datos[0][0];
-    console.log(usuarioDatos);
+    //console.log(usuarioDatos);
 
-    if (usuarioDatos.contrasena === contrasena) { done(null, usuarioDatos); } 
+    if (usuarioDatos.contrasena === contrasena && usuarioDatos.estado === 'Activo') { done(null, usuarioDatos); } 
     else { done(null, false); }
     
   } else { return done(null, false); }

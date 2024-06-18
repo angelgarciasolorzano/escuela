@@ -25,6 +25,9 @@
   {{#ifCond user.nombre_rol "Secretaria"}}
   {{> navsecret }}
   {{/ifCond}}
+  {{#ifCond user.nombre_rol "Profesor"}}
+  {{> navprof }}
+  {{/ifCond}}
   {{#ifCond user.nombre_rol "Administrador"}}
   {{> navadmin }}
   {{> sidebar_admin }}

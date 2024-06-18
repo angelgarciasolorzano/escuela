@@ -7,15 +7,17 @@ import { buildPDF } from "../../lib/pdfkit.js";
 const router = express.Router();
 
 //TODO Rutas de Perfiles (Secretario)
-router.get('/secretaria', isLoggedIn, checkRol('Secretaria'), (req, res) => {
-  res.render('interface/client/secretaria/perfilsecret');
+router.get('/secretaria', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
+  const contCard = await pool.query(`call sp_contPerfilAdmin()`);
+  const value = contCard[0][0][0];
+  res.render('interface/client/secretaria/perfilsecret', { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_matricula: value.c_matricula });
 });
 router.get('/secretaria/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const fechaHoy = new Date(Date.now());
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
   res.render('interface/client/secretaria/addmatricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
 });//Cargar plantilla matricula
-router.get('/estudiante/datos_personales', isLoggedIn, async (req, res) => {
+router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'),async (req, res) => {
   res.render('interface/client/secretaria/datosP_estudiante');
 });//Cargar plantilla Datos Personales estudiante
 //Rutas Paginas

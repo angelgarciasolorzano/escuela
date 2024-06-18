@@ -1,5 +1,4 @@
 <style>
-
     .cards {
         width: 100%;
         padding: 35px 20px;
@@ -71,7 +70,7 @@
 <div class="cards">
     <div class="card">
         <div class="card-content">
-            <div class="number">1110</div>
+            <div class="number">{{c_estudiante}}</div>
             <div class="card-name">Estudiantes</div>
         </div>
         <div class="icon-box">
@@ -80,7 +79,7 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <div class="number">35</div>
+            <div class="number">{{c_profesor}}</div>
             <div class="card-name">Profesores</div>
         </div>
         <div class="icon-box">
@@ -89,7 +88,7 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <div class="number">28</div>
+            <div class="number">{{c_detallegrupo}}</div>
             <div class="card-name">Grupos</div>
         </div>
         <div class="icon-box">
@@ -98,11 +97,33 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <div class="number">35</div>
+            <div class="number">{{c_usuario}}</div>
             <div class="card-name">Usuarios</div>
         </div>
         <div class="icon-box">
             <i class="fa-solid fa-users-gear"></i>
+        </div>
+    </div>
+</div>
+<div class="px-4 pb-2">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="w-50 mx-auto">
+                                <img src="/img/business-woman_2323696.png" class="img-fluid rounded">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="fs-1 text-center">Bienvenid@</p>
+                            <p class="fs-2">Usuari@: {{user.nombres}} {{user.apellidos}}</p>
+                            <p class="fs-2">Cuenta: {{user.correo_e}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

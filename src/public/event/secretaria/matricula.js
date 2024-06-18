@@ -565,7 +565,8 @@ function eliminarMatricula(id_matricula) {
                     showToast('success', 'fa-solid fa-circle-check', 'La matricula se elimino con exito!');
                     tabla_matricula.ajax.url(url).load();//Recarga el dt_matriculas_recientes
                 } else {
-                    showMessage('alert-historial', 'danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');
+                    showToast('danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');
+                    //showMessage('alert-historial', 'danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');
                 }
             })
             .catch(err => console.log('Error', err.message));

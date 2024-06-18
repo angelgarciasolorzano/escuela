@@ -1,0 +1,84 @@
+<div id="toast-notificacion"></div>
+<div class="container py-3">
+  <div class="p-2">
+    <div class="card shadow bg-body-tertiary rounded">
+      <div class="card-body d-flex justify-content-start align-items-center" style="color: #0d2033;">
+        <i class="fas fa-chalkboard-teacher px-2" style="font-size: 25px;"></i>
+        <h2 class="m-0">Profesores:</h2>
+      </div>
+    </div>
+  </div>
+  <div class="p-2">
+    <div class="row g-4">
+      <div class="col-md-12">
+        <div class="card shadow bg-body-tertiary rounded" id="card-asignarMateria">
+          <div class="card-header color-background">
+            <h4 class="text-white text-center fw-semibold m-0" id="txt-accion">Profesor Guia:</h4>
+          </div>
+          <div class="card-body">
+            <div class="row g-2">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <label for="inputText" class="form-label text-start fs-3 p-2 mb-0" style="color:#2069A1;">Grupos
+                        disponibles:</label>
+                    <div class="d-flex flex-column mb-3 justify-content-center" id="form-grupoGuia">
+                      <div class="row align-items-center">
+                        <div class="col-md-5 position-relative py-2" id="btn-grupos">
+                          <label for="inputState" class="form-label">Grupo:</label>
+                          <select class="form-select border-secondary" name="grupos" id="grupos" required>
+                            <option selected disabled value="">Elegir...</option>
+                          </select>
+                          <div class="invalid-tooltip">
+                            ¡Falta Seleccionar!
+                          </div>
+                        </div>
+                        <div class="col-md-5 position-relative py-2" id="btn-profesor">
+                          <label for="inputState" class="form-label">Profesores:</label>
+                          <select class="form-select border-secondary" name="profesor" id="profesor" required>
+                            <option selected disabled value="">Elegir...</option>
+                          </select>
+                          <div class="invalid-tooltip">
+                            ¡Falta Seleccionar!
+                          </div>
+                        </div>
+                        <div class="col-md-2 text-center py-2">
+                          <button class="btn btn-success" id="btn-asignarGrupo">Asignar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!--Card para ingresar grupo guia-->
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h1 class="fs-3" style="color:#2069A1;">Grupos Recientes:</h1>
+                    <div class="table-responsive">
+                      <table class="table table-striped table-bordered nowrap" id="dt-grupoGuia" style="width: 100%;">
+                        <thead class="table-dark">
+                          <tr>
+                            <th class="text-center">Id</th>
+                            <th>Grupo</th>
+                            <th class="text-center">Profesor</th>
+                            <th class="text-center">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div><!--Card para visualizar grupo guia -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal-message -->
+<div id="crearModal"></div>
+<!-- modal-message -->
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.8/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
+<script src="/event/administrador/grupoGuia.js"></script>

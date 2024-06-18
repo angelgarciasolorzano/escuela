@@ -12,9 +12,9 @@
                 <div>Estudiantes</div>
             </a>
         </li>
-        <ul class="submenu" id="submenu">
+        <ul class="submenu" id="elementEstudiante">
             <li>
-                <a href="/estudiante/datos_personales">
+                <a href="/administrador/estudiante/datos_personales">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div class=>Datos Personales</div>
                 </a>
@@ -32,30 +32,72 @@
                 </a>
             </li>
         </ul>
-        <li>
+        <li id="btn_submenuProfesor">
             <a href="#">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <div>Profesores</div>
             </a>
         </li>
-        <li>
+        <ul class="submenu" id="elementProfesor">
+            <li>
+                <a href="/administrador/profesor/grupo_guia">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div class=>Profesor Guia</div>
+                </a>
+            </li>
+            <li>
+                <a href="/administrador/profesor/materias_profe">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div>Asignar Materias</div>
+                </a>
+            </li>
+        </ul>
+        <li id="btn_submenuGrupo">
             <a href="#">
                 <i class="fa-solid fa-chalkboard"></i>
                 <div>Grupos</div>
             </a>
         </li>
+        <ul class="submenu" id="elementGrupo">
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div class=>Crear Grupos</div>
+                </a>
+            </li>
+            <li>
+                <a href="/administrador/grupo/asignar_materias">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div>Asignar Materias</div>
+                </a>
+            </li>
+        </ul>
         <li>
             <a href="#">
                 <i class="fa-solid fa-calendar-days"></i>
                 <div>Horarios</div>
             </a>
         </li>
-        <li>
+        <li id="btn_submenuAcademico">
             <a href="#">
                 <i class="fa-solid fa-book-open"></i>
                 <div>Académico</div>
             </a>
         </li>
+        <ul class="submenu" id="elementAcademico">
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div class=>Año Lectivo</div>
+                </a>
+            </li>
+            <li>
+                <a href="/administrador/academico/materias">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div>Materias</div>
+                </a>
+            </li>
+        </ul>
         <li>
             <a href="#">
                 <i class="fa-solid fa-database"></i>

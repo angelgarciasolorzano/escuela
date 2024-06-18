@@ -1,16 +1,15 @@
 import PDFDocument from "pdfkit";
+import { __dirname } from "../index.js";
+import * as path from "path";
 
 export function buildPDF(dataCallback, endCallback, datos) {
+  
   const doc = new PDFDocument();
-  console.log(datos.nombres_est);
+  const imagePath =  path.join(__dirname, 'public', 'img', 'logo_colegio.png');
   doc.on("data", dataCallback);
   doc.on("end", endCallback);
 
-//   doc.image('public/img/logo_colegio.png', {
-//     fit: [250, 300],
-//     align: 'center',
-//     valign: 'center'
-//   });
+  doc.image(imagePath, 260, 65, {fit: [70, 70]});
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
   doc.fontSize(15).text("Fecha: " + datos.fecha, 423, 90)
   doc.fontSize(20).text("Hoja de matricula 2024", 200, 138)

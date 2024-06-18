@@ -15,6 +15,7 @@ import * as path from 'path';
 import indexRoutes from "./routes/index.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
 import secretariaRoutes from "./routes/client/secretaria.routes.js";
+import profesorRoutes from "./routes/client/profesor.routes.js";
 import administracionRoutes from "./routes/client/administrador.routes.js";
 import "./lib/passport.js";
 
@@ -65,6 +66,7 @@ app.use((req, res, next) => {
 app.use(indexRoutes);
 app.use(authenticationRoutes);
 app.use(secretariaRoutes);
+app.use(profesorRoutes);
 app.use(administracionRoutes);
 
 //TODO Carpetas publicas
@@ -81,3 +83,5 @@ app.use((req, res, next) => {
 app.listen(app.get('port'), () => {
   console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
 });
+
+export {__dirname};
