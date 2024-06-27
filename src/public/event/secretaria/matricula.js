@@ -63,11 +63,12 @@ $('#estudianteModal').on('show.bs.modal', function () {
             { data: "apellidos_est" },
             { data: "estado_est" },
             { data: "tutor" },
-            { data: "cedula_tutor" }
+            { data: "cedula_tutor" },
+            { defaultContent: `<button type="button" class="buscar btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>` }
         ],
         columnDefs: [
             {
-                className: "text-center", targets: 0
+                className: "text-center", targets: [0,6]
             }
         ],
         destroy: true,
@@ -274,6 +275,7 @@ $('#tutorModal').on('show.bs.modal', function () {
 $('#modalidad-est').on('change', function () {
     const id_modalidad = $('#modalidad-est').val();
     $('#nivel-est').prop('disabled', false);
+    turno_nuevoIngreso.value = 'Matutino';
     mostrarNivel(id_modalidad, 'nivel-est');
     $('#grupo-nuevoIngreso').prop('disabled', true).val('');
 });//Desbloquea y muestra los niveles o grados en base a su modalidad en formulario matricula de nuevo ingreso
