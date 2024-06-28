@@ -18,6 +18,12 @@
   width: 100%;
   height: 100vh;
   min-height: 100vh;
+  transition: transform 2.6s ease-in-out;
+}
+
+.carousel-fade .active.carousel-item-start,
+.carousel-fade .active.carousel-item-end {
+  transition: opacity 0s 2.6s;
 }
 
 .carousel-item img {
