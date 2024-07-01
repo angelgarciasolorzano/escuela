@@ -1,0 +1,238 @@
+<div id="toast-notificacion"></div>
+<div class="container py-3">
+  <div class="p-2">
+    <div class="card shadow bg-body-tertiary rounded">
+      <div class="card-body d-flex justify-content-start align-items-center" style="color: #0d2033;">
+        <i class="fa-solid fa-chart-column px-2" style="font-size: 25px;"></i>
+        <h2 class="m-0">Reporte:</h2>
+      </div>
+    </div>
+  </div>
+  <div class="p-2">
+    <div class="row g-4">
+      <div class="col-md-12">
+        <div class="card shadow bg-body-tertiary rounded" id="card-datosPersonales">
+          <div class="card-header color-background">
+            <h4 class="text-white text-center fw-semibold m-0" id="txt-accion"> Matrícula</h4>
+          </div>
+          <div class="card-body">
+            <div class="row g-2">
+
+              <div class="col-md-12">
+                <div class="card shadow bg-body-tertiary rounded">
+                  <div class="card-header color-background">
+                    <h4 class="text-white text-center fw-semibold m-0">Configuración de Filtro:</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <!--formulario año lectivo-->
+                      <div class="col-md-12">
+                        <div class="card mb-2">
+                          <div class="card-body">
+                            <div class="row g-3 align-items-center" id="form-aniolectivo">
+                              <h4 class="card-title text-center border-bottom border-primary">Estudiantes Matriculados
+                              </h4>
+                              {{!-- <div class="col-auto">
+                                <label for="inputState" class="col-form-label">¿Cual año lectivo
+                                  necesita?:</label>
+                              </div>
+                              <div class="col-auto">
+                                <select class="form-select border-secondary" name="tipo_aniolectivo"
+                                  id="tipo_aniolectivo">
+                                  <option selected disabled value="">Elegir...</option>
+                                  <option value="1">Todos</option>
+                                  <option value="2">Específico</option>
+                                </select>
+                                <div class="invalid-tooltip">
+                                  ¡Error!
+                                </div>
+                              </div> --}}
+
+                              <div class="col g-3 align-items-center">
+                                <div class="col-auto">
+                                  <label for="inputState" class="col-form-label">Seleccione los años lectivos:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <select class="form-select border-secondary" name="tipo_aniolectivo"
+                                    id="tipo_aniolectivo">
+                                    <option selected disabled value="">Elegir...</option>
+                                    <option value="1">2024</option>
+                                    <option value="2">2023</option>
+                                    <option value="3">2022</option>
+                                  </select>
+                                  <div class="invalid-tooltip">
+                                    ¡Error!
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col g-3 align-items-center">
+                                <div class="col-auto">
+                                  <label for="inputState" class="col-form-label">Año Lectivo:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <div style="overflow-x: auto;">
+                                    <ul class="d-inline-flex flex-row p-0">
+                                      <li class="badge rounded-pill text-bg-info mx-1"
+                                        style="list-style: none; font-size: 0.9rem;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#" style="text-decoration: none;">2024
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#"
+                                            style="text-decoration: none; font-size: 0.9rem;">2023
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#"
+                                            style="text-decoration: none; font-size: 0.9rem;">2022
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row g-3 align-items-center" id="form-modalidad">
+                                <div class="col-auto">
+                                  <label for="inputState" class="col-form-label">¿Algún filtro en especifico?:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <select class="form-select border-secondary" name="tipo_modalidad"
+                                    id="tipo_modalidad">
+                                    <option selected disabled value="">Elegir...</option>
+                                    <option value="ninguno">Ninguno</option>
+                                    <option value="sexo">Sexo</option>
+                                    <option value="etnia">Pueblo indigena, Afrodescendiente ó etnia:</option>
+                                    <option value="lengua">Lengua Materna</option>
+                                    <option value="discapacidad">Discapacidad</option>
+                                  </select>
+                                  <div class="invalid-tooltip">
+                                    ¡Error!
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="text-center pt-3">
+                                <button class="btn btn-danger btn-block" id="btn-generar-reporte">
+                                  Generar
+                                  <i class="fa-regular fa-file-pdf px-2"></i></button>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      {{!-- <div class="col-md-6">
+                        <!--formulario nivel/grupo-->
+                        <div class="card mb-2">
+                          <div class="card-body">
+                            <div class="row g-3 align-items-center" id="form-modalidad">
+                              <h4 class="card-title text-center border-bottom border-primary">Modalidad</h4>
+                              <div class="col-auto">
+                                <label for="inputState" class="col-form-label">¿Cual modalidad necesita?:</label>
+                              </div>
+                              <div class="col-auto">
+                                <select class="form-select border-secondary" name="tipo_modalidad" id="tipo_modalidad">
+                                  <option selected disabled value="">Elegir...</option>
+                                  <option value="1">Todas</option>
+                                  <option value="2">Específica</option>
+                                </select>
+                                <div class="invalid-tooltip">
+                                  ¡Error!
+                                </div>
+                              </div>
+
+                              <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                  <label for="inputState" class="col-form-label">Seleccione las modalidades:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <select class="form-select border-secondary" name="tipo_aniolectivo"
+                                    id="tipo_aniolectivo">
+                                    <option selected disabled value="">Elegir...</option>
+                                    <option value="1">preescolar</option>
+                                    <option value="2">primaria</option>
+                                    <option value="2">secundaria</option>
+                                  </select>
+                                  <div class="invalid-tooltip">
+                                    ¡Error!
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                  <label for="inputState" class="col-form-label">Modalidad:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <div style="overflow-x: auto;">
+                                    <ul class="d-inline-flex flex-row p-0">
+                                      <li class="badge rounded-pill text-bg-info mx-1"
+                                        style="list-style: none; font-size: 0.9rem;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#" style="text-decoration: none;">preescolar
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#"
+                                            style="text-decoration: none; font-size: 0.9rem;">primaria
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
+                                        <div class="m-2">
+                                          <a class="link-dark" href="#"
+                                            style="text-decoration: none; font-size: 0.9rem;">secundaria
+                                            <i class="fa-solid fa-xmark"></i>
+                                          </a>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div> --}}
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- modal-message -->
+  <div id="crearModal"></div>
+  <!-- modal-message -->
+  <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.8/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
+  <script src="/event/secretaria/reporte_matricula.js"></script>
+  {{!--
+  <script src=""></script> --}}

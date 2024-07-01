@@ -13,19 +13,36 @@ var datos_formReingreso = {};
 //Matricula nuevo ingreso
 //Variables globales para el formulario Tutor
 const nombres_tutor = document.getElementById('nombres-tutor');
-const apellidos_tutor = document.getElementById('apellidos-tutor');
 const cedula_tutor = document.getElementById('cedula-tutor');
 const correo_tutor = document.getElementById('correo-tutor');
-const sexo_tutor = document.getElementById('sexo-tutor')
+const relacion_tutor = document.getElementById('relacion-tutor');
 const telefono_tutor = document.getElementById('telefono-tutor');
+const ocupacion_tutor = document.getElementById('ocupacion-tutor');
 const direccion_tutor = document.getElementById('direccion-tutor');
+const nombres_madre = document.getElementById('nombres-madre');
+const cedula_madre = document.getElementById('cedula-madre');
+const telefono_madre = document.getElementById('telefono-madre');
+const nombres_padre = document.getElementById('nombres-padre');
+const cedula_padre = document.getElementById('cedula-padre');
+const telefono_padre = document.getElementById('telefono-padre');
 const form_tutor = document.getElementById('form-tutor');
+const form_madre = document.getElementById('form-madre');
+const form_padre = document.getElementById('form-padre');
 //Variables globales para el formulario Estudiante
 const nombres_est = document.getElementById('nombres-est');
 const apellidos_est = document.getElementById('apellidos-est');
+const codigo_est = document.getElementById('codigo-est');
+const cedula_est = document.getElementById('cedula-est');
 const registroNac_est = document.getElementById('registroNac-est');
 const fechaNac_est = document.getElementById('fecha-est');
 const sexo_est = document.getElementById('sexo-est');
+const etnia_est = document.getElementById('etnia-est');
+const lengua_est = document.getElementById('lengua-est');
+const discapacidad_est = document.getElementById('discapacidad-est');
+const telefono_est = document.getElementById('telefono-est');
+const lugarNac_est = document.getElementById('lugarNac-est');
+const nacionalidad_est = document.getElementById('nacionalidad-est');
+const direccionDom_est = document.getElementById('direccionDom-est');
 const modalidad_est = document.getElementById('modalidad-est');
 const nivel_est = document.getElementById('nivel-est');
 const grupo_nuevoIngreso = document.getElementById('grupo-nuevoIngreso');
@@ -187,6 +204,16 @@ $("#checkTutor").change(function () {
     $("#form-tutor input, #form-tutor select").val('');
     cleanAll_Errors(form_tutor);
 });// Habilitar y Deshabilitar el boton de buscar tutor y formulario tutor
+//Opcion Matricula de nuevo ingreso del nav tab
+$("#checkTrasladoNuevo").change(function () {
+    if ($(this).is(':checked')) {
+        $("#hojasTrasladoNuevo").removeClass('d-none');
+        //aux = 1;
+    } else {
+        $("#hojasTrasladoNuevo").addClass('d-none');
+        //aux = 0;
+    }
+});// Habilitar y Deshabilitar el check para las 2 hojas de traslado en matricula nuevo ingreso
 $('#tutorModal').on('show.bs.modal', function () {
     var url = '/api/tutor_disponible';
     var table_tutor = $('#dt_tutor').DataTable({
@@ -288,17 +315,26 @@ $('#btn-matriculaNuevo').on('click', function (e) {
     e.preventDefault();
     datos_formNuevoingreso = {
         nombres_tutor: nombres_tutor.value.trim(),//Tutor
-        apellidos_tutor: apellidos_tutor.value.trim(),
         cedula_tutor: cedula_tutor.value.trim(),
         correo_e_tutor: correo_tutor.value.trim(),
-        sexo_tutor: sexo_tutor.value,
+        relacion_tutor: relacion_tutor.value,
         telefono_tutor: telefono_tutor.value.trim(),
+        ocupacion_tutor: ocupacion_tutor.value,
         direccion_tutor: direccion_tutor.value.trim(),
         nombres_est: nombres_est.value.trim(),//Estudiante
         apellidos_est: apellidos_est.value.trim(),
+        codigo_est: codigo_est.value.trim(),
+        cedula_est: cedula_est.value.trim(),
         registroNac_est: registroNac_est.value.trim(),
         fechaNac_est: fechaNac_est.value,
-        sexo_est: sexo_est.value.trim(),
+        sexo_est: sexo_est.value,
+        etnia_est: etnia_est.value,
+        lengua_est: lengua_est.value,
+        discapacidad_est: discapacidad_est.value,
+        telefono_est: telefono_est.value.trim(),
+        lugarNac_est: lugarNac_est.value.trim(),
+        nacionalidad_est: nacionalidad_est.value.trim(),
+        direccionDom_est: direccionDom_est.value.trim(),
         modalidad_est: modalidad_est.value.trim(),
         nivel_est: nivel_est.value.trim(),
         grupo_nuevoIngreso: grupo_nuevoIngreso.value,
@@ -307,7 +343,7 @@ $('#btn-matriculaNuevo').on('click', function (e) {
     };//Body para mandarlo con el axios
     validarFormularios(datos_formNuevoingreso);
     $("input[type='text'], input[type='date']").on('input', limpiarErrores);
-    $('#sexo-est, #sexo-tutor, #modalidad-est, #nivel-est, #grupo-nuevoIngreso').on('change', limpiarErrores);
+    $('#sexo-tutor, #relacion-tutor, #sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #modalidad-est, #nivel-est, #grupo-nuevoIngreso').on('change', limpiarErrores);
 });//Boton para matricular estudiante de nuevo ingreso
 
 //Opcion Historial del nav tab
@@ -321,8 +357,12 @@ async function validarFormularios(datosForm) {
     try {
         const response = await axios.post('/api/verificar_tutorEstudiante', datosForm);
         const datosErrores = response.data;
-        if (datosErrores.status === true) { respuestaServidor(datosErrores); }
-        else { matricula_NuevoIngreso(datosForm); }
+        if (datosErrores.status === true) { 
+            respuestaServidor(datosErrores);
+            showToast('danger', 'bi bi-exclamation-circle-fill', 'Faltan llenar algunos campos obligatorios!');
+        }
+        else { //matricula_NuevoIngreso(datosForm);
+             }
     } catch (error) { console.log('Error', error.message); }
 };//Mandamos a evaluar con el express-validator
 function mostrarNivel(id_modalidad, id_select) {
@@ -350,6 +390,7 @@ function respuestaServidor(dataErrors) {
                 inputElement.classList.replace('border-secondary', 'border-danger');
                 inputElement.nextElementSibling.innerHTML = error.msg;
             }
+            inputElement.focus();
         }
         return false;
     } else {

@@ -2,7 +2,7 @@ import express from "express";
 import { isLoggedIn, checkRol } from "../../lib/middleware/auth.js";
 import pool from "../../database.js";
 import { body, validationResult } from "express-validator";
-import { buildPDF } from "../../lib/pdfkit.js";
+import { buildPDF, reporteMatricula } from "../../lib/pdfkit.js";
 
 const router = express.Router();
 
@@ -17,9 +17,12 @@ router.get('/secretaria/matricula', isLoggedIn, checkRol('Secretaria'), async (r
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
   res.render('interface/client/secretaria/addmatricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
 });//Cargar plantilla matricula
-router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'),async (req, res) => {
+router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   res.render('interface/client/secretaria/datosP_estudiante');
 });//Cargar plantilla Datos Personales estudiante
+router.get('/secretaria/reporte/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
+  res.render('interface/client/secretaria/reporte_matricula');
+});//Cargar la opcion reporte-matricula
 //Rutas Paginas
 //Api
 
@@ -34,6 +37,17 @@ router.get('/api/imprimir_matricula', isLoggedIn, (req, res) => {
     () => stream.end(), datos
   );
 });
+
+router.get('/api/reporte_matricula', isLoggedIn, (req, res) => {
+  const stream = res.writeHead(200, {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": "attachment; filename=invoice.pdf",
+  });
+  reporteMatricula(
+    (data) => stream.write(data),
+    () => stream.end()
+  );
+});
 router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria'),
   [
     body('nombres_tutor').notEmpty().withMessage('Esta vacío!')
@@ -43,18 +57,16 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
           throw new Error('Formato incorrecto');
         } else { return true; }
       }),
-    body('apellidos_tutor').notEmpty().withMessage('Esta vacío!')
-      .custom(value => {
-        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
-        if (regex.test(value) === false) {
+    body('correo_e_tutor')
+      .custom(async (value, { req }) => {
+        const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/g;
+        if (regex.test(value) === false && value != "") {
           throw new Error('Formato incorrecto');
         } else { return true; }
-      }),
-    body('correo_e_tutor').notEmpty().withMessage('Esta vacío!')
-      .isEmail().withMessage('Este no es un Email')
+    })
       .custom(async (value, { req }) => {
         const correo_e_tutor = await pool.query('select correo_e from tutor where correo_e = ?', value);
-        if (correo_e_tutor[0].length > 0 && req.body.aux === 0) {
+        if (correo_e_tutor[0].length > 0 && req.body.aux === 0 && value != "") {
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
@@ -73,6 +85,7 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
         } else { return true; }
       }),
     body('sexo_tutor').notEmpty().withMessage('Falta seleccionar!'),
+    body('relacion_tutor').notEmpty().withMessage('Falta seleccionar!'),
     body('telefono_tutor').notEmpty().withMessage('Esta vacío!')
       .isInt().withMessage('Solo se aceptan numeros enteros')
       .isLength({ min: 8 }).withMessage('Tiene que ingresar 8 digitos')
@@ -82,8 +95,8 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
+    body('ocupacion_tutor').notEmpty().withMessage('Esta vacío!'),
     body('direccion_tutor').notEmpty().withMessage('Esta vacío!'),
-
     body('nombres_est').notEmpty().withMessage('Esta vacío!')
       .custom(value => {
         const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
@@ -96,6 +109,36 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
         const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
         if (regex.test(value) === false) {
           throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('codigo_est').notEmpty().withMessage('Esta vacío!')
+      .custom(value => {
+        const regex = /^[A-Z]{4}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{7}$/g;
+        if (regex.test(value) === false) {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('cedula_est')
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      })
+      // .custom(async (value, { req }) => {
+      //   const cedula_tutor = await pool.query('select cedula from tutor where cedula = ?', value);
+      //   if (req.body.id_tutor) {
+      //     const id_tutor = req.body.id_tutor;
+      //     const tutor = await pool.query(`select id_tutor
+      //                                     from tutor where cedula = ? and id_tutor = ?`, [value, id_tutor]);
+      //     if (cedula_tutor[0].length > 0 && tutor[0].length === 0) {
+      //       throw new Error('Ya esta registrado!');
+      //     } else { return true; }
+      //   }
+      // })
+      .custom(async (value, { req }) => {
+        if (value === req.body.cedula_tutor && value != "") {
+          throw new Error('La cédula es igual a la del tutor!');
         } else { return true; }
       }),
     body('registroNac_est').notEmpty().withMessage('Esta vacío!')
@@ -113,6 +156,24 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
       }),
     body('fechaNac_est').notEmpty().withMessage('Esta vacío ó incompleto!'),
     body('sexo_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('etnia_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('lengua_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('discapacidad_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('telefono_est')
+      .custom(async (value, { req }) => {
+        const regex = /^\d{2,4}-\d{2,4}-\d{2,4}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+    })
+      .custom(async (value, { req }) => {
+        if (value === req.body.telefono_tutor && value != "") {
+          throw new Error('Este número es el mismo del tutor!');
+        } else { return true; }
+      }),
+    body('lugarNac_est').notEmpty().withMessage('Esta vacío!'),
+    body('nacionalidad_est').notEmpty().withMessage('Esta vacío!'),
+    body('direccionDom_est').notEmpty().withMessage('Esta vacío!'),
     body('modalidad_est').notEmpty().withMessage('Falta seleccionar!'),
     body('nivel_est').notEmpty().withMessage('Falta seleccionar!'),
     body('grupo_nuevoIngreso').notEmpty().withMessage('Falta seleccionar!')
@@ -546,7 +607,7 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
         } else { return true; }
       }),
     body('fechaNac_est').notEmpty().withMessage('Esta vacío ó incompleto!'),
-    body('sexo_est').notEmpty().withMessage('Falta seleccionar!')
+    body('sexo_est').notEmpty().withMessage('Falta seleccionar!'),
   ], (req, res) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
