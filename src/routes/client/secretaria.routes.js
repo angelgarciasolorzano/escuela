@@ -2,7 +2,7 @@ import express from "express";
 import { isLoggedIn, checkRol } from "../../lib/middleware/auth.js";
 import pool from "../../database.js";
 import { body, validationResult } from "express-validator";
-import { buildPDF, reporteMatricula } from "../../lib/pdfkit.js";
+import { hojaMatricula, reporteMatricula } from "../../lib/pdfkit.js";
 
 const router = express.Router();
 
@@ -21,31 +21,36 @@ router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secr
   res.render('interface/client/secretaria/datosP_estudiante');
 });//Cargar plantilla Datos Personales estudiante
 router.get('/secretaria/reporte/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  res.render('interface/client/secretaria/reporte_matricula');
+  const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
+  res.render('interface/client/secretaria/reporte_matricula', { aniolectivo: aniolectivo });
 });//Cargar la opcion reporte-matricula
 //Rutas Paginas
 //Api
 
-router.get('/api/imprimir_matricula', isLoggedIn, (req, res) => {
+router.get('/api/imprimir_matricula', isLoggedIn, async (req, res) => {
   const datos = req.query.matricula;
+  const materias_prof = await pool.query(`call sp_mostrarMateriasyProfesor(${datos.id_grupo})`);
   const stream = res.writeHead(200, {
     "Content-Type": "application/pdf",
     "Content-Disposition": "attachment; filename=invoice.pdf",
   });
-  buildPDF(
+  hojaMatricula(
     (data) => stream.write(data),
-    () => stream.end(), datos
+    () => stream.end(), datos, [materias_prof]
   );
 });
-
-router.get('/api/reporte_matricula', isLoggedIn, (req, res) => {
+router.get('/api/reporte_matricula', isLoggedIn, async (req, res) => {
+  const datos = req.query.aniolectivo;
+  const datosFormato = datos.join(',');
+  //console.log(datosFormato);
+  const datosGeneral = await pool.query(`call sp_matriculaporAnio(?)`, [datosFormato]);
   const stream = res.writeHead(200, {
     "Content-Type": "application/pdf",
     "Content-Disposition": "attachment; filename=invoice.pdf",
   });
   reporteMatricula(
     (data) => stream.write(data),
-    () => stream.end()
+    () => stream.end(), [datosGeneral]
   );
 });
 router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria'),
@@ -63,7 +68,7 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
         if (regex.test(value) === false && value != "") {
           throw new Error('Formato incorrecto');
         } else { return true; }
-    })
+      })
       .custom(async (value, { req }) => {
         const correo_e_tutor = await pool.query('select correo_e from tutor where correo_e = ?', value);
         if (correo_e_tutor[0].length > 0 && req.body.aux === 0 && value != "") {
@@ -84,13 +89,16 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
-    body('sexo_tutor').notEmpty().withMessage('Falta seleccionar!'),
     body('relacion_tutor').notEmpty().withMessage('Falta seleccionar!'),
     body('telefono_tutor').notEmpty().withMessage('Esta vacío!')
-      .isInt().withMessage('Solo se aceptan numeros enteros')
-      .isLength({ min: 8 }).withMessage('Tiene que ingresar 8 digitos')
       .custom(async (value, { req }) => {
-        const telefono_tutor = await pool.query('select telefono from tutor where telefono= ?', value);
+      const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+      if (regex.test(value) === false) {
+        throw new Error('Solo número con 8 digitos!');
+      } else { return true; }
+    })
+      .custom(async (value, { req }) => {
+        const telefono_tutor = await pool.query('select telefono from tutor where telefono = ?', value);
         if (telefono_tutor[0].length > 0 && req.body.aux === 0) {
           throw new Error('Ya esta registrado!');
         } else { return true; }
@@ -117,40 +125,42 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
         if (regex.test(value) === false) {
           throw new Error('Formato incorrecto');
         } else { return true; }
+      }).custom(async value => {
+        const searchcodigoEst = await pool.query('select codigoEst from estudiante where codigoEst = ?', value);
+        if (searchcodigoEst[0].length > 0 && value != '') {
+          throw new Error('Ya esta registrado!');
+        } else { return true; }
       }),
     body('cedula_est')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_madre = req.body.cedula_madre;
+        const cedula_padre = req.body.cedula_padre;
+        if ((value === cedula_tutor || value === cedula_madre || value === cedula_padre) && value != "") {
+          throw new Error('La cédula es igual a la del tutor, madre o padre!');
+        } else { return true; }
+      })
       .custom(value => {
         const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
         if (regex.test(value) === false && value != "") {
           throw new Error('Formato de cédula incorrecto');
         } else { return true; }
-      })
-      // .custom(async (value, { req }) => {
-      //   const cedula_tutor = await pool.query('select cedula from tutor where cedula = ?', value);
-      //   if (req.body.id_tutor) {
-      //     const id_tutor = req.body.id_tutor;
-      //     const tutor = await pool.query(`select id_tutor
-      //                                     from tutor where cedula = ? and id_tutor = ?`, [value, id_tutor]);
-      //     if (cedula_tutor[0].length > 0 && tutor[0].length === 0) {
-      //       throw new Error('Ya esta registrado!');
-      //     } else { return true; }
-      //   }
-      // })
-      .custom(async (value, { req }) => {
-        if (value === req.body.cedula_tutor && value != "") {
-          throw new Error('La cédula es igual a la del tutor!');
+      }).custom(async value => {
+        const searchcedulaEst = await pool.query('select cedulaEst from estudiante where cedulaEst = ?', value);
+        if (searchcedulaEst[0].length > 0 && value != '') {
+          throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
-    body('registroNac_est').notEmpty().withMessage('Esta vacío!')
+    body('registroNac_est')
       .custom(value => {
         const regex = /^\d{2,4}-\d{2,4}-\d{2,4}$/g;
-        if (regex.test(value) === false) {
+        if (regex.test(value) === false && value != '') {
           throw new Error('Formato incorrecto');
         } else { return true; }
       })
       .custom(async value => {
         const searchRegistroNac = await pool.query('select registroNac from estudiante where registroNac = ?', value);
-        if (searchRegistroNac[0].length > 0) {
+        if (searchRegistroNac[0].length > 0 && value != '') {
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
@@ -160,24 +170,149 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
     body('lengua_est').notEmpty().withMessage('Falta seleccionar!'),
     body('discapacidad_est').notEmpty().withMessage('Falta seleccionar!'),
     body('telefono_est')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_madre = req.body.telefono_madre;
+        const telefono_padre = req.body.telefono_padre;
+        if ((value === telefono_tutor || value === telefono_madre || value === telefono_padre) && value != "") {
+          throw new Error('Este número es el mismo del tutor, madre o padre!');
+        } else { return true; }
+      })
       .custom(async (value, { req }) => {
-        const regex = /^\d{2,4}-\d{2,4}-\d{2,4}$/g;
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
         if (regex.test(value) === false && value != "") {
           throw new Error('Solo número con 8 digitos!');
-        } else { return true; }
-    })
-      .custom(async (value, { req }) => {
-        if (value === req.body.telefono_tutor && value != "") {
-          throw new Error('Este número es el mismo del tutor!');
         } else { return true; }
       }),
     body('lugarNac_est').notEmpty().withMessage('Esta vacío!'),
     body('nacionalidad_est').notEmpty().withMessage('Esta vacío!'),
     body('direccionDom_est').notEmpty().withMessage('Esta vacío!'),
+    body('nombres_madre')
+      .custom((value, { req }) => {
+        const cedula_madre = req.body.cedula_madre;
+        const telefono_madre = req.body.telefono_madre;
+
+        if ((cedula_madre != '' || telefono_madre != '') && value === '') {
+          throw new Error('Esta vacío!');
+        } else { return true; }
+      })
+      .custom((value, { req }) => {
+        const nombres_tutor = req.body.nombres_tutor;
+        const nombres_padre = req.body.nombres_padre;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === nombres_tutor || value === nombres_padre) && relacion_tutor != 'Madre' && value != '') {
+          throw new Error('Tienes el mismo nombre del tutor o padre!');
+        } else if ((value === nombres_padre) && relacion_tutor === 'Madre' && value != "") {
+          throw new Error('Tienes el mismo nombre del padre!');
+        }
+        else { return true; }
+      })
+      .custom(value => {
+        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
+        if (regex.test(value) === false && value != '') {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('cedula_madre')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_padre = req.body.cedula_padre;
+        const cedula_est = req.body.cedula_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === cedula_tutor || value === cedula_padre || value === cedula_est)
+          && relacion_tutor != 'Madre' && value != "") {
+          throw new Error('La cédula es igual a la del tutor, padre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      }),
+    body('telefono_madre')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_padre = req.body.telefono_padre;
+        const telefono_est = req.body.telefono_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === telefono_tutor || value === telefono_padre || value === telefono_est)
+          && relacion_tutor != 'Madre' && value != "") {
+          throw new Error('El telefono es igual a la del tutor, padre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }),
+    body('nombres_padre')
+      .custom((value, { req }) => {
+        const cedula_padre = req.body.cedula_padre;
+        const telefono_padre = req.body.telefono_padre;
+        if ((cedula_padre != '' || telefono_padre != '') && value === '') {
+          throw new Error('Esta vacío!');
+        } else { return true; }
+      })
+      .custom((value, { req }) => {
+        const nombres_tutor = req.body.nombres_tutor;
+        const nombres_madre = req.body.nombres_madre;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === nombres_tutor || value === nombres_madre) && relacion_tutor != 'Padre' && value != '') {
+          throw new Error('Tienes el mismo nombre del tutor o madre!');
+        } else if ((value === nombres_madre) && relacion_tutor === 'Padre' && value != "") {
+          throw new Error('Tienes el mismo nombre de la madre!');
+        }
+        else { return true; }
+      })
+      .custom(value => {
+        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
+        if (regex.test(value) === false && value != '') {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('cedula_padre')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_madre = req.body.cedula_madre;
+        const cedula_est = req.body.cedula_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === cedula_tutor || value === cedula_madre || value === cedula_est)
+          && relacion_tutor != 'Padre' && value != "") {
+          throw new Error('La cédula es igual a la del tutor, madre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      }),
+    body('telefono_padre')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_madre = req.body.telefono_madre;
+        const telefono_est = req.body.telefono_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === telefono_tutor || value === telefono_madre || value === telefono_est)
+          && relacion_tutor != 'Padre' && value != "") {
+          throw new Error('El telefono es igual a la del tutor, madre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }),
     body('modalidad_est').notEmpty().withMessage('Falta seleccionar!'),
     body('nivel_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('repitente_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('trasladado_est').notEmpty().withMessage('Falta seleccionar!'),
     body('grupo_nuevoIngreso').notEmpty().withMessage('Falta seleccionar!')
   ], (req, res) => {
+    console.log(req.body);
     const error = validationResult(req);
     if (!error.isEmpty()) {
       res.send({ errors: error.array({ onlyFirstError: true }), status: true });
@@ -244,7 +379,8 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
     //Buscador datos
     var search_value = search['value'].trim();
     var search_query = `
-    AND (id_estudiante LIKE '%${search_value}%' 
+    AND (id_estudiante LIKE '%${search_value}%'
+    OR codigo_est LIKE '%${search_value}%'
     OR nombres_est LIKE '%${search_value}%' 
     OR apellidos_est LIKE '%${search_value}%'
     OR registroNac_est LIKE '%${search_value}%'
@@ -268,20 +404,18 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
         'id_estudiante': row.id_estudiante,
         'nombres_est': row.nombres_est,
         'apellidos_est': row.apellidos_est,
+        'codigo_est': row.codigo_est,
         'registroNac_est': row.registroNac_est,
         'fechaNac_est': row.fechaNac_est.toLocaleDateString(),
         'sexo_est': row.sexo_est,
         'estado_est': row.estado_est,
         'fechaReg_est': row.fechaReg_est.toLocaleDateString(),
-        'tutor': row.nombres_tutor + ' ' + row.apellidos_tutor,
         'id_tutor': row.id_tutor,
         'nombres_tutor': row.nombres_tutor,
-        'apellidos_tutor': row.apellidos_tutor,
         'cedula_tutor': row.cedula_tutor,
         'correo_e_tutor': row.correo_e_tutor,
-        'sexo_tutor': row.sexo_tutor,
         'telefono_tutor': row.telefono_tutor,
-        'direccion_tutor': row.direccion_tutor,
+        'direccion_tutor': row.direccion_trab,
         //'turno': row.turno
       });//Agregamos al arreglo todos los campos que queremos que contenga la data
     });
@@ -307,8 +441,7 @@ router.get('/api/tutor_disponible', isLoggedIn, checkRol('Secretaria'), async (r
     var search_value = search['value'].trim();
     var search_query = `
     AND (id_tutor LIKE '%${search_value}%' 
-    OR nombres LIKE '%${search_value}%' 
-    OR apellidos LIKE '%${search_value}%'
+    OR nombres LIKE '%${search_value}%'
     OR cedula LIKE '%${search_value}%')`;
     //Número total de registros sin filtrar
     var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM vw_tutorRecientes");
@@ -328,12 +461,11 @@ router.get('/api/tutor_disponible', isLoggedIn, checkRol('Secretaria'), async (r
       data_arr.push({
         'id_tutor': row.id_tutor,
         'nombres': row.nombres,
-        'apellidos': row.apellidos,
         'cedula': row.cedula,
         'correo_e': row.correo_e,
-        'sexo': row.sexo,
         'telefono': row.telefono,
-        'direccion': row.direccion,
+        'ocupacion': row.ocupacion,
+        'direccion_trab': row.direccion_trab,
       });//Agregamos al arreglo todos los campos que queremos que contenga la data
     });
 
@@ -362,7 +494,7 @@ router.post('/api/mostrar_grupo', isLoggedIn, checkRol('Secretaria'), async (req
   res.send(grupo_est[0]);
 });//Metodo para mostrar los grupos disponibles
 router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  const { id_estudiante, grupo, correo_usuario } = req.body;
+  const { id_estudiante, repitente, traslado, grupo, correo_usuario } = req.body;
   const verif_matricula = await pool.query(`select M.id_matricula from matricula as M 
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
@@ -373,8 +505,8 @@ router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), asyn
     try {
       const id_aniolectivo = await pool.query(`select id_aniolectivo from aniolectivo where anio = year(now());`);
       const id_secretaria = await pool.query(`select id_usuario from usuario where correo_e = ?`, correo_usuario);
-      await pool.query(`insert into matricula(id_estudiante_fk, id_aniolectivo_fk, id_usuario_fk, id_detallegrupo_fk)
-                        values(?,?,?,?)`, [id_estudiante, id_aniolectivo[0][0].id_aniolectivo, id_secretaria[0][0].id_usuario, grupo]);
+      await pool.query(`insert into matricula(repitente, traslado, id_estudiante_fk, id_aniolectivo_fk, id_usuario_fk, id_detallegrupo_fk)
+                        values(?,?,?,?,?,?)`, [repitente, traslado, id_estudiante, id_aniolectivo[0][0].id_aniolectivo, id_secretaria[0][0].id_usuario, grupo]);
       res.send({ success: true });
     } catch (error) {
       console.log(error);
@@ -383,19 +515,50 @@ router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), asyn
 });//Metodo para matricula de reingreso
 router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const datosForm = req.body;
+  var correo_tutor = req.body.correo_tutor
+  var telefono_madre = req.body.telefono_madre
+  var telefono_padre = req.body.telefono_padre
+  var registroNac_est = req.body.registroNac_est
+  var cedula_est = req.body.cedula_est
+  var telefono_est = req.body.telefono_est
+  if(correo_tutor === ''){correo_tutor = null;}
+  if(telefono_madre === ''){telefono_madre = null;}
+  if(telefono_padre === ''){telefono_padre = null;}
+  if(telefono_est === ''){telefono_est = null;}
+  if(registroNac_est === ''){registroNac_est = null;}
+  if(cedula_est === ''){cedula_est = null;}
   const datos = [
-    datosForm.nombres_tutor,//tutor
-    datosForm.apellidos_tutor,
+    datosForm.nombres_tutor,//Tutor
     datosForm.cedula_tutor,
-    datosForm.correo_e_tutor,
-    datosForm.sexo_tutor,
+    correo_tutor,
     datosForm.telefono_tutor,
+    datosForm.ocupacion_tutor,
     datosForm.direccion_tutor,
     datosForm.nombres_est,//Estudiante
     datosForm.apellidos_est,
-    datosForm.registroNac_est,
+    datosForm.codigo_est,
+    cedula_est,
+    registroNac_est,
     datosForm.fechaNac_est,
     datosForm.sexo_est,
+    datosForm.etnia_est,
+    datosForm.lengua_est,
+    datosForm.discapacidad_est,
+    telefono_est,
+    datosForm.lugarNac_est,
+    datosForm.nacionalidad_est,
+    datosForm.direccionDom_est,
+    datosForm.relacion_tutor,
+    datosForm.nombres_madre,
+    datosForm.cedula_madre,
+    telefono_madre,
+    datosForm.nombres_padre,
+    datosForm.cedula_padre,
+    telefono_padre,
+    datosForm.modalidad_est,
+    datosForm.nivel_est,
+    datosForm.repitente_est,
+    datosForm.trasladado_est,
     datosForm.grupo_nuevoIngreso,
     datosForm.correo_usuario,
     datosForm.aux
@@ -403,12 +566,12 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
   const verif_matricula = await pool.query(`select M.id_matricula from matricula as M 
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
-                                            where E.registroNac = ? and AL.anio = year(now());`, datosForm.registroNac_est);
+                                            where E.codigoEst = ? and AL.anio = year(now());`, datosForm.codigo_est);
   if (verif_matricula[0].length > 0) {
     res.send({ success: false });
   } else {
     try {
-      await pool.query('call sp_matriculaNuevoIngreso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', datos);
+      await pool.query('call sp_matriculaNuevoIngreso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', datos);
       res.send({ success: true });
     } catch (error) {
       console.log(error);
@@ -427,6 +590,7 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
     AND (id_matricula LIKE '%${search_value}%' 
     OR nombres_est LIKE '%${search_value}%' 
     OR apellidos_est LIKE '%${search_value}%'
+    OR codigo_est LIKE '%${search_value}%'
     OR registroNac_est LIKE '%${search_value}%'
     OR cedula_tutor LIKE '%${search_value}%')`;
     //Número total de registros sin filtrar
@@ -446,17 +610,19 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
     Data3.forEach(function (row) {
       data_arr.push({
         'id_matricula': row.id_matricula,
+        'repitente_est': row.repitente,
+        'traslado_est': row.traslado,
         'nombres_est': row.nombres_est,
         'apellidos_est': row.apellidos_est,
+        'codigo_est': row.codigo_est,
         'registroNac_est': row.registroNac_est,
         'fechaNac_est': row.fechaNac_est.toLocaleDateString(),
         'sexo_est': row.sexo_est,
         'nivel_est': row.nivel_est,
+        'direccion_est': row.nivel_est,
         'nombres_tutor': row.nombres_tutor,
-        'apellidos_tutor': row.apellidos_tutor,
         'cedula_tutor': row.cedula_tutor,
         'correo_e_tutor': row.correo_e_tutor,
-        'sexo_tutor': row.sexo_tutor,
         'telefono_tutor': row.telefono_tutor,
         'direccion_tutor': row.direccion_tutor,
         'nivel_grado': row.nivel_grado,
@@ -492,11 +658,14 @@ router.post('/api/eliminar_matricula', isLoggedIn, checkRol('Secretaria'), async
 router.post('/api/editar_matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const datos_matriculaEdit = req.body;
   const datos = [
+    datos_matriculaEdit.repitente,
+    datos_matriculaEdit.traslado,
     datos_matriculaEdit.id_grupo,
     datos_matriculaEdit.id_matricula
   ];
   try {
-    await pool.query(`UPDATE matricula SET id_detallegrupo_fk = ? WHERE id_matricula = ?`, datos);
+    await pool.query(`UPDATE matricula SET repitente = ? , traslado = ? , 
+                      id_detallegrupo_fk = ? WHERE id_matricula = ?`, datos);
     res.send({ success: true });
   } catch (error) {
     console.log(error);

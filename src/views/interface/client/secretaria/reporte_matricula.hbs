@@ -21,7 +21,7 @@
               <div class="col-md-12">
                 <div class="card shadow bg-body-tertiary rounded">
                   <div class="card-header color-background">
-                    <h4 class="text-white text-center fw-semibold m-0">Configuración de Filtro:</h4>
+                    <h4 class="text-white text-center fw-semibold m-0">Tipos de Reportes:</h4>
                   </div>
                   <div class="card-body">
                     <div class="row g-3">
@@ -30,35 +30,21 @@
                         <div class="card mb-2">
                           <div class="card-body">
                             <div class="row g-3 align-items-center" id="form-aniolectivo">
-                              <h4 class="card-title text-center border-bottom border-primary">Estudiantes Matriculados
+                              <h4 class="card-title text-center border-bottom border-primary">Número de Estudiantes Matriculados
                               </h4>
-                              {{!-- <div class="col-auto">
-                                <label for="inputState" class="col-form-label">¿Cual año lectivo
-                                  necesita?:</label>
-                              </div>
-                              <div class="col-auto">
-                                <select class="form-select border-secondary" name="tipo_aniolectivo"
-                                  id="tipo_aniolectivo">
-                                  <option selected disabled value="">Elegir...</option>
-                                  <option value="1">Todos</option>
-                                  <option value="2">Específico</option>
-                                </select>
-                                <div class="invalid-tooltip">
-                                  ¡Error!
-                                </div>
-                              </div> --}}
-
                               <div class="col g-3 align-items-center">
                                 <div class="col-auto">
                                   <label for="inputState" class="col-form-label">Seleccione los años lectivos:</label>
                                 </div>
                                 <div class="col-auto">
-                                  <select class="form-select border-secondary" name="tipo_aniolectivo"
-                                    id="tipo_aniolectivo">
+                                  <select class="form-select border-secondary" name="aniolectivo"
+                                    id="aniolectivo">
                                     <option selected disabled value="">Elegir...</option>
-                                    <option value="1">2024</option>
-                                    <option value="2">2023</option>
-                                    <option value="3">2022</option>
+                                    {{#if aniolectivo}}
+                                    {{#each aniolectivo}}
+                                    <option value={{this.anio}}>{{this.anio}}</option>
+                                    {{/each}}
+                                    {{/if}}
                                   </select>
                                   <div class="invalid-tooltip">
                                     ¡Error!
@@ -72,57 +58,16 @@
                                 </div>
                                 <div class="col-auto">
                                   <div style="overflow-x: auto;">
-                                    <ul class="d-inline-flex flex-row p-0">
-                                      <li class="badge rounded-pill text-bg-info mx-1"
-                                        style="list-style: none; font-size: 0.9rem;">
-                                        <div class="m-2">
-                                          <a class="link-dark" href="#" style="text-decoration: none;">2024
-                                            <i class="fa-solid fa-xmark"></i>
-                                          </a>
-                                        </div>
-                                      </li>
-                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
-                                        <div class="m-2">
-                                          <a class="link-dark" href="#"
-                                            style="text-decoration: none; font-size: 0.9rem;">2023
-                                            <i class="fa-solid fa-xmark"></i>
-                                          </a>
-                                        </div>
-                                      </li>
-                                      <li class="badge rounded-pill text-bg-info mx-1" style="list-style: none;">
-                                        <div class="m-2">
-                                          <a class="link-dark" href="#"
-                                            style="text-decoration: none; font-size: 0.9rem;">2022
-                                            <i class="fa-solid fa-xmark"></i>
-                                          </a>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row g-3 align-items-center" id="form-modalidad">
-                                <div class="col-auto">
-                                  <label for="inputState" class="col-form-label">¿Algún filtro en especifico?:</label>
-                                </div>
-                                <div class="col-auto">
-                                  <select class="form-select border-secondary" name="tipo_modalidad"
-                                    id="tipo_modalidad">
-                                    <option selected disabled value="">Elegir...</option>
-                                    <option value="ninguno">Ninguno</option>
-                                    <option value="sexo">Sexo</option>
-                                    <option value="etnia">Pueblo indigena, Afrodescendiente ó etnia:</option>
-                                    <option value="lengua">Lengua Materna</option>
-                                    <option value="discapacidad">Discapacidad</option>
-                                  </select>
-                                  <div class="invalid-tooltip">
-                                    ¡Error!
+                                    <ul class="d-inline-flex flex-row p-0" id="cargar-anios"></ul>
                                   </div>
                                 </div>
                               </div>
 
                               <div class="text-center pt-3">
+                                <button class="btn btn-danger d-none" type="button" id="btn-loading" disabled>
+                                  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                  <span role="status">Loading...</span>
+                                </button>
                                 <button class="btn btn-danger btn-block" id="btn-generar-reporte">
                                   Generar
                                   <i class="fa-regular fa-file-pdf px-2"></i></button>
@@ -132,8 +77,6 @@
                           </div>
                         </div>
                       </div>
-
-
                       {{!-- <div class="col-md-6">
                         <!--formulario nivel/grupo-->
                         <div class="card mb-2">
@@ -213,9 +156,6 @@
                           </div>
                         </div>
                       </div> --}}
-
-
-
                     </div>
                   </div>
                 </div>

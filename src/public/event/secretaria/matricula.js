@@ -1,7 +1,9 @@
 //Matricula reingreso
 const name_estudiante = document.getElementById('name-estudiante');
-const direccion = document.getElementById('direccion');
+const codigo_est_reingreso = document.getElementById('codigo-est-reingreso');
 const name_tutor = document.getElementById('name-tutor');
+var repitente_est_reingreso = document.getElementById('repitente-est-reingreso');
+var trasladado_est_reingreso = document.getElementById('trasladado-est-reingreso');
 var modalidad_reingreso = document.getElementById('modalidad-reingreso');
 var nivel_reingreso = document.getElementById('nivel-reingreso');
 var grupo_reingreso = document.getElementById('grupo-reingreso');
@@ -45,7 +47,11 @@ const nacionalidad_est = document.getElementById('nacionalidad-est');
 const direccionDom_est = document.getElementById('direccionDom-est');
 const modalidad_est = document.getElementById('modalidad-est');
 const nivel_est = document.getElementById('nivel-est');
+const repitente_est = document.getElementById('repitente-est');
+const trasladado_est = document.getElementById('trasladado-est');
+const checkTrasladadoNuevo_est = document.getElementById('checkTrasladadoNuevo-est');
 const grupo_nuevoIngreso = document.getElementById('grupo-nuevoIngreso');
+
 var turno_nuevoIngreso = document.getElementById('turno-nuevoIngreso');
 const form_estudiante = document.getElementById('form-estudiante');
 var datos_formNuevoingreso = {};
@@ -53,9 +59,11 @@ var aux = 0;
 
 //Variables globales para editar matricula estudiante
 const nombre_est_edit = document.getElementById('nombre-est-edit');
-const registroNac_est_edit = document.getElementById('registroNac-est-edit');
+const codigo_est_edit = document.getElementById('codigo-est-edit');
 const fechaNac_est_edit = document.getElementById('fechaNac-est-edit');
 const sexo_est_edit = document.getElementById('sexo-est-edit');
+const repitente_est_edit = document.getElementById('repitente-est-edit');
+const trasladado_est_edit = document.getElementById('trasladado-est-edit');
 const grupoactual_est_edit = document.getElementById('grupoactual-est-edit');
 const modalidad_est_edit = document.getElementById('modalidad-est-edit');
 const nivel_est_edit = document.getElementById('nivel-est-edit');
@@ -75,17 +83,17 @@ $('#estudianteModal').on('show.bs.modal', function () {
         },
         aaSorting: [],
         columns: [
-            { data: "id_estudiante" },
+            { data: "codigo_est" },
             { data: "nombres_est" },
             { data: "apellidos_est" },
             { data: "estado_est" },
-            { data: "tutor" },
+            { data: "nombres_tutor" },
             { data: "cedula_tutor" },
             { defaultContent: `<button type="button" class="buscar btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>` }
         ],
         columnDefs: [
             {
-                className: "text-center", targets: [0,6]
+                className: "text-center", targets: [0, 6]
             }
         ],
         destroy: true,
@@ -135,22 +143,30 @@ $('#estudianteModal').on('show.bs.modal', function () {
         $('#dt_estudiante').on("click", "td:not(:first-child)", function () {
             select_row = table_estudiante.row(this).data();
             if (typeof select_row != 'undefined')
-                console.log(select_row);
+             console.log(select_row);
         })
     }; //Seleccionar la fila
     $('#btn-aceptar-est').on('click', function () {
         if (typeof select_row != 'undefined') {
             name_estudiante.value = select_row.nombres_est + ' ' + select_row.apellidos_est;
-            direccion.value = select_row.direccion_tutor;
-            name_tutor.value = select_row.tutor;
+            codigo_est_reingreso.value = select_row.codigo_est;
+            name_tutor.value = select_row.nombres_tutor;
             turno_reingreso.value = 'Matutino';
-            $('#modalidad-reingreso').prop('disabled', false);
+            $('#modalidad-reingreso, #repitente-est-reingreso, #trasladado-est-reingreso').prop('disabled', false);
         }
     });
 }); //Cargar dt_estudiante dentro del Modal
 $('#btn_buscarEstudiantes').on('click', function () {
     limpiar_FormReingreso();
 });//Antes de buscar limpio el formulario matricula de reingreso
+$("#trasladado-est-reingreso").on('change', function () {
+    const trasladadohojas_est = $('#trasladado-est-reingreso').val();
+    if (trasladadohojas_est === 'Si') {
+        $("#hojasTrasladoReingreso").removeClass('d-none');
+    } else {
+        $("#hojasTrasladoReingreso").addClass('d-none');
+    }
+});// Habilitar y Deshabilitar el check para las 2 hojas de traslado en matricula nuevo ingreso
 $('#modalidad-reingreso').on('change', function () {
     const id_modalidad = $('#modalidad-reingreso').val();
     $('#nivel-reingreso').prop('disabled', false);
@@ -174,6 +190,8 @@ $('#btn-matricula_reingreso').on('click', function (e) {
                 e.preventDefault();
                 datos_formReingreso = {
                     id_estudiante: select_row.id_estudiante,
+                    repitente: repitente_est_reingreso.value,
+                    traslado: trasladado_est_reingreso.value,
                     grupo: parseInt(grupo_reingreso.value),
                     correo_usuario: correo_usuario.value
                 }
@@ -181,7 +199,7 @@ $('#btn-matricula_reingreso').on('click', function (e) {
             });//Evento del boton aceptar modal para permitir el ingreso de la matricula del estudiante
         }
     }
-    const elements = ['#modalidad-reingreso', '#nivel-reingreso', '#grupo-reingreso'];
+    const elements = ['#repitente-est-reingreso', '#trasladado-est-reingreso', '#modalidad-reingreso', '#nivel-reingreso', '#grupo-reingreso'];
     elements.forEach(selector => {
         $(selector).on('change', function () {
             this.classList.remove('is-invalid');
@@ -199,19 +217,24 @@ $("#checkTutor").change(function () {
     } else {
         $("#btn-buscarTutor").prop('disabled', true);
         $('#form-tutor input, #form-tutor select').prop('disabled', false);
+        $('#relacion-tutor').prop('disabled', true);
+        $("#fieldsetMadre, #fieldsetPadre").addClass('d-none');
         aux = 0;
     }
     $("#form-tutor input, #form-tutor select").val('');
+    $("#form-madre input, #form-madre select").val('');
+    $("#form-padre input, #form-padre select").val('');
     cleanAll_Errors(form_tutor);
+    cleanAll_Errors(form_madre);
+    cleanAll_Errors(form_padre);
 });// Habilitar y Deshabilitar el boton de buscar tutor y formulario tutor
 //Opcion Matricula de nuevo ingreso del nav tab
-$("#checkTrasladoNuevo").change(function () {
-    if ($(this).is(':checked')) {
+$("#trasladado-est").on('change', function () {
+    const trasladadohojas_est = $('#trasladado-est').val();
+    if (trasladadohojas_est === 'Si') {
         $("#hojasTrasladoNuevo").removeClass('d-none');
-        //aux = 1;
     } else {
         $("#hojasTrasladoNuevo").addClass('d-none');
-        //aux = 0;
     }
 });// Habilitar y Deshabilitar el check para las 2 hojas de traslado en matricula nuevo ingreso
 $('#tutorModal').on('show.bs.modal', function () {
@@ -228,7 +251,6 @@ $('#tutorModal').on('show.bs.modal', function () {
         columns: [
             { data: "id_tutor" },
             { data: "nombres" },
-            { data: "apellidos" },
             { data: "cedula" },
         ],
         columnDefs: [
@@ -289,14 +311,15 @@ $('#tutorModal').on('show.bs.modal', function () {
     $('#btn-aceptar-tutor').on('click', function () {
         if (typeof select_row != 'undefined') {
             nombres_tutor.value = select_row.nombres;
-            apellidos_tutor.value = select_row.apellidos;
             cedula_tutor.value = select_row.cedula;
             correo_tutor.value = select_row.correo_e;
-            sexo_tutor.value = select_row.sexo;
+            ocupacion_tutor.value = select_row.ocupacion;
             telefono_tutor.value = select_row.telefono;
-            direccion_tutor.value = select_row.direccion;
+            direccion_tutor.value = select_row.direccion_trab;
         }
         cleanAll_Errors(form_tutor);
+        $('#relacion-tutor').prop('disabled', false);
+        $("#fieldsetMadre, #fieldsetPadre").removeClass('d-none');
     });
 });//Cargar dt_tutor dentro del Modal
 $('#modalidad-est').on('change', function () {
@@ -317,10 +340,10 @@ $('#btn-matriculaNuevo').on('click', function (e) {
         nombres_tutor: nombres_tutor.value.trim(),//Tutor
         cedula_tutor: cedula_tutor.value.trim(),
         correo_e_tutor: correo_tutor.value.trim(),
-        relacion_tutor: relacion_tutor.value,
         telefono_tutor: telefono_tutor.value.trim(),
         ocupacion_tutor: ocupacion_tutor.value,
         direccion_tutor: direccion_tutor.value.trim(),
+        relacion_tutor: relacion_tutor.value,
         nombres_est: nombres_est.value.trim(),//Estudiante
         apellidos_est: apellidos_est.value.trim(),
         codigo_est: codigo_est.value.trim(),
@@ -335,18 +358,103 @@ $('#btn-matriculaNuevo').on('click', function (e) {
         lugarNac_est: lugarNac_est.value.trim(),
         nacionalidad_est: nacionalidad_est.value.trim(),
         direccionDom_est: direccionDom_est.value.trim(),
+        nombres_madre: nombres_madre.value.trim(),
+        cedula_madre: cedula_madre.value.trim(),
+        telefono_madre: telefono_madre.value.trim(),
+        nombres_padre: nombres_padre.value.trim(),
+        cedula_padre: cedula_padre.value.trim(),
+        telefono_padre: telefono_padre.value.trim(),
         modalidad_est: modalidad_est.value.trim(),
         nivel_est: nivel_est.value.trim(),
+        repitente_est: repitente_est.value,
+        trasladado_est: trasladado_est.value,
         grupo_nuevoIngreso: grupo_nuevoIngreso.value,
         correo_usuario: correo_usuario.value,
         aux: aux
     };//Body para mandarlo con el axios
     validarFormularios(datos_formNuevoingreso);
     $("input[type='text'], input[type='date']").on('input', limpiarErrores);
-    $('#sexo-tutor, #relacion-tutor, #sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #modalidad-est, #nivel-est, #grupo-nuevoIngreso').on('change', limpiarErrores);
+    $('#sexo-tutor, #relacion-tutor, #sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #modalidad-est, #nivel-est, #grupo-nuevoIngreso, #repitente-est, #trasladado-est').on('change', limpiarErrores);
 });//Boton para matricular estudiante de nuevo ingreso
 
+$("#nombres-tutor, #cedula-tutor, #telefono-tutor").on('input', function () {
+    if (nombres_tutor.value != '' && cedula_tutor.value != '') {
+        $('#relacion-tutor').prop('disabled', false);
+    }
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+    }
+});//Cada vez que modifico el nombre, cedula y telefono del tutor me permitira visualizar los campos de los padres
+$('#nombres-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#nombres-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#nombres-padre');
+    }
+});//Limpiar el input nombres-madre o nombres-padre al hacer un input en nombres-tutor
+$('#cedula-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#cedula-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#cedula-padre');
+    }
+});//Limpiar el input cedula-madre o cedula-padre al hacer un input en cedula-tutor
+$('#telefono-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#telefono-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#telefono-padre');
+    }
+});//Limpiar el input telefono-madre o telefono-padre al hacer un input en telefono-tutor
+$('#relacion-tutor').on('change', function () {
+    var inputMadreDes = $('#nombres-madre').prop('disabled');
+    var inpuPadreDes = $('#nombres-padre').prop('disabled');
+    $("#fieldsetMadre, #fieldsetPadre").removeClass('d-none');
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', true);
+        cleanAll_Errors(form_madre);
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', true);
+        cleanAll_Errors(form_padre);
+    }
+    if (inputMadreDes) {
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', false)
+        $("#form-madre").find('#nombres-madre, #cedula-madre, #telefono-madre').val('');
+        cleanAll_Errors(form_madre);
+    }
+    if (inpuPadreDes) {
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', false)
+        $("#form-padre").find('#nombres-padre, #cedula-padre, #telefono-padre').val('');
+        cleanAll_Errors(form_padre);
+    }
+});//Cada vez que hago un cambio en mi select relacion-estudiante se agregara la informacion de la madre o padre asignado como tutor
+$("#cedula-madre, #telefono-madre").on('input', function () {
+    limpiarErrorEspecial('#nombres-madre');
+});//Limpiamos nombres-madre, telefono-est y cedula-est
+$("#cedula-padre, #telefono-padre").on('input', function () {
+    limpiarErrorEspecial('#nombres-padre');
+});//Limpiamos nombres-padre, telefono-est y cedula-est
+
+
 //Opcion Historial del nav tab
+
 $('#historial-tab').on('shown.bs.tab', function (e) {
     e.preventDefault();
     tabla_matricula.ajax.url(url).load();//Recarga el dt_matriculas_recientes
@@ -354,15 +462,18 @@ $('#historial-tab').on('shown.bs.tab', function (e) {
 
 //Funciones de Matricula de nuevo ingreso
 async function validarFormularios(datosForm) {
+    cleanAll_Errors(form_tutor);
+    cleanAll_Errors(form_madre);
+    cleanAll_Errors(form_padre);
+    cleanAll_Errors(form_estudiante);
     try {
         const response = await axios.post('/api/verificar_tutorEstudiante', datosForm);
         const datosErrores = response.data;
-        if (datosErrores.status === true) { 
+        if (datosErrores.status === true) {
             respuestaServidor(datosErrores);
             showToast('danger', 'bi bi-exclamation-circle-fill', 'Faltan llenar algunos campos obligatorios!');
         }
-        else { //matricula_NuevoIngreso(datosForm);
-             }
+        else { matricula_NuevoIngreso(datosForm);}
     } catch (error) { console.log('Error', error.message); }
 };//Mandamos a evaluar con el express-validator
 function mostrarNivel(id_modalidad, id_select) {
@@ -397,6 +508,11 @@ function respuestaServidor(dataErrors) {
         return true;
     }
 };//Funcion para mostrar los errores en caso de que existan
+function limpiarErrorEspecial(id_input) {
+    $(id_input).removeClass('is-invalid');
+    $(id_input).removeClass('border-danger');
+    $(id_input).addClass('border-secondary');
+}//Funcion para limpiar un error cuando se modifica desde otro input
 function limpiarErrores() {
     $(this).removeClass('is-invalid');
     $(this).removeClass('border-danger');
@@ -413,11 +529,18 @@ function cleanAll_Errors(form) {
 function limpiar_FormNuevoingreso() {
     if (aux === 0) {
         $("#formulario-matricula input, #formulario-matricula select").val('');
+        $("#form-matriculaNuevo input, #form-matriculaNuevo select").val('');
     } else {
         $("#form-estudiante input, #form-estudiante select").val('');
+        $("#form-madre input, #form-madre select").val('');
+        $("#form-padre input, #form-padre select").val('');
+        $("#form-matriculaNuevo input, #form-matriculaNuevo select").val('');
+        $('#relacion-tutor').val('');
     }
     $('#nivel-est').prop('disabled', true);
     $('#grupo-nuevoIngreso').prop('disabled', true);
+    $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', false);
+    $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', false);
     select_row = '';
 };//Limpia los inputs de matricula de nuevo ingreso
 function matricula_NuevoIngreso(matricula) {
@@ -427,18 +550,36 @@ function matricula_NuevoIngreso(matricula) {
         e.preventDefault();
         datos_formNuevoingreso = {
             nombres_tutor: nombres_tutor.value.trim(),//Tutor
-            apellidos_tutor: apellidos_tutor.value.trim(),
             cedula_tutor: cedula_tutor.value.trim(),
             correo_e_tutor: correo_tutor.value.trim(),
-            sexo_tutor: sexo_tutor.value,
-            telefono_tutor: parseInt(telefono_tutor.value.trim()),
+            telefono_tutor: telefono_tutor.value.trim(),
+            ocupacion_tutor: ocupacion_tutor.value,
             direccion_tutor: direccion_tutor.value.trim(),
             nombres_est: nombres_est.value.trim(),//Estudiante
             apellidos_est: apellidos_est.value.trim(),
+            codigo_est: codigo_est.value.trim(),
+            cedula_est: cedula_est.value.trim(),
             registroNac_est: registroNac_est.value.trim(),
             fechaNac_est: fechaNac_est.value,
-            sexo_est: sexo_est.value.trim(),
+            sexo_est: sexo_est.value,
+            etnia_est: etnia_est.value,
+            lengua_est: lengua_est.value,
+            discapacidad_est: discapacidad_est.value,
+            telefono_est: telefono_est.value.trim(),
+            lugarNac_est: lugarNac_est.value.trim(),
+            nacionalidad_est: nacionalidad_est.value.trim(),
+            direccionDom_est: direccionDom_est.value.trim(),
+            relacion_tutor: relacion_tutor.value,
+            nombres_madre: nombres_madre.value.trim(),
+            cedula_madre: cedula_madre.value.trim(),
+            telefono_madre: telefono_madre.value.trim(),
+            nombres_padre: nombres_padre.value.trim(),
+            cedula_padre: cedula_padre.value.trim(),
+            telefono_padre: telefono_padre.value.trim(),
             modalidad_est: modalidad_est.value.trim(),
+            nivel_est: nivel_est.value.trim(),
+            repitente_est: repitente_est.value,
+            trasladado_est: trasladado_est.value,
             grupo_nuevoIngreso: grupo_nuevoIngreso.value,
             correo_usuario: correo_usuario.value,
             aux: aux
@@ -462,7 +603,7 @@ function matricula_NuevoIngreso(matricula) {
 //Funciones de Matricula de reingreso
 function validarMatriculaReingreso() {
     // declaramos las variables
-    const form_estudiante = [modalidad_reingreso, nivel_reingreso, grupo_reingreso];
+    const form_estudiante = [repitente_est_reingreso, trasladado_est_reingreso, modalidad_reingreso, nivel_reingreso, grupo_reingreso];
     var aux2 = 0;
     //Validados que los campos esten correctos
     Array.from(form_estudiante).forEach(select => {
@@ -504,8 +645,8 @@ function mostrarGrupos(id_nivel_grado, id_elemento) {
         .catch(err => console.log('Error', err.message));
 }//Mostramos que los grupos disponibles por cada nivel/grado
 function limpiar_FormReingreso() {
-    $("#form-matricula").find("#name-estudiante, #name-tutor, #direccion, #modalidad-reingreso").val('');
-    const elements = ['#nivel-reingreso', '#grupo-reingreso'];
+    $("#form-matricula").find("#name-estudiante, #name-tutor, #codigo-est-reingreso, #modalidad-reingreso, #repitente-est-reingreso, #trasladado-est-reingreso").val('');
+    const elements = ['#nivel-reingreso', '#grupo-reingreso', '#repitente-est-reingreso', '#trasladado-est-reingreso'];
     elements.forEach(selector => {
         $(selector).prop('disabled', true).val('');
     });
@@ -524,7 +665,7 @@ var tabla_matricula = $('#dt-matricula').DataTable({
     },
     aaSorting: [],
     columns: [
-        { data: "id_matricula" },
+        { data: "codigo_est" },
         { data: "nombres_est" },
         { data: "apellidos_est" },
         { data: "nivel_grado" },
@@ -573,7 +714,7 @@ var tabla_matricula = $('#dt-matricula').DataTable({
         }
     }
 });
-//Funciones para ejecutar las acciones de editar, imprimir y eliminar matricula
+// //Funciones para ejecutar las acciones de editar, imprimir y eliminar matricula
 $('#dt-matricula tbody').on("click", "button.editar", function () {
     var data_matricula = tabla_matricula.row($(this).parents("tr")).data();
     const elements = ['#nivel-est-edit', '#grupo-est-edit'];
@@ -664,7 +805,9 @@ function iniciarEditarMatricula(data_matricula) {
         mostrarGrupos(id_nivel_est, 'grupo-est-edit');
     });//Desbloquea y muestra los grupos disponibles en base a su nivel o grado
     nombre_est_edit.value = data_matricula.nombres_est + ' ' + data_matricula.apellidos_est;
-    registroNac_est_edit.value = data_matricula.registroNac_est;
+    codigo_est_edit.value = data_matricula.codigo_est;
+    $('#repitente-est-edit').val(data_matricula.repitente_est);
+    $('#trasladado-est-edit').val(data_matricula.traslado_est);
     fechaNac_est_edit.value = data_matricula.fechaNac_est;
     sexo_est_edit.value = data_matricula.sexo_est === 'M' ? 'Masculino' : 'Femenino';
     grupoactual_est_edit.value = data_matricula.modalidad + ' ' + data_matricula.nivel_grado + ' ' + data_matricula.grupo;
@@ -681,7 +824,9 @@ function iniciarEditarMatricula(data_matricula) {
                 $('.modal-backdrop').remove();
                 datos_matriculaEdit = {
                     id_matricula: data_matricula.id_matricula,
-                    id_grupo: parseInt(grupo_est_edit.value)
+                    id_grupo: parseInt(grupo_est_edit.value),
+                    repitente: repitente_est_edit.value,
+                    traslado: trasladado_est_edit.value,
                 }
                 editarMatricula(datos_matriculaEdit);
             });//Evento del boton aceptar modal para permitir el ingreso los datos editados de matricula

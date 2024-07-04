@@ -21,7 +21,7 @@
       </nav>
     </div>
     <section id="inicio" class="textos-header">
-      <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2200" data-bs-pause="false">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img src="/img/presentacion_1.jpg" class="d-block w-100" alt="...">
@@ -85,12 +85,6 @@
         </div>
       </div>
     </section>
-    {{!-- <div class="wave" style="height: 150px; overflow: hidden;">
-      <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
-        <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
-          style="stroke: none; fill: #E6E6E6;"></path>
-      </svg>
-    </div> --}}
   </header>
   <section id="acerca_de" class="mt-0" style="background-color: #E6E6E6;">
     <div class="container pt-5">
@@ -284,7 +278,24 @@
     </div>
   </footer>
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <script src="/event/inicio.js"></script>
+  <script>
+    let sections = document.querySelectorAll('section');
+    let navLinks = document.querySelectorAll('header nav a');
+    window.onscroll = () => {
+      sections.forEach(sec => {
+        let top = window.scrollY;
+        let offset = sec.offsetTop - 150;
+        let height = sec.offsetHeight;
+        let id = sec.getAttribute('id');
+        if (top >= offset && top < offset + height) {
+          navLinks.forEach(links => {
+            links.classList.remove('active');
+            document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+          });
+        };
+      });
+    };
+  </script>
 </body>
 
 </html>
