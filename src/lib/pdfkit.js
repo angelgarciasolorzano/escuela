@@ -8,6 +8,7 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   const doc = new PDFDocument({ bufferPages: true });
   const imagePath = path.join(__dirname, 'public', 'img', 'logo_colegio.png');
   const añoActual = new Date(Date.now());
+  var genero = '';
   let i;
   let end;
   const porfeMateria = materias_prof[0][0][1];
@@ -15,6 +16,11 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   var profesor_guia = '';
   if(materias_prof[0][0][0][0] != undefined) {
     profesor_guia =  materias_prof[0][0][0][0].profesor_guia;
+  }
+  if (datos.sexo_est === 'M') {
+    genero = 'Masculino';
+  } else {
+    genero = 'Femenino';
   }
   // table 
   const tableProfeMateria = {
@@ -26,24 +32,26 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   doc.image(imagePath, 60, 65, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
   doc.fontSize(15).text("Fecha: " + datos.fecha, 423, 90)
-  doc.fontSize(20).text("Hoja de matricula 2024", 200, 138)
+  doc.fontSize(20).text("Hoja de Matrícula 2024", 200, 138)
   doc.fontSize(20).text("I. Datos Generales:", 50, 190)
   doc.fontSize(15).text("Estudiante: " + datos.nombres_est + ' ' + datos.apellidos_est + '.', 50, 230);
   doc.fontSize(15).text("Código Estudiantil: " + datos.codigo_est + '.', 50, 260);
   doc.fontSize(15).text("Fecha de Nacimiento: " + datos.fechaNac_est + '.', 50, 290);
-  doc.fontSize(15).text("Sexo: " + datos.sexo_est + '.', 50, 320);
-  doc.fontSize(15).text("Modalidad: " + datos.modalidad + '.', 50, 350);
-  doc.fontSize(15).text("Nivel/Grado: " + datos.nivel_grado + '.', 220, 350);
-  doc.fontSize(15).text("Sección: " + datos.grupo + '.', 435, 350);
-  doc.fontSize(20).text("II. Datos del Tutor y Padres:", 50, 385);
-  doc.fontSize(15).text("Nombre del Tutor:  " + datos.nombres_tutor + '.', 50, 425);
-  doc.fontSize(15).text("Cédula del Tutor:  " + datos.cedula_tutor + '.', 50, 455);
-  doc.fontSize(15).text("Teléfono del Tutor:  " + datos.telefono_tutor + '.', 50, 485);
-  doc.fontSize(15).text("Dirección del trabajo del Tutor:  " + datos.direccion_tutor + '.', 50, 515);
-  doc.fontSize(15).text("Nombre de la Madre:  ", 50, 545);
-  doc.fontSize(15).text("Nombre del Padre:  ", 50, 575);
-  doc.fontSize(15).text("___________________________________", 170, 665);
-  doc.fontSize(15).text("Sello y firma del Director(a)", 215, 695);
+  doc.fontSize(15).text("Sexo: " + genero + '.', 50, 320);
+  doc.fontSize(15).text("Dirección Domiciliar: " + datos.direccion_est + '.', 50, 350);
+  doc.fontSize(15).text("Modalidad: " + datos.modalidad + '.', 50, 380);
+  doc.fontSize(15).text("Nivel/Grado: " + datos.nivel_grado + '.', 220, 380);
+  doc.fontSize(15).text("Sección: " + datos.grupo + '.', 435, 380);
+  doc.fontSize(20).text("II. Datos del Tutor y Padres de Familia:", 50, 415);
+  doc.fontSize(15).text("Nombre del Tutor:  " + datos.nombres_tutor + '.', 50, 450);
+  doc.fontSize(15).text("Cédula del Tutor:  " + datos.cedula_tutor + '.', 50, 480);
+  doc.fontSize(15).text("Teléfono del Tutor:  " + datos.telefono_tutor + '.', 50, 510);
+  doc.fontSize(15).text("Nombre de la Madre: " + datos.nombres_madre + '.', 50, 540);
+  doc.fontSize(15).text("Cédula de la Madre:  " + datos.cedula_madre + '.', 50, 570);
+  doc.fontSize(15).text("Nombre de la Padre: " + datos.nombres_padre + '.', 50, 600);
+  doc.fontSize(15).text("Cédula del Padre:  "  + datos.cedula_padre + '.', 50, 630);
+  doc.fontSize(15).text("___________________________________", 170, 680);
+  doc.fontSize(15).text("Sello y firma del Director(a)", 215, 700);
   doc.addPage();
   doc.image(imagePath, 60, 65, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);

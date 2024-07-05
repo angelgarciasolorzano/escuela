@@ -17,8 +17,11 @@ router.get('/secretaria/matricula', isLoggedIn, checkRol('Secretaria'), async (r
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
   res.render('interface/client/secretaria/addmatricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
 });//Cargar plantilla matricula
+// router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
+//   res.render('interface/client/secretaria/datosP_estudiante');
+// });//Cargar plantilla Datos Personales estudiante
 router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  res.render('interface/client/secretaria/datosP_estudiante');
+  res.render('interface/client/secretaria/datos_personalesE');
 });//Cargar plantilla Datos Personales estudiante
 router.get('/secretaria/reporte/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
@@ -92,11 +95,11 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
     body('relacion_tutor').notEmpty().withMessage('Falta seleccionar!'),
     body('telefono_tutor').notEmpty().withMessage('Esta vacío!')
       .custom(async (value, { req }) => {
-      const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
-      if (regex.test(value) === false) {
-        throw new Error('Solo número con 8 digitos!');
-      } else { return true; }
-    })
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false) {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      })
       .custom(async (value, { req }) => {
         const telefono_tutor = await pool.query('select telefono from tutor where telefono = ?', value);
         if (telefono_tutor[0].length > 0 && req.body.aux === 0) {
@@ -182,6 +185,11 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
         const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
         if (regex.test(value) === false && value != "") {
           throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }).custom(async value => {
+        const searchTelefono_est = await pool.query('select telefono from estudiante where telefono = ?', value);
+        if (searchTelefono_est[0].length > 0 && value != '') {
+          throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
     body('lugarNac_est').notEmpty().withMessage('Esta vacío!'),
@@ -405,9 +413,24 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
         'nombres_est': row.nombres_est,
         'apellidos_est': row.apellidos_est,
         'codigo_est': row.codigo_est,
+        'cedula_est': row.cedula_est,
         'registroNac_est': row.registroNac_est,
         'fechaNac_est': row.fechaNac_est.toLocaleDateString(),
         'sexo_est': row.sexo_est,
+        'etnia_est': row.etnia_est,
+        'lengua_est': row.lengua_est,
+        'discapacidad_est': row.discapacidad_est,
+        'telefono_est': row.telefono_est,
+        'lugarNac_est': row.lugarNac_est,
+        'nacionalidad_est': row.nacionalidad_est,
+        'direccion_est': row.direccion_est,
+        'relacion_tutor': row.relacion_tutor,
+        'nombres_madre': row.nombres_madre,
+        'cedula_madre': row.cedula_madre,
+        'telefono_madre': row.telefono_madre,
+        'nombres_padre': row.nombres_padre,
+        'cedula_padre': row.cedula_padre,
+        'telefono_padre': row.telefono_padre,
         'estado_est': row.estado_est,
         'fechaReg_est': row.fechaReg_est.toLocaleDateString(),
         'id_tutor': row.id_tutor,
@@ -415,6 +438,7 @@ router.get('/api/estudiante_disponible', isLoggedIn, async (req, res) => {
         'cedula_tutor': row.cedula_tutor,
         'correo_e_tutor': row.correo_e_tutor,
         'telefono_tutor': row.telefono_tutor,
+        'ocupacion_tutor': row.ocupacion_tutor,
         'direccion_tutor': row.direccion_trab,
         //'turno': row.turno
       });//Agregamos al arreglo todos los campos que queremos que contenga la data
@@ -521,12 +545,12 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
   var registroNac_est = req.body.registroNac_est
   var cedula_est = req.body.cedula_est
   var telefono_est = req.body.telefono_est
-  if(correo_tutor === ''){correo_tutor = null;}
-  if(telefono_madre === ''){telefono_madre = null;}
-  if(telefono_padre === ''){telefono_padre = null;}
-  if(telefono_est === ''){telefono_est = null;}
-  if(registroNac_est === ''){registroNac_est = null;}
-  if(cedula_est === ''){cedula_est = null;}
+  if (correo_tutor === '') { correo_tutor = null; }
+  if (telefono_madre === '') { telefono_madre = null; }
+  if (telefono_padre === '') { telefono_padre = null; }
+  if (telefono_est === '') { telefono_est = null; }
+  if (registroNac_est === '') { registroNac_est = null; }
+  if (cedula_est === '') { cedula_est = null; }
   const datos = [
     datosForm.nombres_tutor,//Tutor
     datosForm.cedula_tutor,
@@ -618,8 +642,12 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
         'registroNac_est': row.registroNac_est,
         'fechaNac_est': row.fechaNac_est.toLocaleDateString(),
         'sexo_est': row.sexo_est,
+        'nombres_madre': row.nombre_madre,
+        'cedula_madre': row.cedula_madre,
+        'nombres_padre': row.nombre_padre,
+        'cedula_padre': row.cedula_padre,
         'nivel_est': row.nivel_est,
-        'direccion_est': row.nivel_est,
+        'direccion_est': row.direccion_est,
         'nombres_tutor': row.nombres_tutor,
         'cedula_tutor': row.cedula_tutor,
         'correo_e_tutor': row.correo_e_tutor,
@@ -682,15 +710,12 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
           throw new Error('Formato incorrecto');
         } else { return true; }
       }),
-    body('apellidos_tutor').notEmpty().withMessage('Esta vacío!')
-      .custom(value => {
-        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
-        if (regex.test(value) === false) {
-          throw new Error('Formato incorrecto');
-        } else { return true; }
-      }),
-    body('correo_e_tutor').notEmpty().withMessage('Esta vacío!')
-      .isEmail().withMessage('Este no es un Email')
+    body('correo_e_tutor').custom(async (value, { req }) => {
+      const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/g;
+      if (regex.test(value) === false && value != "") {
+        throw new Error('Formato incorrecto');
+      } else { return true; }
+    })
       .custom(async (value, { req }) => {
         const correo_e_tutor = await pool.query('select correo_e from tutor where correo_e = ?', value);
         if (req.body.id_tutor) {
@@ -722,7 +747,7 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
           } else { return true; }
         }
       }),
-    body('sexo_tutor').notEmpty().withMessage('Falta seleccionar!'),
+    body('relacion_tutor').notEmpty().withMessage('Falta seleccionar!'),
     body('telefono_tutor').notEmpty().withMessage('Esta vacío!')
       .isInt().withMessage('Solo se aceptan numeros enteros')
       .isLength({ min: 8 }).withMessage('Tiene que ingresar 8 digitos')
@@ -735,12 +760,12 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
           if (telefono_tutor[0].length > 0 && tutor[0].length === 0) {
             throw new Error('Ya esta registrado!');
           } else { return true; }
-        } else if (telefono_tutor[0] > 0) {
+        } else if (telefono_tutor[0].length > 0) {
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
+    body('ocupacion_tutor').notEmpty().withMessage('Esta vacío!'),
     body('direccion_tutor').notEmpty().withMessage('Esta vacío!'),
-
     body('nombres_est').notEmpty().withMessage('Esta vacío!')
       .custom(value => {
         const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
@@ -755,10 +780,49 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
           throw new Error('Formato incorrecto');
         } else { return true; }
       }),
-    body('registroNac_est').notEmpty().withMessage('Esta vacío!')
+    body('codigo_est').notEmpty().withMessage('Esta vacío!')
+      .custom(value => {
+        const regex = /^[A-Z]{4}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{7}$/g;
+        if (regex.test(value) === false) {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }).custom(async (value, { req }) => {
+        const searchcodigoEst = await pool.query('select codigoEst from estudiante where codigoEst = ?', value);
+        const id_estudiante = req.body.id_estudiante;
+        const estudiante = await pool.query(`select id_estudiante
+          from estudiante where codigoEst = ? and id_estudiante = ?`, [value, id_estudiante]);
+        if (searchcodigoEst[0].length > 0 && estudiante[0].length === 0 && value != '') {
+          throw new Error('Ya esta registrado!');
+        } else { return true; }
+      }),
+    body('cedula_est')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_madre = req.body.cedula_madre;
+        const cedula_padre = req.body.cedula_padre;
+        if ((value === cedula_tutor || value === cedula_madre || value === cedula_padre) && value != "") {
+          throw new Error('La cédula es igual a la del tutor, madre o padre!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      }).custom(async (value, { req }) => {
+        const searchcedulaEst = await pool.query('select cedulaEst from estudiante where cedulaEst = ?', value);
+        const id_estudiante = req.body.id_estudiante;
+        const estudiante = await pool.query(`select id_estudiante
+          from estudiante where cedulaEst = ? and id_estudiante = ?`, [value, id_estudiante]);
+        if (searchcedulaEst[0].length > 0
+          && estudiante[0].length === 0 && value != '') {
+          throw new Error('Ya esta registrado!');
+        } else { return true; }
+      }),
+    body('registroNac_est')
       .custom(value => {
         const regex = /^\d{2,4}-\d{2,4}-\d{2,4}$/g;
-        if (regex.test(value) === false) {
+        if (regex.test(value) === false && value != '') {
           throw new Error('Formato incorrecto');
         } else { return true; }
       })
@@ -768,7 +832,7 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
           const id_estudiante = req.body.id_estudiante;
           const estudiante = await pool.query(`select id_estudiante
                                                from estudiante where registroNac = ? and id_estudiante = ?`, [value, id_estudiante]);
-          if (searchRegistroNac[0].length > 0 && estudiante[0].length === 0) {
+          if (searchRegistroNac[0].length > 0 && estudiante[0].length === 0 && value != '') {
             throw new Error('Ya esta registrado!');
           } else { return true; }
         } else if (searchRegistroNac[0].length > 0) {
@@ -777,6 +841,154 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
       }),
     body('fechaNac_est').notEmpty().withMessage('Esta vacío ó incompleto!'),
     body('sexo_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('etnia_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('lengua_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('discapacidad_est').notEmpty().withMessage('Falta seleccionar!'),
+    body('telefono_est')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_madre = req.body.telefono_madre;
+        const telefono_padre = req.body.telefono_padre;
+        if ((value === telefono_tutor || value === telefono_madre || value === telefono_padre) && value != "") {
+          throw new Error('Este número es el mismo del tutor, madre o padre!');
+        } else { return true; }
+      })
+      .custom(async (value, { req }) => {
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }).custom(async (value, { req }) => {
+        const searchTelefono_est = await pool.query('select telefono from estudiante where telefono = ?', value);
+        const id_estudiante = req.body.id_estudiante;
+        const estudiante = await pool.query(`select id_estudiante
+                                               from estudiante where registroNac = ? and id_estudiante = ?`, [value, id_estudiante]);
+        if (searchTelefono_est[0].length > 0 && estudiante[0].length === 0 && value != '') {
+          throw new Error('Ya esta registrado!');
+        } else { return true; }
+      }),
+    body('lugarNac_est').notEmpty().withMessage('Esta vacío!'),
+    body('nacionalidad_est').notEmpty().withMessage('Esta vacío!'),
+    body('direccionDom_est').notEmpty().withMessage('Esta vacío!'),
+    body('nombres_madre')
+      .custom((value, { req }) => {
+        const cedula_madre = req.body.cedula_madre;
+        const telefono_madre = req.body.telefono_madre;
+
+        if ((cedula_madre != '' || telefono_madre != '') && value === '') {
+          throw new Error('Esta vacío!');
+        } else { return true; }
+      })
+      .custom((value, { req }) => {
+        const nombres_tutor = req.body.nombres_tutor;
+        const nombres_padre = req.body.nombres_padre;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === nombres_tutor || value === nombres_padre) && relacion_tutor != 'Madre' && value != '') {
+          throw new Error('Tienes el mismo nombre del tutor o padre!');
+        } else if ((value === nombres_padre) && relacion_tutor === 'Madre' && value != "") {
+          throw new Error('Tienes el mismo nombre del padre!');
+        }
+        else { return true; }
+      })
+      .custom(value => {
+        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
+        if (regex.test(value) === false && value != '') {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('cedula_madre')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_padre = req.body.cedula_padre;
+        const cedula_est = req.body.cedula_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === cedula_tutor || value === cedula_padre || value === cedula_est)
+          && relacion_tutor != 'Madre' && value != "") {
+          throw new Error('La cédula es igual a la del tutor, padre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      }),
+    body('telefono_madre')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_padre = req.body.telefono_padre;
+        const telefono_est = req.body.telefono_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === telefono_tutor || value === telefono_padre || value === telefono_est)
+          && relacion_tutor != 'Madre' && value != "") {
+          throw new Error('El telefono es igual a la del tutor, padre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }),
+    body('nombres_padre')
+      .custom((value, { req }) => {
+        const cedula_padre = req.body.cedula_padre;
+        const telefono_padre = req.body.telefono_padre;
+        if ((cedula_padre != '' || telefono_padre != '') && value === '') {
+          throw new Error('Esta vacío!');
+        } else { return true; }
+      })
+      .custom((value, { req }) => {
+        const nombres_tutor = req.body.nombres_tutor;
+        const nombres_madre = req.body.nombres_madre;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === nombres_tutor || value === nombres_madre) && relacion_tutor != 'Padre' && value != '') {
+          throw new Error('Tienes el mismo nombre del tutor o madre!');
+        } else if ((value === nombres_madre) && relacion_tutor === 'Padre' && value != "") {
+          throw new Error('Tienes el mismo nombre de la madre!');
+        }
+        else { return true; }
+      })
+      .custom(value => {
+        const regex = /^([A-ZÀ-ÿ][a-zÀ-ÿ]+)[\ ]?((de los )|(del ))?((([A-ZÀ-ÿ][a-zÀ-ÿ]+)[ ]?)+)?$/g;
+        if (regex.test(value) === false && value != '') {
+          throw new Error('Formato incorrecto');
+        } else { return true; }
+      }),
+    body('cedula_padre')
+      .custom(async (value, { req }) => {
+        const cedula_tutor = req.body.cedula_tutor;
+        const cedula_madre = req.body.cedula_madre;
+        const cedula_est = req.body.cedula_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === cedula_tutor || value === cedula_madre || value === cedula_est)
+          && relacion_tutor != 'Padre' && value != "") {
+          throw new Error('La cédula es igual a la del tutor, madre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^\d{3}\-([0-2][0-9]|3[0-1])()(0[1-9]|1[0-2])\2(\d{2})\-\d{4}\w$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Formato de cédula incorrecto');
+        } else { return true; }
+      }),
+    body('telefono_padre')
+      .custom((value, { req }) => {
+        const telefono_tutor = req.body.telefono_tutor;
+        const telefono_madre = req.body.telefono_madre;
+        const telefono_est = req.body.telefono_est;
+        const relacion_tutor = req.body.relacion_tutor;
+        if ((value === telefono_tutor || value === telefono_madre || value === telefono_est)
+          && relacion_tutor != 'Padre' && value != "") {
+          throw new Error('El telefono es igual a la del tutor, madre o estudiante!');
+        } else { return true; }
+      })
+      .custom(value => {
+        const regex = /^2[23]\d{6}$|^[78]\d{7}$/g;
+        if (regex.test(value) === false && value != "") {
+          throw new Error('Solo número con 8 digitos!');
+        } else { return true; }
+      }),
   ], (req, res) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
@@ -787,30 +999,59 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
   });//Verifica el formulario del tutor y estudiante para su registro
 router.post('/api/editar_estudianteTutor', isLoggedIn, async (req, res) => {
   const datosForm = req.body;
+  var correo_tutor = req.body.correo_tutor
+  var telefono_madre = req.body.telefono_madre
+  var telefono_padre = req.body.telefono_padre
+  var registroNac_est = req.body.registroNac_est
+  var cedula_est = req.body.cedula_est
+  var telefono_est = req.body.telefono_est
+  if (correo_tutor === '') { correo_tutor = null; }
+  if (telefono_madre === '') { telefono_madre = null; }
+  if (telefono_padre === '') { telefono_padre = null; }
+  if (telefono_est === '') { telefono_est = null; }
+  if (registroNac_est === '') { registroNac_est = null; }
+  if (cedula_est === '') { cedula_est = null; }
   const datosTutor = [
     datosForm.nombres_tutor,//tutor
-    datosForm.apellidos_tutor,
     datosForm.cedula_tutor,
-    datosForm.correo_e_tutor,
-    datosForm.sexo_tutor,
+    correo_tutor,
     datosForm.telefono_tutor,
+    datosForm.ocupacion_tutor,
     datosForm.direccion_tutor,
     datosForm.id_tutor
   ];
   const datosEstudiante = [
     datosForm.nombres_est,//Estudiante
     datosForm.apellidos_est,
-    datosForm.registroNac_est,
+    datosForm.codigo_est,
+    cedula_est,
+    registroNac_est,
     datosForm.fechaNac_est,
     datosForm.sexo_est,
+    datosForm.etnia_est,
+    datosForm.lengua_est,
+    datosForm.discapacidad_est,
+    telefono_est,
+    datosForm.lugarNac_est,
+    datosForm.nacionalidad_est,
+    datosForm.direccionDom_est,
+    datosForm.relacion_tutor,
+    datosForm.nombres_madre,
+    datosForm.cedula_madre,
+    telefono_madre,
+    datosForm.nombres_padre,
+    datosForm.cedula_padre,
+    telefono_padre,
     datosForm.id_estudiante
   ];
   try {
-    await pool.query(`UPDATE tutor SET nombres = ?, apellidos = ? , cedula = ? , 
-                      correo_e = ? , sexo = ? , telefono = ?,
-                      direccion = ? WHERE id_tutor = ?`, datosTutor);
-    await pool.query(`UPDATE estudiante SET nombres = ?, apellidos = ? , registroNac = ? , 
-                        fechaNac = ? , sexo = ? WHERE id_estudiante = ?`, datosEstudiante);
+    await pool.query(`UPDATE tutor SET nombres = ? , cedula = ? , 
+                      correo_e = ? , telefono = ?, ocupacion = ?,
+                      direccion_trab = ? WHERE id_tutor = ?`, datosTutor);
+    await pool.query(`UPDATE estudiante SET nombres = ?, apellidos = ? , codigoEst = ? , cedulaEst = ?, registroNac = ? , 
+                        fechaNac = ? , sexo = ? , pi_af_etnia = ?, lengua_materna = ?, discapacidad = ?, telefono = ?,
+                        lugarNac = ? , nacionalidad = ?, direccionDom = ?, relacion_tutor = ?, nombre_madre = ?, cedula_madre = ?,
+                        telefono_madre = ?, nombre_padre = ?, cedula_padre = ?, telefono_padre = ? WHERE id_estudiante = ?`, datosEstudiante);
     res.send({ success: true });
   } catch (error) {
     console.log(error);

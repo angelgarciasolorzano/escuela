@@ -17,7 +17,7 @@ router.get('/administrador/usuario', isLoggedIn, checkRol('Administrador'), asyn
   res.render('interface/client/administrador/usuario', { rol: rol });
 });
 router.get('/administrador/estudiante/datos_personales', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/datosP_estudiante');
+  res.render('interface/client/administrador/datos_personalesE');
 });//Cargar plantilla Datos Personales estudiante
 router.get('/administrador/profesor/grupo_guia', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/grupoGuia');

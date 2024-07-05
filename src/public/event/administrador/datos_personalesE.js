@@ -1,21 +1,38 @@
-//Variables globales para el formulario Tutor
+// //Variables globales para el formulario Tutor
 const nombres_tutor = document.getElementById('nombres-tutor');
-const apellidos_tutor = document.getElementById('apellidos-tutor');
 const cedula_tutor = document.getElementById('cedula-tutor');
 const correo_tutor = document.getElementById('correo-tutor');
-const sexo_tutor = document.getElementById('sexo-tutor')
 const telefono_tutor = document.getElementById('telefono-tutor');
+const ocupacion_tutor = document.getElementById('ocupacion-tutor');
 const direccion_tutor = document.getElementById('direccion-tutor');
-const form_tutor = document.getElementById('form-tutor');
-//Variables globales para el formulario Estudiante
+// const form_tutor = document.getElementById('form-tutor');
+// //Variables globales para el formulario Estudiante
 const nombres_est = document.getElementById('nombres-est');
 const apellidos_est = document.getElementById('apellidos-est');
+const codigo_est = document.getElementById('codigo-est');
+const cedula_est = document.getElementById('cedula-est');
 const registroNac_est = document.getElementById('registroNac-est');
 const fechaNac_est = document.getElementById('fechaNac-est');
 const sexo_est = document.getElementById('sexo-est');
-const fechaReg_est = document.getElementById('fechaReg-est');
+const etnia_est = document.getElementById('etnia-est');
+const lengua_est = document.getElementById('lengua-est');
+const discapacidad_est = document.getElementById('discapacidad-est');
+const telefono_est = document.getElementById('telefono-est');
+const lugarNac_est = document.getElementById('lugarNac-est');
+const nacionalidad_est = document.getElementById('nacionalidad-est');
+const direccionDom_est = document.getElementById('direccionDom-est');
+const relacion_tutor = document.getElementById('relacion-tutor');
+const nombres_madre = document.getElementById('nombres-madre');
+const cedula_madre = document.getElementById('cedula-madre');
+const telefono_madre = document.getElementById('telefono-madre');
+const nombres_padre = document.getElementById('nombres-padre');
+const cedula_padre = document.getElementById('cedula-padre');
+const telefono_padre = document.getElementById('telefono-padre');
 const form_estudiante = document.getElementById('form-estudiante');
 const form_datosPersonales = document.getElementById('card-datosPersonales');
+const form_tutor = document.getElementById('form-tutor');
+const form_madre = document.getElementById('form-madre');
+const form_padre = document.getElementById('form-padre');
 var id_tutor = 0;
 var id_estudiante = 0;
 var datos_FormET = {};
@@ -35,26 +52,114 @@ $('#btn-guardar_edit').on('click', function (e) {
         id_estudiante: id_estudiante,//Estudiante
         nombres_est: nombres_est.value,
         apellidos_est: apellidos_est.value,
+        codigo_est: codigo_est.value,
+        cedula_est: cedula_est.value,
         registroNac_est: registroNac_est.value,
         fechaNac_est: fechaNac_est.value,
         sexo_est: sexo_est.value,
+        etnia_est: etnia_est.value,
+        lengua_est: lengua_est.value,
+        discapacidad_est: discapacidad_est.value,
+        telefono_est: telefono_est.value,
+        lugarNac_est: lugarNac_est.value,
+        nacionalidad_est: nacionalidad_est.value,
+        direccionDom_est: direccionDom_est.value,
+        relacion_tutor: relacion_tutor.value,
+        nombres_madre: nombres_madre.value,
+        cedula_madre: cedula_madre.value,
+        telefono_madre: telefono_madre.value,
+        nombres_padre: nombres_padre.value,
+        cedula_padre: cedula_padre.value,
+        telefono_padre: telefono_padre.value,//Estudiante
 
         id_tutor: id_tutor,//Tutor
         nombres_tutor: nombres_tutor.value,
-        apellidos_tutor: apellidos_tutor.value,
         cedula_tutor: cedula_tutor.value,
         correo_e_tutor: correo_tutor.value,
-        sexo_tutor: sexo_tutor.value,
         telefono_tutor: telefono_tutor.value,
+        ocupacion_tutor:  ocupacion_tutor.value,
         direccion_tutor: direccion_tutor.value
     };
     console.log(datos_FormET);
     validarFormulariosEdit(datos_FormET);
     $("input[type='text']").on('input', limpiarErrores);
     $("input[type='date']").on('input', limpiarErrores);
-    $('#sexo-est, #sexo-tutor').on('change', limpiarErrores);
+    $('#sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #relacion-tutor').on('change', limpiarErrores);
 });//Evento click para verificar y guardar los cambios realizados al estudiante y tutor
-
+$("#nombres-tutor, #cedula-tutor, #telefono-tutor").on('input', function () {
+    if (nombres_tutor.value != '' && cedula_tutor.value != '') {
+        $('#relacion-tutor').prop('disabled', false);
+    }
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+    }
+});//Cada vez que modifico el nombre, cedula y telefono del tutor me permitira visualizar los campos de los padres
+$('#nombres-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#nombres-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#nombres-padre');
+    }
+});//Limpiar el input nombres-madre o nombres-padre al hacer un input en nombres-tutor
+$('#cedula-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#cedula-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#cedula-padre');
+    }
+});//Limpiar el input cedula-madre o cedula-padre al hacer un input en cedula-tutor
+$('#telefono-tutor').on('input', function () {
+    if (relacion_tutor.value === 'Madre') {
+        limpiarErrorEspecial('#telefono-madre');
+    }
+    if (relacion_tutor.value === 'Padre') {
+        limpiarErrorEspecial('#telefono-padre');
+    }
+});//Limpiar el input telefono-madre o telefono-padre al hacer un input en telefono-tutor
+$('#relacion-tutor').on('change', function () {
+    var inputMadreDes = $('#nombres-madre').prop('disabled');
+    var inpuPadreDes = $('#nombres-padre').prop('disabled');
+    $("#fieldsetMadre, #fieldsetPadre").removeClass('d-none');
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', true);
+        cleanAll_Errors(form_madre);
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', true);
+        cleanAll_Errors(form_padre);
+    }
+    if (inputMadreDes) {
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', false)
+        $("#form-madre").find('#nombres-madre, #cedula-madre, #telefono-madre').val('');
+        cleanAll_Errors(form_madre);
+    }
+    if (inpuPadreDes) {
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', false)
+        $("#form-padre").find('#nombres-padre, #cedula-padre, #telefono-padre').val('');
+        cleanAll_Errors(form_padre);
+    }
+});//Cada vez que hago un cambio en mi select relacion-estudiante se agregara la informacion de la madre o padre asignado como tutor
+$("#cedula-madre, #telefono-madre").on('input', function () {
+    limpiarErrorEspecial('#nombres-madre');
+});//Limpiamos nombres-madre, telefono-est y cedula-est
+$("#cedula-padre, #telefono-padre").on('input', function () {
+    limpiarErrorEspecial('#nombres-padre');
+});//Limpiamos nombres-padre, telefono-est y cedula-est
 
 async function validarFormulariosEdit(datosForm) {
     try {
@@ -67,53 +172,112 @@ async function validarFormulariosEdit(datosForm) {
     } catch (error) { console.log('Error', error.message); }
 };//Mandamos a evaluar con el express-validator
 function mostrarEstudiante(data_estudiante) {
-    $('#nombres-est').focus();
+    $('#nombres-tutor').focus();
     //$('#btn-cancelar_edit, #btn-guardar_edit').removeClass('d-none');
     $('#card-datosPersonales, #btn-cerrar-mostrar').removeClass('d-none');
     $('#btn-cancelar_edit').addClass('d-none');
     $('#btn-guardar_edit').addClass('d-none');
     //$('#btn-registrar').addClass('d-none');
-    $('#txt-accion').text('Mostrar Datos Personales:');
+    $('#txt-accion').text('Expediente Estudiantil:');
     nombres_est.value = data_estudiante.nombres_est;//Estudiante
     apellidos_est.value = data_estudiante.apellidos_est;
+    codigo_est.value = data_estudiante.codigo_est;
+    cedula_est.value = data_estudiante.cedula_est;
     registroNac_est.value = data_estudiante.registroNac_est;
     fechaNac_est.value = fechaFormateada(data_estudiante.fechaNac_est);
     $('#sexo-est').val(data_estudiante.sexo_est);
-    fechaReg_est.value = data_estudiante.fechaReg_est;//Estudiante
+    $('#etnia-est').val(data_estudiante.etnia_est);
+    $('#lengua-est').val(data_estudiante.lengua_est);
+    $('#discapacidad-est').val(data_estudiante.discapacidad_est);
+    lugarNac_est.value = data_estudiante.lugarNac_est;
+    telefono_est.value = data_estudiante.telefono_est;
+    nacionalidad_est.value = data_estudiante.nacionalidad_est;
+    direccionDom_est.value = data_estudiante.direccion_est;
+    $('#relacion-tutor').val(data_estudiante.relacion_tutor);
+    nombres_madre.value = data_estudiante.nombres_madre;
+    cedula_madre.value = data_estudiante.cedula_madre;
+    telefono_madre.value = data_estudiante.telefono_madre;
+    nombres_padre.value = data_estudiante.nombres_padre;
+    cedula_padre.value = data_estudiante.cedula_padre;
+    telefono_padre.value = data_estudiante.telefono_padre;//Estudiante
 
     nombres_tutor.value = data_estudiante.nombres_tutor;//Tutor
-    apellidos_tutor.value = data_estudiante.apellidos_tutor;
     cedula_tutor.value = data_estudiante.cedula_tutor;
     correo_tutor.value = data_estudiante.correo_e_tutor;
-    $('#sexo-tutor').val(data_estudiante.sexo_tutor);
     telefono_tutor.value = data_estudiante.telefono_tutor;
+    ocupacion_tutor.value = data_estudiante.ocupacion_tutor;
     direccion_tutor.value = data_estudiante.direccion_tutor;
+
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', true);
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', false);
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', true);
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', false);
+    }
     cleanAll_Errors(form_datosPersonales);
 }//Funcion para activar al estudiante desde el datatable
 function iniciarEditarEstudiante(data_estudiante) {
-    $('#nombres-est').focus();
+    $('#nombres-tutor').focus();
     $('#btn-cerrar-mostrar').addClass('d-none');
     $('#txt-accion').text('Editar Datos Personales:');
     $('#card-datosPersonales, #btn-cancelar_edit, #btn-guardar_edit').removeClass('d-none');
-    $('#txt-accion').text('Mostrar Datos Personales:');
-    id_estudiante = data_estudiante.id_estudiante;
-    nombres_est.value = data_estudiante.nombres_est;//Estudiante
+    $('#txt-accion').text('Editar Expediente Estudiantil:');
+    id_estudiante = data_estudiante.id_estudiante;//Estudiante
+    nombres_est.value = data_estudiante.nombres_est;
     apellidos_est.value = data_estudiante.apellidos_est;
+    codigo_est.value = data_estudiante.codigo_est;
+    cedula_est.value = data_estudiante.cedula_est;
     registroNac_est.value = data_estudiante.registroNac_est;
     fechaNac_est.value = fechaFormateada(data_estudiante.fechaNac_est);
     $('#sexo-est').val(data_estudiante.sexo_est);
-    fechaReg_est.value = data_estudiante.fechaReg_est;//Estudiante
+    $('#etnia-est').val(data_estudiante.etnia_est);
+    $('#lengua-est').val(data_estudiante.lengua_est);
+    $('#discapacidad-est').val(data_estudiante.discapacidad_est);
+    lugarNac_est.value = data_estudiante.lugarNac_est;
+    telefono_est.value = data_estudiante.telefono_est;
+    nacionalidad_est.value = data_estudiante.nacionalidad_est;
+    direccionDom_est.value = data_estudiante.direccion_est;
+    $('#relacion-tutor').val(data_estudiante.relacion_tutor);
+    nombres_madre.value = data_estudiante.nombres_madre;
+    cedula_madre.value = data_estudiante.cedula_madre;
+    telefono_madre.value = data_estudiante.telefono_madre;
+    nombres_padre.value = data_estudiante.nombres_padre;
+    cedula_padre.value = data_estudiante.cedula_padre;
+    telefono_padre.value = data_estudiante.telefono_padre;//Estudiante
 
-    id_tutor = data_estudiante.id_tutor;//Tutor
-    nombres_tutor.value = data_estudiante.nombres_tutor;
-    apellidos_tutor.value = data_estudiante.apellidos_tutor;
+    id_tutor = data_estudiante.id_tutor
+    nombres_tutor.value = data_estudiante.nombres_tutor;//Tutor
     cedula_tutor.value = data_estudiante.cedula_tutor;
     correo_tutor.value = data_estudiante.correo_e_tutor;
-    $('#sexo-tutor').val(data_estudiante.sexo_tutor);
     telefono_tutor.value = data_estudiante.telefono_tutor;
+    ocupacion_tutor.value = data_estudiante.ocupacion_tutor;
     direccion_tutor.value = data_estudiante.direccion_tutor;
+
+    if (relacion_tutor.value === 'Madre') {
+        nombres_madre.value = nombres_tutor.value;
+        cedula_madre.value = cedula_tutor.value;
+        telefono_madre.value = telefono_tutor.value;
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', true);
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', false);
+    }
+    if (relacion_tutor.value === 'Padre') {
+        nombres_padre.value = nombres_tutor.value;
+        cedula_padre.value = cedula_tutor.value;
+        telefono_padre.value = telefono_tutor.value;
+        $('#nombres-padre, #cedula-padre, #telefono-padre').prop('disabled', true);
+        $('#nombres-madre, #cedula-madre, #telefono-madre').prop('disabled', false);
+    }
+    cleanAll_Errors(form_datosPersonales);
 }//Funcion para habilitar la funcion editar y llena campos input y select del estudiante
-function editarEstudiante(datos_FormET){
+function editarEstudiante(datos_FormET) {
     crearModal('editarEstudiante', 'btn-aceptar-editar-estudiante', '¿Deseas guardar los cambios este estudiante y tutor?');
     $("#editarEstudiante").modal("show");
     $("#btn-aceptar-editar-estudiante").on("click", function (e) {
@@ -137,7 +301,7 @@ function editarEstudiante(datos_FormET){
             })
             .catch(err => console.log('Error', err.message));
     });
-}
+}//
 function activarEstudiante(id_estudiante) {
     crearModal('activarEstudiante', 'btn-aceptar-activar-estudiante', '¿Deseas activar este estudiante?');
     $("#activarEstudiante").modal("show");
@@ -198,18 +362,24 @@ function respuestaServidor(dataErrors) {
                 inputElement.classList.replace('border-secondary', 'border-danger');
                 inputElement.nextElementSibling.innerHTML = error.msg;
             }
+            inputElement.focus();
         }
         return false;
     } else {
         return true;
     }
 };//Funcion para mostrar los errores en caso de que existan
+function limpiarErrorEspecial(id_input) {
+    $(id_input).removeClass('is-invalid');
+    $(id_input).removeClass('border-danger');
+    $(id_input).addClass('border-secondary');
+}//Funcion para limpiar un error cuando se modifica desde otro input
 function limpiarErrores() {
     $(this).removeClass('is-invalid border-danger').addClass('border-secondary');
 };//Funcion para eliminar los errores inputs y selects al momento de modificar formulario de datos personales
 function limpiar_FormRegistro() {
     $("input[type='text']").val('');
-    $('#sexo-est, #sexo-tutor').val('');
+    $('#sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #relacion-tutor').val('');
 };//Limpia los inputs y select de mi formulario datos personales
 function cleanAll_Errors(form) {
     $(form).find('.is-invalid').removeClass('is-invalid').end().find('.border-danger').removeClass('border-danger').addClass('border-secondary');
@@ -227,11 +397,11 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
     aaSorting: [],
     columns: [
         { data: "id_estudiante" },
+        { data: "codigo_est" },
         { data: "nombres_est" },
         { data: "apellidos_est" },
         { data: "estado_est" },
-        { data: "registroNac_est" },
-        { data: "tutor" },
+        { data: "nombres_tutor" },
         { data: "cedula_tutor" },
         {
             defaultContent: `<button type="button" class="mostrar btn btn-primary text-white"><i class="fa-solid fa-magnifying-glass"></i></button>
