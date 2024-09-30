@@ -670,6 +670,7 @@ var tabla_matricula = $('#dt-matricula').DataTable({
         { data: "apellidos_est" },
         { data: "nivel_grado" },
         { data: "grupo" },
+        { data: "estado_matricula"},
         { data: "fecha" },
         { defaultContent: `<button type="button" class="editar btn btn-warning text-white" id="btn_editarMatricula" data-bs-target="#editMatriculaModal"><i class="fa-solid fa-square-pen"></i></button> <button type="button" class="imprimir btn btn-primary"><i class="fa-regular fa-file-pdf"></i></button> <button type="button" class="eliminar btn btn-danger"><i class="fa-solid fa-trash"></i></button>` }
     ],
@@ -738,7 +739,7 @@ $('#dt-matricula tbody').on("click", "button.eliminar", function () {
 });//Funciones para ejecutar las acciones de editar, imprimir y eliminar matricula
 
 function eliminarMatricula(id_matricula) {
-    crearModal('eliminarMatricula', 'btn-aceptar-eliminar-matricula', '¿Deseas eliminar esta matricula?');
+    crearModal('eliminarMatricula', 'btn-aceptar-eliminar-matricula', '¿Deseas cancelar esta matricula?');
     $("#eliminarMatricula").modal("show");
     $("#btn-aceptar-eliminar-matricula").on("click", function (e) {
         e.preventDefault();
@@ -746,7 +747,7 @@ function eliminarMatricula(id_matricula) {
             .then(response => {
                 const result = response.data;
                 if (result.success == true) {
-                    showToast('success', 'fa-solid fa-circle-check', 'La matricula se elimino con exito!');
+                    showToast('success', 'fa-solid fa-circle-check', 'La matricula se cancelo con exito!');
                     tabla_matricula.ajax.url(url).load();//Recarga el dt_matriculas_recientes
                 } else {
                     showToast('danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');

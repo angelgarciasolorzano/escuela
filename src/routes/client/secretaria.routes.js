@@ -634,6 +634,7 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
     Data3.forEach(function (row) {
       data_arr.push({
         'id_matricula': row.id_matricula,
+        'estado_matricula': row.estado_matricula,
         'repitente_est': row.repitente,
         'traslado_est': row.traslado,
         'nombres_est': row.nombres_est,
@@ -676,7 +677,7 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
 router.post('/api/eliminar_matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   try {
     const id_matricula = req.body.id_matricula; //Falta validar que no tenga notas registradas en el año actual
-    await pool.query('DELETE FROM matricula WHERE id_matricula = ?', id_matricula);
+    await pool.query(`UPDATE matricula SET estado = 'Cancelada' WHERE id_matricula = ?`, id_matricula);
     res.send({ success: true });
   } catch (error) {
     console.log(error);
