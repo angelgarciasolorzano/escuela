@@ -20,26 +20,18 @@
     <div class="col-md-4 mx-auto">
       <div class="card text-center border-secondary">
         <div class="card-header border-secondary color-background text-white">
-          <h3>Iniciar Sesion</h3>
+          <h3>Iniciar Sesión</h3>
         </div>
         <div class="card-body">
           <img src="/img/logo.jfif" alt="logo Fazt" class="card-img-top mx-auto m-2 rounded-circle w-50">
           <form action="/login" method="post">
             <div class="input-group flex-nowrap mb-3">
               <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-person-fill"></i></span>
-              <input id="login-usuario" name="usuario" type="text" class="form-control border-secondary" placeholder="Usuario" aria-label="Usuario" aria-describedby="addon-wrapping">
+              <input id="login-usuario" name="usuario" type="text" class="form-control border-secondary" placeholder="Email" aria-label="Usuario" aria-describedby="addon-wrapping">
             </div>
             <div class="input-group flex-nowrap mb-3">
               <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-lock-fill"></i></span>
               <input id="login-pass" name="contrasena" type="password" class="form-control border-secondary" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="addon-wrapping">
-            </div>
-            <div class="input-group flex-nowrap mb-3">
-              <span class="input-group-text bg-black text-white border-secondary" id="addon-wrapping"><i class="bi bi-people-fill"></i></span>
-              <select id="login-cargo" name="rol" class="form-select border-secondary" aria-label="Default select example">
-                <option value="Administrador">Administrador</option>
-                <option value="Profesor">Profesor</option>
-                <option value="Secretaria">Secretaria</option>
-              </select>
             </div>
             <div class="form-group">
               <button class="btn btn-success btn-block">Acceder</button>

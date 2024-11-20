@@ -143,7 +143,7 @@ $('#estudianteModal').on('show.bs.modal', function () {
         $('#dt_estudiante').on("click", "td:not(:first-child)", function () {
             select_row = table_estudiante.row(this).data();
             if (typeof select_row != 'undefined')
-             console.log(select_row);
+                console.log(select_row);
         })
     }; //Seleccionar la fila
     $('#btn-aceptar-est').on('click', function () {
@@ -473,7 +473,7 @@ async function validarFormularios(datosForm) {
             respuestaServidor(datosErrores);
             showToast('danger', 'bi bi-exclamation-circle-fill', 'Faltan llenar algunos campos obligatorios!');
         }
-        else { matricula_NuevoIngreso(datosForm);}
+        else { matricula_NuevoIngreso(datosForm); }
     } catch (error) { console.log('Error', error.message); }
 };//Mandamos a evaluar con el express-validator
 function mostrarNivel(id_modalidad, id_select) {
@@ -592,7 +592,7 @@ function matricula_NuevoIngreso(matricula) {
                     //showMessage('alert-nuevoingreso', 'success', 'fa-solid fa-circle-check', 'La matricula se realizo con exito!');
                     limpiar_FormNuevoingreso();
                 } else {
-                    showToast('danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya esta matriculado!');
+                    showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
                     //showMessage('alert-nuevoingreso', 'danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya esta matriculado!');
                 }
             })
@@ -624,7 +624,7 @@ function matriculaReingreso(datos_formReingreso) {
                 showToast('success', 'fa-solid fa-circle-check', 'La matricula se realizo con exito!');
                 limpiar_FormReingreso();
             } else {
-                showToast('danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya esta matriculado!');
+                showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
                 //showMessage('alert-reingreso', 'danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya esta matriculado!');
                 $('#grupo').attr('disabled', 'disabled');
             }
@@ -639,7 +639,9 @@ function mostrarGrupos(id_nivel_grado, id_elemento) {
             grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
             for (let i = 0; i < grupo.length; i++) {
                 grupoView.innerHTML += `
-                <option value=${grupo[i].id_detallegrupo}>${grupo[i].nombre}</option>`;
+                <option value=${grupo[i].id_detallegrupo}>
+                    ${grupo[i].nombre} - Cupos: ${grupo[i].capacidad}
+                </option>`;
             }
         })
         .catch(err => console.log('Error', err.message));
@@ -670,9 +672,9 @@ var tabla_matricula = $('#dt-matricula').DataTable({
         { data: "apellidos_est" },
         { data: "nivel_grado" },
         { data: "grupo" },
-        { data: "estado_matricula"},
+        { data: "estado_matricula" },
         { data: "fecha" },
-        { defaultContent: `<button type="button" class="editar btn btn-warning text-white" id="btn_editarMatricula" data-bs-target="#editMatriculaModal"><i class="fa-solid fa-square-pen"></i></button> <button type="button" class="imprimir btn btn-primary"><i class="fa-regular fa-file-pdf"></i></button> <button type="button" class="eliminar btn btn-danger"><i class="fa-solid fa-trash"></i></button>` }
+        { defaultContent: `<button type="button" class="editar btn btn-warning text-white" id="btn_editarMatricula" data-bs-target="#editMatriculaModal"><i class="fa-solid fa-square-pen"></i></button> <button type="button" class="imprimir btn btn-primary"><i class="fa-regular fa-file-pdf"></i></button> <button type="button" class="eliminar btn btn-danger"><i class="fa-solid fa-xmark"></i></button>` }
     ],
     columnDefs: [
         {
@@ -735,22 +737,22 @@ $('#dt-matricula tbody').on("click", "button.imprimir", function () {
 });
 $('#dt-matricula tbody').on("click", "button.eliminar", function () {
     var data_matricula = tabla_matricula.row($(this).parents("tr")).data();
-    eliminarMatricula(data_matricula.id_matricula);
-});//Funciones para ejecutar las acciones de editar, imprimir y eliminar matricula
+    cancelarMatricula(data_matricula.id_matricula);
+});//Funciones para ejecutar las acciones de editar, imprimir y cancelar matricula
 
-function eliminarMatricula(id_matricula) {
-    crearModal('eliminarMatricula', 'btn-aceptar-eliminar-matricula', '¿Deseas cancelar esta matricula?');
-    $("#eliminarMatricula").modal("show");
-    $("#btn-aceptar-eliminar-matricula").on("click", function (e) {
+function cancelarMatricula(id_matricula) {
+    crearModal('cancelarMatricula', 'btn-aceptar-cancelar-matricula', '¿Deseas cancelar esta matricula?');
+    $("#cancelarMatricula").modal("show");
+    $("#btn-aceptar-cancelar-matricula").on("click", function (e) {
         e.preventDefault();
-        axios.post('/api/eliminar_matricula', { id_matricula: id_matricula })
+        axios.post('/api/cancelar_matricula', { id_matricula: id_matricula })
             .then(response => {
                 const result = response.data;
                 if (result.success == true) {
                     showToast('success', 'fa-solid fa-circle-check', 'La matricula se cancelo con exito!');
                     tabla_matricula.ajax.url(url).load();//Recarga el dt_matriculas_recientes
                 } else {
-                    showToast('danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');
+                    showToast('danger', 'bi bi-exclamation-circle-fill', result.msg)
                     //showMessage('alert-historial', 'danger', 'bi bi-exclamation-circle-fill', 'Este estudiante ya tiene notas registradas!');
                 }
             })

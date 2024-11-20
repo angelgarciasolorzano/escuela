@@ -1,7 +1,6 @@
 const form = document.querySelector('form');
 const emailInput = document.getElementById('login-usuario');
 const passwordInput = document.getElementById('login-pass');
-const cargoInput = document.getElementById('login-cargo');
 
 function showError(message) {
   const mensajeAnterior = document.querySelector('.error');
@@ -31,7 +30,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   let isValid = true;
 
-  if (emailInput.value === '' || passwordInput.value === '' || cargoInput.value === '') {
+  if (emailInput.value === '' || passwordInput.value === '') {
     isValid = false;
     showError('Todos los campos son requeridos.');
   } else { form.submit(); }

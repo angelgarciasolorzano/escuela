@@ -511,7 +511,7 @@ router.post('/api/mostrar_nivel', isLoggedIn, checkRol('Secretaria'), async (req
 })//Carga los niveles o grados mediante el id de la modalidad 
 router.post('/api/mostrar_grupo', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const id_nivel_grado = req.body.id_nivel_grado;
-  const grupo_est = await pool.query(`select DG.id_detallegrupo, G.nombre from detallegrupo as DG 
+  const grupo_est = await pool.query(`select DG.id_detallegrupo, G.nombre, DG.capacidad from detallegrupo as DG 
                                       inner join nivel as N on DG.id_nivel_fk = N.id_nivel
                                       inner join grupo as G on DG.id_grupo_fk = G.id_grupo
                                       where DG.id_nivel_fk = ?`, id_nivel_grado);
@@ -523,8 +523,14 @@ router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), asyn
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
                                             where E.id_estudiante = ? and AL.anio = year(now());`, id_estudiante);
-  if (verif_matricula[0].length > 0) {
-    res.send({ success: false });
+  const verif_capacidad = await pool.query(`select capacidad from detallegrupo
+                                            where id_detallegrupo = ?`, grupo);
+  
+  if (verif_capacidad[0][0].capacidad == 0){
+  res.send({ success: false , msg: 'No hay cupos disponibles!'});
+  } 
+  else if (verif_matricula[0].length > 0) {
+    res.send({ success: false, msg: 'Este estudiante ya esta matriculado!'});
   } else {
     try {
       const id_aniolectivo = await pool.query(`select id_aniolectivo from aniolectivo where anio = year(now());`);
@@ -591,8 +597,15 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
                                             where E.codigoEst = ? and AL.anio = year(now());`, datosForm.codigo_est);
-  if (verif_matricula[0].length > 0) {
-    res.send({ success: false });
+  
+  const verif_capacidad = await pool.query(`select capacidad from detallegrupo
+                                            where id_detallegrupo = ?`, datosForm.grupo_nuevoIngreso);
+  
+  if (verif_capacidad[0][0].capacidad == 0){
+    res.send({ success: false , msg: 'No hay cupos disponibles!'});
+  } 
+  else if (verif_matricula[0].length > 0) {
+    res.send({ success: false , msg: 'Este estudiante ya esta matriculado!'});
   } else {
     try {
       await pool.query('call sp_matriculaNuevoIngreso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', datos);
@@ -611,7 +624,8 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
     //Buscador datos
     var search_value = search['value'].trim();
     var search_query = `
-    AND (id_matricula LIKE '%${search_value}%' 
+    AND (id_matricula LIKE '%${search_value}%'
+    OR nivel_grado LIKE '%${search_value}%' 
     OR nombres_est LIKE '%${search_value}%' 
     OR apellidos_est LIKE '%${search_value}%'
     OR codigo_est LIKE '%${search_value}%'
@@ -674,16 +688,22 @@ router.get('/api/matriculas_recientes', isLoggedIn, checkRol('Secretaria'), asyn
     console.log(error);
   }
 });//Metodo para buscar las matriculas recientes en tiempo real
-router.post('/api/eliminar_matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
+router.post('/api/cancelar_matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   try {
-    const id_matricula = req.body.id_matricula; //Falta validar que no tenga notas registradas en el año actual
-    await pool.query(`UPDATE matricula SET estado = 'Cancelada' WHERE id_matricula = ?`, id_matricula);
-    res.send({ success: true });
+    const id_matricula = req.body.id_matricula;//Falta validar que no tenga notas registradas en el año actual
+    const status_matricula = await pool.query(`SELECT estado from matricula where id_matricula = ?`, id_matricula);
+    if(status_matricula[0][0].estado != 'Cancelada'){
+      await pool.query(`UPDATE matricula SET estado = 'Cancelada' WHERE id_matricula = ?`, id_matricula);
+      res.send({ success: true });
+    } else {
+      res.send({ success: false, msg: 'La matrícula ya esta cancelada'});
+    }
+    
   } catch (error) {
     console.log(error);
     res.send({ success: false });
   }
-});//Metodo para eliminar la matricula seleccionada
+});//Metodo para cancelar la matricula seleccionada
 router.post('/api/editar_matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const datos_matriculaEdit = req.body;
   const datos = [
@@ -700,7 +720,7 @@ router.post('/api/editar_matricula', isLoggedIn, checkRol('Secretaria'), async (
     console.log(error);
     res.send({ success: false });
   }
-});//Metodo para eliminar la matricula seleccionada
+});//Metodo para editar la matricula seleccionada
 
 router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
   [
