@@ -6,28 +6,6 @@ import { hojaMatricula, reporteMatricula } from "../../lib/pdfkit.js";
 
 const router = express.Router();
 
-//TODO Rutas de Perfiles (Secretario)
-router.get('/secretaria', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  const contCard = await pool.query(`call sp_contPerfilAdmin()`);
-  const value = contCard[0][0][0];
-  res.render('interface/client/secretaria/perfilsecret', { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_matricula: value.c_matricula });
-});
-router.get('/secretaria/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  const fechaHoy = new Date(Date.now());
-  const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
-  res.render('interface/client/secretaria/addmatricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
-});//Cargar plantilla matricula
-// router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-//   res.render('interface/client/secretaria/datosP_estudiante');
-// });//Cargar plantilla Datos Personales estudiante
-router.get('/secretaria/estudiante/datos_personales', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  res.render('interface/client/secretaria/datos_personalesE');
-});//Cargar plantilla Datos Personales estudiante
-router.get('/secretaria/reporte/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
-  res.render('interface/client/secretaria/reporte_matricula', { aniolectivo: aniolectivo });
-});//Cargar la opcion reporte-matricula
-//Rutas Paginas
 //Api
 
 router.get('/api/imprimir_matricula', isLoggedIn, async (req, res) => {
@@ -327,7 +305,7 @@ router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria')
     } else {
       res.send({ status: false });
     }
-  });//Verifica el formulario del tutor y estudiante para su registro
+});//Verifica el formulario del tutor y estudiante para su registro
 router.post('/api/registrar', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
 
   const tutor = [req.body.tutor.nombres, req.body.tutor.apellidos, req.body.tutor.cedula,
@@ -1017,7 +995,7 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn,
     } else {
       res.send({ status: false });
     }
-  });//Verifica el formulario del tutor y estudiante para su registro
+});//Verifica el formulario del tutor y estudiante para su registro
 router.post('/api/editar_estudianteTutor', isLoggedIn, async (req, res) => {
   const datosForm = req.body;
   var correo_tutor = req.body.correo_tutor

@@ -16,9 +16,7 @@ router.post('/login', (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
 
-      if (user.nombre_rol === 'Administrador') { return res.redirect('administrador') }
-      else if (user.nombre_rol === 'Secretaria') { return res.redirect('secretaria') }
-      else { return res.redirect('profesor') }
+      if (user.nombre_rol) { return res.redirect('/home') }
     });
   })(req, res, next);
 });

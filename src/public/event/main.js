@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
         { btn: document.getElementById('btn_submenuEstudiante'), element: document.querySelector('#elementEstudiante') },
         { btn: document.getElementById('btn_submenuGrupo'), element: document.querySelector('#elementGrupo') },
         { btn: document.getElementById('btn_submenuProfesor'), element: document.querySelector('#elementProfesor') },
-        { btn: document.getElementById('btn_submenuAcademico'), element: document.querySelector('#elementAcademico') }
+        { btn: document.getElementById('btn_submenuAcademico'), element: document.querySelector('#elementAcademico') },
+        { btn: document.getElementById('btn_submenuServicios'), element: document.querySelector('#elementServicios') }
     ];
 
     // Función para manejar la apertura/cierre del sidebar

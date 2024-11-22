@@ -1,63 +1,65 @@
 <div class="sidebar" id="sidebar">
     <ul id="sidebarList">
+        {{#ifCond user.nombre_rol "Administrador"}}
         <li data-id="usuarios">
-            <a href="/administrador/usuario">
+            <a href="/usuarios">
                 <i class="fa-solid fa-users-gear"></i>
                 <div>Usuarios</div>
             </a>
         </li>
+        {{/ifCond}}
+        {{#ifCond user.nombre_rol "Administrador" "Secretaria"}}
         <li id="btn_submenuEstudiante">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fas fa-user-graduate"></i>
                 <div>Estudiantes</div>
             </a>
         </li>
+        {{/ifCond}}
         <ul class="submenu" id="elementEstudiante">
             <li>
-                <a href="/administrador/estudiante/datos_personales">
+                <a href="/estudiantes/expediente">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div class=>Expediente</div>
                 </a>
             </li>
-            {{!-- <li>
-                <a href="#">
+            <li>
+                <a href="javascript:void(0)">
                     <i class="fa-solid fa-arrow-right"></i>
-                    <div>Matricula</div>
+                    <div>Calificaciones</div>
                 </a>
-            </li> --}}
-            {{!-- <li>
-                <a href="#">
-                    <i class="fa-solid fa-arrow-right"></i>
-                    <div>Registro Notas</div>
-                </a>
-            </li> --}}
+            </li>
         </ul>
+        {{#ifCond user.nombre_rol "Administrador"}}
         <li id="btn_submenuProfesor">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <div>Profesores</div>
             </a>
         </li>
+        {{/ifCond}}
         <ul class="submenu" id="elementProfesor">
             <li>
-                <a href="/administrador/profesor/grupo_guia">
+                <a href="/profesores/grupo_guia">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div class=>Profesor Guia</div>
                 </a>
             </li>
             <li>
-                <a href="/administrador/profesor/materias_profe">
+                <a href="/profesores/materias_profesor">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div>Asignar Materias</div>
                 </a>
             </li>
         </ul>
+        {{#ifCond user.nombre_rol "Administrador" "Profesor"}}
         <li id="btn_submenuGrupo">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-chalkboard"></i>
                 <div>Grupos</div>
             </a>
         </li>
+        {{/ifCond}}
         <ul class="submenu" id="elementGrupo">
             {{!-- <li>
                 <a href="#">
@@ -65,44 +67,76 @@
                     <div class=>Crear Grupos</div>
                 </a>
             </li> --}}
+            {{#ifCond user.nombre_rol "Administrador"}}
             <li>
-                <a href="/administrador/grupo/asignar_materias">
+                <a href="/grupos/asignar_materias">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div>Asignar Materias</div>
                 </a>
             </li>
+            {{/ifCond}}
+            {{#ifCond user.nombre_rol "Profesor"}}
+            <li>
+                <a href="/grupos/calificaciones">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div>Calificaciones</div>
+                </a>
+            </li>
+            {{/ifCond}}
         </ul>
+        {{#ifCond user.nombre_rol "Administrador"}}
         <li>
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-calendar-days"></i>
                 <div>Horarios</div>
             </a>
         </li>
+        {{/ifCond}}
+        {{#ifCond user.nombre_rol "Administrador"}}
         <li id="btn_submenuAcademico">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-book-open"></i>
                 <div>Académico</div>
             </a>
         </li>
+        {{/ifCond}}
         <ul class="submenu" id="elementAcademico">
-            {{!-- <li>
+            <li>
                 <a href="#">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div class=>Año Lectivo</div>
                 </a>
-            </li> --}}
+            </li>
             <li>
-                <a href="/administrador/academico/materias">
+                <a href="/academico/materias">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div>Materias</div>
                 </a>
             </li>
         </ul>
-        <li>
-            <a href="#">
-                <i class="fa-solid fa-database"></i>
-                <div>Respaldo</div>
+        {{#ifCond user.nombre_rol "Secretaria"}}
+        <li id="btn_submenuServicios">
+            <a href="javascript:void(0)">
+                <i class="fa-solid fa-handshake"></i>
+                <div>Servicios</div>
             </a>
         </li>
+        {{/ifCond}}
+        <ul class="submenu" id="elementServicios">
+            <li>
+                <a href="/matricula">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <div class=>Matrícula</div>
+                </a>
+            </li>
+        </ul>
+        {{#ifCond user.nombre_rol "Administrador" "Secretaria"}}
+        <li id="btn_submenuReportes">
+            <a href="/reportes">
+                <i class="fa-solid fa-chart-column"></i>
+                <div>Reportes</div>
+            </a>
+        </li>
+        {{/ifCond}}
     </ul>
 </div>

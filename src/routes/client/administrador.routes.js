@@ -5,33 +5,6 @@ import { body, validationResult } from "express-validator";
 
 const router = express.Router();
 
-//TODO Rutas de Perfiles (Administrador)
-//*Enviando la vista para el perfil de administrador
-router.get('/administrador', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  const contCard = await pool.query(`call sp_contPerfilAdmin()`);
-  const value = contCard[0][0][0];
-  res.render('interface/client/administrador/perfiladmin', { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_usuario: value.c_usuario });
-});
-router.get('/administrador/usuario', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  const [rol] = await pool.query('SELECT id_rol, nombre_rol FROM rol');
-  res.render('interface/client/administrador/usuario', { rol: rol });
-});
-router.get('/administrador/estudiante/datos_personales', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/datos_personalesE');
-});//Cargar plantilla Datos Personales estudiante
-router.get('/administrador/profesor/grupo_guia', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/grupoGuia');
-});//Rutar para renderizar mi opcion asignar grupo guia
-router.get('/administrador/profesor/materias_profe', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/materiasProfe');
-});//Rutar para renderizar mi opcion asignar las materias del profesor
-router.get('/administrador/grupo/asignar_materias', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/grupoProfeMaterias');
-});//Rutar para renderizar mi opcion asignar materias
-router.get('/administrador/academico/materias', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/materias');
-});//Rutar para renderizar mi opcion asignar materias
-
 //api Profesor
 router.get('/api/mostrar_profesor', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
@@ -468,7 +441,7 @@ router.post('/api/bloquear_usuario', isLoggedIn, checkRol('Administrador'), asyn
     console.log(error);
     res.send({ success: false });
   }
-});//Metodo para eliminar la usuario seleccionada
+});//Metodo para bloquear la usuario seleccionada
 router.post('/api/activar_usuario', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
     const id_usuario = req.body.id_usuario; //Falta validar que no tenga notas registradas en el año actual
@@ -478,7 +451,7 @@ router.post('/api/activar_usuario', isLoggedIn, checkRol('Administrador'), async
     console.log(error);
     res.send({ success: false });
   }
-});//Metodo para eliminar la usuario seleccionada
+});//Metodo para activar la usuario seleccionada
 router.get('/api/usuarios_recientes', isLoggedIn, checkRol('Administrador'), async (req, res) => {
 
   try {
@@ -562,7 +535,7 @@ router.post('/api/editar_materia', isLoggedIn, checkRol('Administrador'), async 
   } catch (error) {
     res.send({ success: false })
   }
-});//Metodo para eliminar materias
+});//Metodo para editar materias
 router.post('/api/eliminar_materia', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   const { id_materia } = req.body;
   try {
