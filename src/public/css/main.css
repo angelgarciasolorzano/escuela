@@ -12,11 +12,11 @@ body {
   background-color: #2069A1;
 }
 
-.cerrar-sesion {
+.elementNavbar {
   color: white;
 }
 
-.cerrar-sesion:hover {
+.elementNavbar:hover {
   color: aqua;
 }
 
@@ -90,7 +90,7 @@ body {
 }
 
 .sidebarShow {
-  display: fixed;
+  position: fixed;
 }
 
 .submenuShow{
