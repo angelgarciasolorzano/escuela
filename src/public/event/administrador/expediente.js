@@ -395,8 +395,8 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
         type: 'GET'
     },
     aaSorting: [],
+    ordering: false,
     columns: [
-        { data: "id_estudiante" },
         { data: "codigo_est" },
         { data: "nombres_est" },
         { data: "apellidos_est" },
@@ -410,18 +410,17 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
     ],
     columnDefs: [
         {
-            className: "text-center", targets: 0
+            className: "text-center", targets: [3, 6]
         }
     ],
-    destroy: true,
-    responsive: true,
+    //destroy: true,
     responsive: {
         breakpoints: [
-            { name: 'desktop', width: Infinity },
-            { name: 'tablet-l', width: 1024 },
-            { name: 'tablet-p', width: 768 },
-            { name: 'mobile-l', width: 480 },
-            { name: 'mobile-p', width: 320 }
+            { name: 'desktop', width: Infinity },  // Pantallas grandes (>1024px)
+            { name: 'tablet-l', width: 1024 },     // Tabletas en landscape (mayor o igual a 1024px)
+            { name: 'tablet-p', width: 768 },      // Tabletas en portrait (mayor o igual a 768px)
+            { name: 'mobile-l', width: 600 },      // Móviles en landscape (mayor o igual a 600px)
+            { name: 'mobile-p', width: 320 }       // Móviles en portrait (mayor o igual a 320px)
         ]
     },
     lengthMenu: [5, 10, 15, 20],
