@@ -4,14 +4,15 @@ import { isLoggedIn, isNotLoggedIn } from "../lib/middleware/auth.js";
 
 const router = express.Router();
 
-router.get('/login', isNotLoggedIn, (req, res) => {
-  res.render('auth/login');
+router.get('/login', (req, res) => {
+  let error = req.flash('info')[0];
+  res.render('auth/login', { messages: error });
 });
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('sesion.local', (err, user) => {
+  passport.authenticate('sesion.local', { failureFlash: true }, (err, user, info) => {
     if (err) { return next(err); } 
-    if (!user) { return res.redirect('/login'); }
+    if (!user) { req.flash('info', info.message); return res.redirect('/login'); }
 
     req.logIn(user, (err) => {
       if (err) { return next(err); }

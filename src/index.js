@@ -1,5 +1,6 @@
 //TODO Importaciones modulos
 import express from "express";
+import flash from 'connect-flash';
 import morgan from "morgan";
 import { engine } from "express-handlebars";
 import { join, dirname } from "path";
@@ -40,9 +41,15 @@ app.set('view engine', '.hbs');
 //*Configurando sesiones del usuario
 app.use(session({
   secret: 'secret',
-  saveUninitialized: false,
+  saveUninitialized: false, // No guarda la sesión si no está inicializada
   resave: false,
-  store: new MySQLStore(database)
+  store: new MySQLStore(database),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // 24 horas
+    secure: false, // habilitar si trabajas con https
+    httpOnly: true, // Impide que el cliente acceda a la cookie
+    sameSite: 'Strict' // Restricción de cookies para solicitudes cross-site
+  }
 }));
 
 //TODO Otras configuraciones
@@ -51,6 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 //*Variables Globales
 app.use((req, res, next) => {
