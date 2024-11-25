@@ -21,12 +21,12 @@ body {
 }
 
 /* sidebar */
-.container-inicio_admin {
+.container-inicio_usuario {
   position: absolute;
   top: 55px;
   min-height: calc(100vh - 55px);
   width: calc(100% - 60px);
-  left: 55px;
+  left: 60px;
 }
 
 .sidebar {
@@ -124,7 +124,7 @@ li.moveIconCloser {
 }
 
 @media screen and (max-width:800px) {
-  .container-inicio_admin {
+  .container-inicio_usuario {
       width: calc(100% - 60px);
       left: 60px;
   }
@@ -140,20 +140,20 @@ li.moveIconCloser {
   .sidebar_show{
     pointer-events: auto;
   }
-  .container-inicio_admin {
+  .container-inicio_usuario {
     width: 100%;
     left: auto;
 }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
 .sidebar{
   display: none;
 }
 .sidebar_show{
   pointer-events: auto;
 }
-.container-inicio_admin {
+.container-inicio_usuario {
   width: 100%;
   left: auto;
 }

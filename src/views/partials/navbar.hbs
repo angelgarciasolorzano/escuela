@@ -4,8 +4,9 @@
       <img src="/img/logo_colegio.png" class="img-fluid pe-3" id="imgprueba" alt="" width="50" height="50">
       <a class="navbar-brand">Colegio Cristiano Fuente de Vida</a>
     </div>
-    <button class="navbar-toggler" type="button" id="navbarToggler" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" id="navbarToggler" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -21,17 +22,22 @@
   </div>
 </nav>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
 <script>
   $("#cerrarSesion").on("click", function (e) {
     e.preventDefault();
-    const modal = document.querySelector('modal-message');
+    const modal = document.querySelector('custom-modal');
+    modal.title = '¿Estas seguro?';
+    modal.message = '¿Quieres cerrar sesión?';
     modal.show();
     // Acceder al botón dentro del Shadow DOM
-    const aceptarBtn = modal.shadowRoot.querySelector('#btn-aceptar-modalMessage');
-    aceptarBtn.addEventListener('click', function () {
-      cerrarSession();
-      localStorage.clear();
-    });
+    const aceptarBtn = modal.shadowRoot.querySelector('#btn-aceptar-customModal');
+    if (aceptarBtn) {
+      aceptarBtn.addEventListener('click', function () {
+        cerrarSession();
+        localStorage.clear();
+      });
+    }
   });
 
   async function cerrarSession() {

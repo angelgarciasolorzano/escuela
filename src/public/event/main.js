@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Selección de elementos
     const btn_sidebar = document.getElementById('btn_sidebar');
-    const main_show = document.querySelector('#container-inicio_admin');
+    const main_show = document.querySelector('#container-inicio_usuario');
     const sidebar = document.querySelector('#sidebar');
     const sidebarList = document.querySelector('#sidebarList');
     const icono = document.querySelectorAll('#sidebar ul li');
