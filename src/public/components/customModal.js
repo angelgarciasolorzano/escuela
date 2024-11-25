@@ -45,10 +45,10 @@ class customModal extends HTMLElement {
     // Renderizar el contenido HTML y CSS del modal
     render() {
         this.shadowRoot.innerHTML = `
-          <div class="modal fade" style="display: none;" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+          <div class="modal fade border-0" style="display: none;" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
            <div class="modal-dialog modal-dialog-centered modal-sm" style="border-radius: 2px;">
             <div class="modal-content">
-            <div class="modal-body border border-secondary" style="background-color: #17171c;">
+            <div class="modal-body border border-0" style="background-color: #17171c;">
           <div class="container-fluid">
           <div class="row">
             <div class="text-center">
@@ -65,7 +65,7 @@ class customModal extends HTMLElement {
           </div>
         </div>
       </div>
-      <div class="modal-footer border border-secondary" style="background-color:  #5dade2">
+      <div class="modal-footer border border-0" style="background-color:  #5dade2">
             <button type="button" class="btn btn-danger mx-auto w-30px" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary mx-auto w-30px" data-bs-dismiss="modal"
               id="btn-aceptar-customModal">Aceptar</button>
