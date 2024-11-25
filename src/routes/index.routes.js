@@ -13,24 +13,9 @@ router.get('/', isNotLoggedIn, (req, res) => {
 router.get('/home', isLoggedIn, checkRol('Administrador', 'Secretaria', 'Profesor'), async (req, res) => {
   const contCard = await pool.query(`call sp_contPerfilAdmin()`);
   const value = contCard[0][0][0];
-  const usuario = req.user[0].nombre_rol;
-  const data = { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_usuario: value.c_usuario , c_matricula: value.c_matricula}
-  const rol = {
-    "Administrador": {
-      path: 'interface/client/administrador/perfiladmin'
-    },
-    "Secretaria": {
-      path: 'interface/client/secretaria/perfilsecret',
-    },
-    "Profesor": {
-      path: 'interface/client/profesor/perfilprofe',
-    }
-  };
-
-  const rolConfig = rol[usuario];
-  if (rolConfig) {
-    res.render(rolConfig.path, data);
-  } 
+  const data = { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_usuario: value.c_usuario , c_matricula: value.c_matricula};
+  
+  res.render('interface/client/home', data);
 });//Rutar para renderizar home page
 router.get('/usuarios', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   const [rol] = await pool.query('SELECT id_rol, nombre_rol FROM rol');

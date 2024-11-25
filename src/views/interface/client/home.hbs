@@ -1,13 +1,13 @@
 <style>
     .cards {
         width: 100%;
-        padding: 35px 20px;
+        padding: 24px 24px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 20px;
     }
 
-    .cards .card {
+    .cards .Card {
         padding: 20px;
         display: flex;
         flex-direction: row;
@@ -18,19 +18,19 @@
         box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     }
 
-    .cards .card:hover {
+    .cards .Card:hover {
         background: #2069A1;
     }
 
-    .cards .card:hover .number {
+    .cards .Card:hover .number {
         color: #ffff;
     }
 
-    .cards .card:hover .card-name {
+    .cards .Card:hover .card-name {
         color: #ffff;
     }
 
-    .cards .card:hover .icon-box i {
+    .cards .Card:hover .icon-box i {
         color: #ffff;
     }
 
@@ -52,9 +52,6 @@
 
     @media (max-width:880px) {
         .cards {
-            width: 100%;
-            padding: 35px 20px;
-            display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 20px;
         }
@@ -68,7 +65,7 @@
 </style>
 
 <div class="cards">
-    <div class="card">
+    <div class="Card">
         <div class="card-content">
             <div class="number">{{c_estudiante}}</div>
             <div class="card-name">Estudiantes</div>
@@ -77,7 +74,16 @@
             <i class="fas fa-user-graduate"></i>
         </div>
     </div>
-    <div class="card">
+    <div class="Card">
+      <div class="card-content">
+        <div class="number">{{c_matricula}}</div>
+        <div class="card-name">Matriculas</div>
+      </div>
+      <div class="icon-box">
+        <i class="fa-solid fa-laptop-file"></i>
+      </div>
+    </div>
+    <div class="Card">
         <div class="card-content">
             <div class="number">{{c_profesor}}</div>
             <div class="card-name">Profesores</div>
@@ -86,7 +92,8 @@
             <i class="fas fa-chalkboard-teacher"></i>
         </div>
     </div>
-    <div class="card">
+    {{#ifCond user.nombre_rol "Secretaria" "Profesor"}}
+    <div class="Card">
         <div class="card-content">
             <div class="number">{{c_detallegrupo}}</div>
             <div class="card-name">Grupos</div>
@@ -95,7 +102,9 @@
             <i class="fa-solid fa-chalkboard"></i>
         </div>
     </div>
-    <div class="card">
+    {{/ifCond}}
+    {{#ifCond user.nombre_rol "Administrador"}}
+    <div class="Card">
         <div class="card-content">
             <div class="number">{{c_usuario}}</div>
             <div class="card-name">Usuarios</div>
@@ -104,17 +113,37 @@
             <i class="fa-solid fa-users-gear"></i>
         </div>
     </div>
+    {{/ifCond}}
 </div>
 <div class="px-4 pb-2">
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-6">
+                            {{#ifCond user.nombre_rol "Administrador"}}
                             <div class="w-50 mx-auto">
                                 <img src="/img/business-woman_2323696.png" class="img-fluid rounded">
                             </div>
+                            {{/ifCond}}
+                            {{#ifCond user.nombre_rol "Secretaria"}}
+                            <div class="w-50 mx-auto">
+                                <img src="/img/secretary_6186232.png" class="img-fluid rounded">
+                            </div>
+                            {{/ifCond}}
+                            {{#ifCond user.nombre_rol "Profesor"}}
+                            {{#ifCond user.sexo "F"}}
+                             <div class="w-50 mx-auto">
+                                <img src="/img/professor_4232276.png" class="img-fluid rounded">
+                             </div>
+                            {{/ifCond}}
+                            {{#ifCond user.sexo "M"}}
+                            <div class="w-50 mx-auto">
+                                <img src="/img/teacher_5590486.png" class="img-fluid rounded">
+                            </div>
+                            {{/ifCond}}
+                            {{/ifCond}}
                         </div>
                         <div class="col-md-6">
                             <p class="fs-1 text-center">Bienvenid@</p>
