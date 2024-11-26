@@ -295,6 +295,7 @@ var tabla_usuario = new DataTable('#dt-usuario', {
         type: 'GET'
     },
     aaSorting: [],
+    ordering: false,
     columns: [
         { data: "id_usuario" },
         { data: "nombres_usuario" },
@@ -313,7 +314,6 @@ var tabla_usuario = new DataTable('#dt-usuario', {
         }
     ],
     destroy: true,
-    responsive: true,
     responsive: {
         breakpoints: [
             { name: 'desktop', width: Infinity },
@@ -339,12 +339,6 @@ var tabla_usuario = new DataTable('#dt-usuario', {
             last: "Último",
             next: "Siguiente",
             previous: "Anterior"
-        },
-        select: {
-            rows: {
-                _: ' %d Filas seleccionadas',
-                1: ' 1 Fila Seleccionada'
-            }
         }
     }
 });
@@ -361,15 +355,3 @@ $('#dt-usuario tbody').on("click", "button.bloquear", function () {
     var data_usuario = tabla_usuario.row($(this).parents("tr")).data();
     bloquearUsuario(data_usuario.id_usuario);
 });
-
-// $('#dt-usuario tbody').on("click", "button", function () {
-//     var data_usuario = tabla_usuario.row($(this).parents("tr")).data();
-    
-//     if ($(this).hasClass("editar")) {
-//         iniciarEditarUsuario(data_usuario);
-//     } else if ($(this).hasClass("activar")) {
-//         activarUsuario(data_usuario.id_usuario);
-//     } else if ($(this).hasClass("bloquear")) {
-//         iniciarEditarUsuario(data_usuario.id_usuario);
-//     }
-// });
