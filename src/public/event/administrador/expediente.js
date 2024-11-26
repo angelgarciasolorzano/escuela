@@ -413,7 +413,7 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
             className: "text-center", targets: [3, 6]
         }
     ],
-    //destroy: true,
+    destroy: false,
     responsive: {
         breakpoints: [
             { name: 'desktop', width: Infinity },  // Pantallas grandes (>1024px)
@@ -439,12 +439,6 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
             last: "Último",
             next: "Siguiente",
             previous: "Anterior"
-        },
-        select: {
-            rows: {
-                _: ' %d Filas seleccionadas',
-                1: ' 1 Fila Seleccionada'
-            }
         }
     }
 });

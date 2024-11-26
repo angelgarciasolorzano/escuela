@@ -1,359 +1,351 @@
 <div id="toast-notificacion"></div>
-<div class="d-flex flex-column gap-2 py-3 px-4">
-  <div class="card shadow bg-body-tertiary rounded">
-    <div class="card-body d-flex flex-row justify-content-start align-items-center gap-2" style="color: #0d2033;">
-      <i class="fas fa-user-graduate fs-5 text-nowrap m-0" style="width: 1rem;"></i>
-      <p class="fs-5 text-nowrap m-0" style="width: 1rem;">Estudiantes > expedientes</p>
+<div class="d-flex flex-column gap-2 py-4 px-5">
+  <div class="col-lg-12">
+    <div class="card shadow bg-body-tertiary rounded">
+      <div class="card-body d-flex flex-row justify-content-start align-items-center gap-2" style="color: #0d2033;">
+        <i class="fas fa-user-graduate fs-5 text-nowrap m-0" style="width: 1rem;"></i>
+        <p class="fs-5 text-nowrap m-0" style="width: 1rem;">Estudiantes > expedientes</p>
+      </div>
     </div>
   </div>
-  <div class="row g-4">
-    <div class="col-md-12">
+  <div class="col-lg-12">
+    <div class="col g-4">
       <div class="card shadow bg-body-tertiary rounded d-none" id="card-datosPersonales">
         <div class="card-header color-background">
-          <h4 class="text-white text-center fw-semibold m-0" id="txt-accion">Datos Personales:</h4>
+          <h4 class="text-white text-center fw-semibold m-auto" id="txt-accion">Datos Personales:</h4>
         </div>
         <div class="card-body">
-          <div class="container text-white">
-            <div id="formulario-matricula">
-              <div class="row">
-                <!--Datos del Tutor-->
-                <div class="col-md-12">
-                  <div class="card border-secondary">
-                    <div class="card-header color-background">
-                      <h1 class="text-center fs-3 text-white">Tutor y Padres de Familia:</h1>
-                    </div>
-                    <div class="card-body">
-                      <div class="row g-3 p-2">
-                        <fieldset class="border border-primary rounded-3 p-2">
-                          <legend class="float-none w-auto px-2">Datos Personales Tutor
-                          </legend>
-                          <div class="row g-3" id="form-tutor">
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputText" class="form-label">Nombres y
-                                Apellidos:</label>
-                              <input name="nombres_tutor" type="text" class="form-control border border-secondary"
-                                id="nombres-tutor" placeholder="Juan Pablo Garcia Solorzano" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputText" class="form-label">Cédula:</label>
-                              <input name="cedula_tutor" type="text" class="form-control border-secondary"
-                                id="cedula-tutor" placeholder="000-011280-0000B" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputNumber" class="form-label">Teléfono:</label>
-                              <input name="telefono_tutor" type="text" class="form-control border-secondary"
-                                id="telefono-tutor" placeholder="84125477" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputAddress" class="form-label">Correo-e
-                                (opcional):</label>
-                              <input name="correo_e_tutor" type="text" class="form-control border-secondary"
-                                id="correo-tutor" placeholder="juan_pablo12@gmail.com" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputState" class="form-label">Relación con
-                                el Estudiante:</label>
-                              <select name="relacion_tutor" id="relacion-tutor"
-                                class="form-select border border-secondary">
-                                <option selected disabled value="">Elegir...
-                                </option>
-                                <option value="Madre">Madre</option>
-                                <option value="Padre">Padre</option>
-                                <option value="Otro Familiar">Otro Familiar</option>
-                                <option value="Ninguna">Ninguna</option>
-                              </select>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-8 position-relative">
-                              <label for="inputText" class="form-label">Ocupación:</label>
-                              <input name="ocupacion_tutor" type="text" class="form-control border-secondary"
-                                id="ocupacion-tutor" placeholder="Ejecutiv@ de ventas" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-12 position-relative">
-                              <label for="inputText" class="form-label">Dirección del
-                                trabajo:</label>
-                              <input name="direccion_tutor" type="text" class="form-control border-secondary"
-                                id="direccion-tutor" placeholder="municipio, distrito-barrio, casa#" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                          </div>
-                        </fieldset>
-
-                        <fieldset class="border border-primary rounded-3 p-2" id="fieldsetMadre">
-                          <legend class="float-none w-auto px-2">Datos Personales Madre
-                          </legend>
-                          <div class="row g-3" id="form-madre">
-                            <div class="col-lg-6 position-relative">
-                              <label for="inputText" class="form-label">Nombres y
-                                Apellidos:</label>
-                              <input name="nombres_madre" type="text" class="form-control border border-secondary"
-                                id="nombres-madre" placeholder="Katherin Fernanda Ruiz Benavidez" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputText" class="form-label">Cédula:</label>
-                              <input name="cedula_madre" type="text" class="form-control border-secondary"
-                                id="cedula-madre" placeholder="000-011280-0000B" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputNumber" class="form-label">Teléfono:</label>
-                              <input name="telefono_madre" type="text" class="form-control border-secondary"
-                                id="telefono-madre" placeholder="84125477" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                          </div>
-                        </fieldset>
-
-                        <fieldset class="border border-primary rounded-3 p-2" id="fieldsetPadre">
-                          <legend class="float-none w-auto px-2">Datos Personales Padre
-                          </legend>
-                          <div class="row g-3" id="form-padre">
-                            <div class="col-lg-6 position-relative">
-                              <label for="inputText" class="form-label">Nombres y
-                                Apellidos:</label>
-                              <input name="nombres_padre" type="text" class="form-control border border-secondary"
-                                id="nombres-padre" placeholder="Juan Pablo Garcia Solorzano" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputText" class="form-label">Cédula:</label>
-                              <input name="cedula_padre" type="text" class="form-control border-secondary"
-                                id="cedula-padre" placeholder="000-011280-0000B" required>
-                              <div class="invalid-tooltip">
-                                Error!
-                              </div>
-                            </div>
-                            <div class="col-lg-3 position-relative">
-                              <label for="inputNumber" class="form-label">Teléfono:</label>
-                              <input name="telefono_padre" type="text" class="form-control border-secondary"
-                                id="telefono-padre" placeholder="84125477" required>
-                              <div class="invalid-tooltip">
-                                ¡Error!
-                              </div>
-                            </div>
-                          </div>
-                        </fieldset>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
+          <!--Datos del Tutor-->
+          <div class="col-md-12">
+            <div class="card border-secondary">
+              <div class="card-header color-background">
+                <h1 class="text-center fs-3 text-white">Tutor y Padres de Familia:</h1>
               </div>
-
-              <!--Datos del Estudiante-->
-              <div class="col-md-12 pt-3">
-                <div class="card border-secondary">
-                  <div class="card-header color-background">
-                    <h1 class="text-center fs-3 text-white">Datos Estudiante:</h1>
-                  </div>
-                  <div class="card-body">
-                    <div class="row g-3" id="form-estudiante">
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Nombres:</label>
-                        <input name="nombres_est" type="text" class="form-control border-secondary" id="nombres-est"
-                          placeholder="Jennifer Sofia">
+              <div class="card-body">
+                <div class="row g-3 p-2">
+                  <fieldset class="border border-primary rounded-3 p-2">
+                    <legend class="float-none w-auto px-2">Datos Personales Tutor
+                    </legend>
+                    <div class="row g-3" id="form-tutor">
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputText" class="form-label">Nombres y
+                          Apellidos:</label>
+                        <input name="nombres_tutor" type="text" class="form-control border border-secondary"
+                          id="nombres-tutor" placeholder="Juan Pablo Garcia Solorzano" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputText" class="form-label">Cédula:</label>
+                        <input name="cedula_tutor" type="text" class="form-control border-secondary" id="cedula-tutor"
+                          placeholder="000-011280-0000B" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputNumber" class="form-label">Teléfono:</label>
+                        <input name="telefono_tutor" type="text" class="form-control border-secondary"
+                          id="telefono-tutor" placeholder="84125477" required>
                         <div class="invalid-tooltip">
                           ¡Error!
                         </div>
                       </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Apellidos:</label>
-                        <input name="apellidos_est" type="text" class="form-control border-secondary" id="apellidos-est"
-                          placeholder="Fernandez Ortiz">
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputAddress" class="form-label">Correo-e
+                          (opcional):</label>
+                        <input name="correo_e_tutor" type="text" class="form-control border-secondary" id="correo-tutor"
+                          placeholder="juan_pablo12@gmail.com" required>
                         <div class="invalid-tooltip">
                           ¡Error!
                         </div>
                       </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Código
-                          Estudiantil:</label>
-                        <input name="codigo_est" type="text" class="form-control border-secondary" id="codigo-est"
-                          placeholder="JSFO-030109-0000000">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Cédula (opcional):</label>
-                        <input name="cedula_est" type="text" class="form-control border-secondary" id="cedula-est"
-                          placeholder="000-011280-0000B">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">#Registro de
-                          Nacimiento:</label>
-                        <input name="registroNac_est" type="text" class="form-control border-secondary"
-                          id="registroNac-est" placeholder="#Tomo-#Folio-#Partida">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputDate" class="form-label">Fecha de
-                          Nacimiento:</label>
-                        <input name="fechaNac_est" type="date" class="form-control border-secondary" id="fechaNac-est">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputState" class="form-label">Género:</label>
-                        <select class="form-select border-secondary" name="sexo_est" id="sexo-est">
-                          <option selected disabled value="">Elegir...</option>
-                          <option value="M">Masculino</option>
-                          <option value="F">Femenino</option>
-                        </select>
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputState" class="form-label">Pueblo indigena,
-                          Afrodescendiente ó etnia:</label>
-                        <select class="form-select border-secondary" name="etnia_est" id="etnia-est">
-                          <option selected disabled value="">Elegir...</option>
-                          <option value="Miskitu">Miskitu</option>
-                          <option value="Mayangna">Mayangna</option>
-                          <option value="Rama">Rama</option>
-                          <option value="Ulwa">Ulwa</option>
-                          <option value="Creole">Creole</option>
-                          <option value="Garifuna">Garifuna</option>
-                          <option value="Mestizo Costa Caribe">Mestizo Costa Caribe
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputState" class="form-label">Relación con
+                          el Estudiante:</label>
+                        <select name="relacion_tutor" id="relacion-tutor" class="form-select border border-secondary">
+                          <option selected disabled value="">Elegir...
                           </option>
-                          <option value="Matagalpa">Matagalpa</option>
-                          <option value="Chorotega">Chorotega</option>
-                          <option value="Nahoa-Niquiranos">Nahoa-Niquiranos</option>
-                          <option value="Xiu-Sutiaba">Xiu-Sutiaba</option>
-                          <option value="Mestizo Pacifico-Central-Norte">Mestizo
-                            Pacifico-Central-Norte</option>
-                        </select>
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputState" class="form-label">Lengua Materna:</label>
-                        <select class="form-select border-secondary" name="lengua_est" id="lengua-est">
-                          <option selected disabled value="">Elegir...</option>
-                          <option value="Español">Español</option>
-                          <option value="Miskitu">Miskitu</option>
-                          <option value="Mayangna Tuakha">Mayangna Tuakha</option>
-                          <option value="Mayangna Panamanka">Mayangna Panamanka</option>
-                          <option value="Mayangna Yusku">Mayangna Yusku</option>
-                          <option value="Ulwa">Ulwa</option>
-                          <option value="Creole">Creole</option>
-                          <option value="Ingles">Ingles</option>
-                          <option value="Garifuna">Garifuna</option>
-                          <option value="Rama">Rama</option>
-                        </select>
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputState" class="form-label">Discapacidad (según
-                          diagnóstico médico):</label>
-                        <select class="form-select border-secondary" name="discapacidad_est" id="discapacidad-est">
-                          <option selected disabled value="">Elegir...</option>
-                          <option value="Intelectual">Intelectual</option>
-                          <option value="Autismo">Autismo</option>
-                          <option value="Hipoacusia">Hipoacusia</option>
-                          <option value="Baja vision">Baja vision</option>
-                          <option value="Multidiscapacidad">Multidiscapacidad</option>
-                          <option value="Fisico Motora">Fisico Motora</option>
-                          <option value="Sordo">Sordo</option>
-                          <option value="Ciego">Ciego</option>
-                          <option value="Sordo-Ciego">Sordo-Ciego</option>
+                          <option value="Madre">Madre</option>
+                          <option value="Padre">Padre</option>
+                          <option value="Otro Familiar">Otro Familiar</option>
                           <option value="Ninguna">Ninguna</option>
                         </select>
                         <div class="invalid-tooltip">
                           ¡Error!
                         </div>
                       </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Teléfono
-                          (opcional):</label>
-                        <input name="telefono_est" type="text" class="form-control border-secondary" id="telefono-est"
-                          placeholder="84125477">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Lugar de Nacimiento
-                          (País):</label>
-                        <input name="lugarNac_est" type="text" class="form-control border-secondary" id="lugarNac-est"
-                          placeholder="Nicaragua">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
-                      <div class="col-lg-4 position-relative">
-                        <label for="inputText" class="form-label">Nacionalidad:</label>
-                        <input name="nacionalidad_est" type="text" class="form-control border-secondary"
-                          id="nacionalidad-est" placeholder="Nicaragüense">
-                        <div class="invalid-tooltip">
-                          ¡Error!
-                        </div>
-                      </div>
                       <div class="col-lg-8 position-relative">
-                        <label for="inputText" class="form-label">Dirección
-                          Domiciliar:</label>
-                        <input name="direccionDom_est" type="text" class="form-control border-secondary"
-                          id="direccionDom-est" placeholder="municipio, distrito-barrio, casa#">
+                        <label for="inputText" class="form-label">Ocupación:</label>
+                        <input name="ocupacion_tutor" type="text" class="form-control border-secondary"
+                          id="ocupacion-tutor" placeholder="Ejecutiv@ de ventas" required>
                         <div class="invalid-tooltip">
                           ¡Error!
                         </div>
                       </div>
-
+                      <div class="col-lg-12 position-relative">
+                        <label for="inputText" class="form-label">Dirección del
+                          trabajo:</label>
+                        <input name="direccion_tutor" type="text" class="form-control border-secondary"
+                          id="direccion-tutor" placeholder="municipio, distrito-barrio, casa#" required>
+                        <div class="invalid-tooltip">
+                          ¡Error!
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </fieldset>
+
+                  <fieldset class="border border-primary rounded-3 p-2" id="fieldsetMadre">
+                    <legend class="float-none w-auto px-2">Datos Personales Madre
+                    </legend>
+                    <div class="row g-3" id="form-madre">
+                      <div class="col-lg-6 position-relative">
+                        <label for="inputText" class="form-label">Nombres y
+                          Apellidos:</label>
+                        <input name="nombres_madre" type="text" class="form-control border border-secondary"
+                          id="nombres-madre" placeholder="Katherin Fernanda Ruiz Benavidez" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputText" class="form-label">Cédula:</label>
+                        <input name="cedula_madre" type="text" class="form-control border-secondary" id="cedula-madre"
+                          placeholder="000-011280-0000B" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputNumber" class="form-label">Teléfono:</label>
+                        <input name="telefono_madre" type="text" class="form-control border-secondary"
+                          id="telefono-madre" placeholder="84125477" required>
+                        <div class="invalid-tooltip">
+                          ¡Error!
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="border border-primary rounded-3 p-2" id="fieldsetPadre">
+                    <legend class="float-none w-auto px-2">Datos Personales Padre
+                    </legend>
+                    <div class="row g-3" id="form-padre">
+                      <div class="col-lg-6 position-relative">
+                        <label for="inputText" class="form-label">Nombres y
+                          Apellidos:</label>
+                        <input name="nombres_padre" type="text" class="form-control border border-secondary"
+                          id="nombres-padre" placeholder="Juan Pablo Garcia Solorzano" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputText" class="form-label">Cédula:</label>
+                        <input name="cedula_padre" type="text" class="form-control border-secondary" id="cedula-padre"
+                          placeholder="000-011280-0000B" required>
+                        <div class="invalid-tooltip">
+                          Error!
+                        </div>
+                      </div>
+                      <div class="col-lg-3 position-relative">
+                        <label for="inputNumber" class="form-label">Teléfono:</label>
+                        <input name="telefono_padre" type="text" class="form-control border-secondary"
+                          id="telefono-padre" placeholder="84125477" required>
+                        <div class="invalid-tooltip">
+                          ¡Error!
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
               </div>
             </div>
+          </div>
 
-          </div><!-- Aqui termina el form del expediente-->
+          <!--Datos del Estudiante-->
+          <div class="col-md-12 pt-3">
+            <div class="card border-secondary">
+              <div class="card-header color-background">
+                <h1 class="text-center fs-3 text-white">Datos Estudiante:</h1>
+              </div>
+              <div class="card-body">
+                <div class="row g-3" id="form-estudiante">
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Nombres:</label>
+                    <input name="nombres_est" type="text" class="form-control border-secondary" id="nombres-est"
+                      placeholder="Jennifer Sofia">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Apellidos:</label>
+                    <input name="apellidos_est" type="text" class="form-control border-secondary" id="apellidos-est"
+                      placeholder="Fernandez Ortiz">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Código
+                      Estudiantil:</label>
+                    <input name="codigo_est" type="text" class="form-control border-secondary" id="codigo-est"
+                      placeholder="JSFO-030109-0000000">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Cédula (opcional):</label>
+                    <input name="cedula_est" type="text" class="form-control border-secondary" id="cedula-est"
+                      placeholder="000-011280-0000B">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">#Registro de
+                      Nacimiento:</label>
+                    <input name="registroNac_est" type="text" class="form-control border-secondary" id="registroNac-est"
+                      placeholder="#Tomo-#Folio-#Partida">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputDate" class="form-label">Fecha de
+                      Nacimiento:</label>
+                    <input name="fechaNac_est" type="date" class="form-control border-secondary" id="fechaNac-est">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputState" class="form-label">Género:</label>
+                    <select class="form-select border-secondary" name="sexo_est" id="sexo-est">
+                      <option selected disabled value="">Elegir...</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Femenino</option>
+                    </select>
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputState" class="form-label">Pueblo indigena,
+                      Afrodescendiente ó etnia:</label>
+                    <select class="form-select border-secondary" name="etnia_est" id="etnia-est">
+                      <option selected disabled value="">Elegir...</option>
+                      <option value="Miskitu">Miskitu</option>
+                      <option value="Mayangna">Mayangna</option>
+                      <option value="Rama">Rama</option>
+                      <option value="Ulwa">Ulwa</option>
+                      <option value="Creole">Creole</option>
+                      <option value="Garifuna">Garifuna</option>
+                      <option value="Mestizo Costa Caribe">Mestizo Costa Caribe
+                      </option>
+                      <option value="Matagalpa">Matagalpa</option>
+                      <option value="Chorotega">Chorotega</option>
+                      <option value="Nahoa-Niquiranos">Nahoa-Niquiranos</option>
+                      <option value="Xiu-Sutiaba">Xiu-Sutiaba</option>
+                      <option value="Mestizo Pacifico-Central-Norte">Mestizo
+                        Pacifico-Central-Norte</option>
+                    </select>
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputState" class="form-label">Lengua Materna:</label>
+                    <select class="form-select border-secondary" name="lengua_est" id="lengua-est">
+                      <option selected disabled value="">Elegir...</option>
+                      <option value="Español">Español</option>
+                      <option value="Miskitu">Miskitu</option>
+                      <option value="Mayangna Tuakha">Mayangna Tuakha</option>
+                      <option value="Mayangna Panamanka">Mayangna Panamanka</option>
+                      <option value="Mayangna Yusku">Mayangna Yusku</option>
+                      <option value="Ulwa">Ulwa</option>
+                      <option value="Creole">Creole</option>
+                      <option value="Ingles">Ingles</option>
+                      <option value="Garifuna">Garifuna</option>
+                      <option value="Rama">Rama</option>
+                    </select>
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputState" class="form-label">Discapacidad (según
+                      diagnóstico médico):</label>
+                    <select class="form-select border-secondary" name="discapacidad_est" id="discapacidad-est">
+                      <option selected disabled value="">Elegir...</option>
+                      <option value="Intelectual">Intelectual</option>
+                      <option value="Autismo">Autismo</option>
+                      <option value="Hipoacusia">Hipoacusia</option>
+                      <option value="Baja vision">Baja vision</option>
+                      <option value="Multidiscapacidad">Multidiscapacidad</option>
+                      <option value="Fisico Motora">Fisico Motora</option>
+                      <option value="Sordo">Sordo</option>
+                      <option value="Ciego">Ciego</option>
+                      <option value="Sordo-Ciego">Sordo-Ciego</option>
+                      <option value="Ninguna">Ninguna</option>
+                    </select>
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Teléfono
+                      (opcional):</label>
+                    <input name="telefono_est" type="text" class="form-control border-secondary" id="telefono-est"
+                      placeholder="84125477">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Lugar de Nacimiento
+                      (País):</label>
+                    <input name="lugarNac_est" type="text" class="form-control border-secondary" id="lugarNac-est"
+                      placeholder="Nicaragua">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-4 position-relative">
+                    <label for="inputText" class="form-label">Nacionalidad:</label>
+                    <input name="nacionalidad_est" type="text" class="form-control border-secondary"
+                      id="nacionalidad-est" placeholder="Nicaragüense">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+                  <div class="col-lg-8 position-relative">
+                    <label for="inputText" class="form-label">Dirección
+                      Domiciliar:</label>
+                    <input name="direccionDom_est" type="text" class="form-control border-secondary"
+                      id="direccionDom-est" placeholder="municipio, distrito-barrio, casa#">
+                    <div class="invalid-tooltip">
+                      ¡Error!
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="text-center pt-3">
             <button type="button" class="btn btn-danger d-none mx-auto w-30px" id="btn-cancelar_edit">Cancelar</button>
             <button type="button" class="btn btn-warning d-none mx-auto w-30px" id="btn-guardar_edit">Guardar</button>
             <button class="btn btn-danger btn-block d-none" id="btn-cerrar-mostrar">Cerrar</button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div>
+      </div> <!-- Aqui termina el form del expediente-->
+    </div> 
+  </div> <!-- aqui termina la card del expediente -->
+  <div class="col-lg-12">
     <div class="card">
       <div class="card shadow bg-body-tertiary rounded">
         <div class="card-header color-background">
@@ -361,7 +353,8 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-striped table-bordered nowrap" id="dt-estudiante" style="width: 100%;">
+            <table class="table table-responsive table-striped table-bordered nowrap" id="dt-estudiante"
+              style="width: 100%;">
               <thead class="table-secondary">
                 <tr>
                   <th>Código Estudiantil</th>
@@ -379,9 +372,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> <!-- aqui termina la card el datatable -->
 </div>
-<!-- modal-message -->
 <div id="crearModal"></div>
 <!-- modal-message -->
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.8/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
