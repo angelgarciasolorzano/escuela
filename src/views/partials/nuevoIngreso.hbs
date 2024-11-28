@@ -1,0 +1,442 @@
+<link rel="stylesheet" href="/css/nuevoIngreso.css">
+<div class="col g-2 mt-2">
+  <div class="mx-4">
+    <!-- Steps-Icons -->
+    <div class="container_icon">
+      <i class="fa-solid fa-person"></i>
+      <i class="fa-solid fa-restroom"></i>
+      <i class="fa-solid fa-children"></i>
+      <i class="fa-regular fa-id-card"></i>
+    </div>
+    <!-- Progress bar -->
+    <div class="progressbar">
+      <div class="progress" id="progress"></div>
+      <div class="progress-step progress-step-active" data-title="Tutor"></div>
+      <div class="progress-step" data-title="Padres"></div>
+      <div class="progress-step" data-title="Estudiante"></div>
+      <div class="progress-step" data-title="Matricula"></div>
+    </div>
+  </div>
+  <!-- Step-Tutor -->
+  <div class="form-step form-step-active">
+    <div class="d-flex justify-content-center">
+      <div class="d-flex align-items-center gap-2">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="checkTutor">
+          <label class="form-check-label" for="checkTutor">
+            ¿Necesita buscar el tutor?
+          </label>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="btn-buscarTutor"
+          data-bs-target="#tutorModal" disabled>Buscar Tutor</button>
+      </div>
+    </div>
+    <!--Datos del Tutor-->
+    <div class="col-md-12">
+      <fieldset class="border border-secondary rounded-3 p-2">
+        <legend class="float-none w-auto px-2">Datos del tutor</legend>
+        <div class="row g-3" id="form-tutor">
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Nombres y Apellidos:</label>
+            <input name="nombres_tutor" type="text" class="form-control border border-secondary" id="nombres-tutor"
+              placeholder="Juan Pablo Garcia Solorzano" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Cédula:</label>
+            <input name="cedula_tutor" type="text" class="form-control border-secondary" id="cedula-tutor"
+              placeholder="000-011280-0000B" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputNumber" class="form-label">Teléfono:</label>
+            <input name="telefono_tutor" type="text" class="form-control border-secondary" id="telefono-tutor"
+              placeholder="84125477" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputAddress" class="form-label">Correo-e (opcional):</label>
+            <input name="correo_e_tutor" type="text" class="form-control border-secondary" id="correo-tutor"
+              placeholder="juan_pablo12@gmail.com" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputState" class="form-label">Relación con el
+              Estudiante:</label>
+            <select name="relacion_tutor" id="relacion-tutor" class="form-select border border-secondary" disabled>
+              <option selected disabled value="">Elegir...</option>
+              <option value="Madre">Madre</option>
+              <option value="Padre">Padre</option>
+              <option value="Otro Familiar">Otro Familiar</option>
+              <option value="Ninguna">Ninguna</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Ocupación:</label>
+            <input name="ocupacion_tutor" type="text" class="form-control border-secondary" id="ocupacion-tutor"
+              placeholder="Ejecutiv@ de ventas" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-6 position-relative">
+            <label for="inputText" class="form-label">Dirección del trabajo:</label>
+            <input name="direccion_tutor" type="text" class="form-control border-secondary" id="direccion-tutor"
+              placeholder="municipio, distrito-barrio, casa#" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="pt-3">
+      <a href="#" class="Btn btn-next width-50 ml-auto" onclick="event.preventDefault();" id="btn-tutor">Siguiente</a>
+    </div>
+  </div><!-- Final step-tutor -->
+  <!-- Step-Padres -->
+  <div class="form-step">
+    <div class="col-md-12">
+      <fieldset class="border border-secondary rounded-3 p-2" id="fieldsetMadre">
+        <legend class="float-none w-auto px-2">Datos de la madre</legend>
+        <div class="row g-3" id="form-madre">
+          <div class="col-lg-6 position-relative">
+            <label for="inputText" class="form-label">Nombres y Apellidos:</label>
+            <input name="nombres_madre" type="text" class="form-control border border-secondary" id="nombres-madre"
+              placeholder="Katherin Fernanda Ruiz Benavidez" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Cédula:</label>
+            <input name="cedula_madre" type="text" class="form-control border-secondary" id="cedula-madre"
+              placeholder="000-011280-0000B" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputNumber" class="form-label">Teléfono:</label>
+            <input name="telefono_madre" type="text" class="form-control border-secondary" id="telefono-madre"
+              placeholder="84125477" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="border border-secondary rounded-3 p-2" id="fieldsetPadre">
+        <legend class="float-none w-auto px-2">Datos del padre</legend>
+        <div class="row g-3" id="form-padre">
+          <div class="col-lg-6 position-relative">
+            <label for="inputText" class="form-label">Nombres y Apellidos:</label>
+            <input name="nombres_padre" type="text" class="form-control border border-secondary" id="nombres-padre"
+              placeholder="Juan Pablo Garcia Solorzano" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Cédula:</label>
+            <input name="cedula_padre" type="text" class="form-control border-secondary" id="cedula-padre"
+              placeholder="000-011280-0000B" required>
+            <div class="invalid-tooltip">
+              Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputNumber" class="form-label">Teléfono:</label>
+            <input name="telefono_padre" type="text" class="form-control border-secondary" id="telefono-padre"
+              placeholder="84125477" required>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="btns-group pt-3">
+      <a href="#" class="Btn btn-prev" onclick="event.preventDefault();">Atras</a>
+      <a href="#" class="Btn btn-next" id="btn-padres" onclick="event.preventDefault();">Siguiente</a>
+    </div>
+  </div><!-- Final Step-Padres -->
+  <!-- Step-Estudiante -->
+  <div class="form-step">
+    <div class="col-md-12">
+      <fieldset class="border border-secondary rounded-3 p-2">
+        <legend class="float-none w-auto px-2">Expediente del estudiante</legend>
+        <div class="row g-3" id="form-estudiante">
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Nombres:</label>
+            <input name="nombres_est" type="text" class="form-control border-secondary" id="nombres-est"
+              placeholder="Jennifer Sofia">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Apellidos:</label>
+            <input name="apellidos_est" type="text" class="form-control border-secondary" id="apellidos-est"
+              placeholder="Fernandez Ortiz">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Código Estudiantil:</label>
+            <input name="codigo_est" type="text" class="form-control border-secondary" id="codigo-est"
+              placeholder="JSFO-030109-0000000">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputText" class="form-label">Cédula (opcional):</label>
+            <input name="cedula_est" type="text" class="form-control border-secondary" id="cedula-est"
+              placeholder="000-011280-0000B">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-2 position-relative">
+            <label for="inputDate" class="form-label">Fecha de Nacimiento:</label>
+            <input name="fechaNac_est" type="date" class="form-control border-secondary" id="fecha-est">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-2 position-relative">
+            <label for="inputState" class="form-label">Género:</label>
+            <select class="form-select border-secondary" name="sexo_est" id="sexo-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputState" class="form-label">Pueblo indígena, etnia..:</label>
+            <select class="form-select border-secondary" name="etnia_est" id="etnia-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="Miskitu">Miskitu</option>
+              <option value="Mayangna">Mayangna</option>
+              <option value="Rama">Rama</option>
+              <option value="Ulwa">Ulwa</option>
+              <option value="Creole">Creole</option>
+              <option value="Garifuna">Garifuna</option>
+              <option value="Mestizo Costa Caribe">Mestizo Costa Caribe</option>
+              <option value="Matagalpa">Matagalpa</option>
+              <option value="Chorotega">Chorotega</option>
+              <option value="Nahoa-Niquiranos">Nahoa-Niquiranos</option>
+              <option value="Xiu-Sutiaba">Xiu-Sutiaba</option>
+              <option value="Mestizo Pacifico-Central-Norte">Mestizo Pacífico-Central-Norte
+              </option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-2 position-relative">
+            <label for="inputState" class="form-label">Lengua Materna:</label>
+            <select class="form-select border-secondary" name="lengua_est" id="lengua-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="Español">Español</option>
+              <option value="Miskitu">Miskitu</option>
+              <option value="Mayangna Tuakha">Mayangna Tuakha</option>
+              <option value="Mayangna Panamanka">Mayangna Panamanka</option>
+              <option value="Mayangna Yusku">Mayangna Yusku</option>
+              <option value="Ulwa">Ulwa</option>
+              <option value="Creole">Creole</option>
+              <option value="Ingles">Ingles</option>
+              <option value="Garifuna">Garifuna</option>
+              <option value="Rama">Rama</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-3 position-relative">
+            <label for="inputState" class="form-label">Discapacidad:</label>
+            <select class="form-select border-secondary" name="discapacidad_est" id="discapacidad-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="Intelectual">Intelectual</option>
+              <option value="Autismo">Autismo</option>
+              <option value="Hipoacusia">Hipoacusia</option>
+              <option value="Baja vision">Baja vision</option>
+              <option value="Multidiscapacidad">Multidiscapacidad</option>
+              <option value="Fisico Motora">Fisico Motora</option>
+              <option value="Sordo">Sordo</option>
+              <option value="Ciego">Ciego</option>
+              <option value="Sordo-Ciego">Sordo-Ciego</option>
+              <option value="Ninguna">Ninguna</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-2 position-relative">
+            <label for="inputText" class="form-label">Teléfono (opcional):</label>
+            <input name="telefono_est" type="text" class="form-control border-secondary" id="telefono-est"
+              placeholder="84125477">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputText" class="form-label">Lugar de Nacimiento (País):</label>
+            <input name="lugarNac_est" type="text" class="form-control border-secondary" id="lugarNac-est"
+              placeholder="Nicaragua">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-2 position-relative">
+            <label for="inputText" class="form-label">Nacionalidad:</label>
+            <input name="nacionalidad_est" type="text" class="form-control border-secondary" id="nacionalidad-est"
+              placeholder="Nicaragüense">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputText" class="form-label">Dirección Domiciliar:</label>
+            <input name="direccionDom_est" type="text" class="form-control border-secondary" id="direccionDom-est"
+              placeholder="municipio, distrito-barrio, casa#">
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+      <div class="btns-group pt-3">
+        <a href="#" class="Btn btn-prev" onclick="event.preventDefault();">Atras</a>
+        <a href="#" class="Btn btn-next" id="btn-estudiante" onclick="event.preventDefault();">Siguiente</a>
+      </div>
+    </div>
+  </div>
+  <!-- Step-Matricula -->
+  <div class="form-step">
+    <div class="col-md-12">
+      <fieldset class="border border-secondary rounded-3 p-2">
+        <legend class="float-none w-auto px-2">Datos matrícula</legend>
+        <div class="row g-3" id="form-matriculaNuevo">
+          <div class="col-lg-4 position-relative">
+            <label for="inputState" class="form-label">Repitente:</label>
+            <select class="form-select border-secondary" name="repitente_est" id="repitente-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="Si">Sí</option>
+              <option value="No">No</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputState" class="form-label">Trasladado:</label>
+            <select class="form-select border-secondary" name="trasladado_est" id="trasladado-est">
+              <option selected disabled value="">Elegir...</option>
+              <option value="Si">Sí</option>
+              <option value="No">No</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputState" class="form-label">Modalidad:</label>
+            <select class="form-select border-secondary" name="modalidad_est" id="modalidad-est">
+              <option selected disabled value="">Elegir...</option>
+              {{#if modalidad}}
+              {{#each modalidad}}
+              <option value={{this.id_modalidad}}>{{this.nombre}}</option>
+              {{/each}}
+              {{/if}}
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
+            <select class="form-select border-secondary" name="nivel_est" id="nivel-est" disabled>
+              <option selected disabled value="">Elegir...</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputState" class="form-label">Grupos Disponibles:</label>
+            <select class="form-select border-secondary" name="grupo_nuevoIngreso" id="grupo-nuevoIngreso" disabled>
+              <option selected disabled value="">Elegir...</option>
+            </select>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+          <div class="col-lg-4 position-relative">
+            <label for="inputText" class="form-label">Turno:</label>
+            <input name="turno_nuevoIngreso" type="text" class="form-control border-secondary" value=""
+              id="turno-nuevoIngreso" placeholder="" disabled>
+            <div class="invalid-tooltip">
+              ¡Error!
+            </div>
+          </div>
+        </div>
+        <!--Papeleo a Entregar-->
+        <div class="container text-center pt-5 ps-3 text-black">
+          <div class="form-check text-black form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Partida de Nacimiento">
+            <label class="form-check-label" for="inlineCheckbox1">Fotocopia Partida de
+              Nacimiento</label>
+            <div class="invalid-feedback ms-3">
+              Documento Obligatorio!
+            </div>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Copia de cedula del Tutor">
+            <label class="form-check-label" for="inlineCheckbox2">Fotocopia de Cedula del Tutor</label>
+            <div class="invalid-feedback ms-3">
+              Documento Obligatorio!
+            </div>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Copia del boletin">
+            <label class="form-check-label" for="inlineCheckbox3">Fotocopia del Boletin ó Certificado de
+              notas</label>
+            <div class="invalid-feedback ms-3">
+              Documento Obligatorio!
+            </div>
+          </div>
+          <div class="form-check form-check-inline d-none position-relative" id="hojasTrasladoNuevo">
+            <input class="form-check-input" type="checkbox" id="checkTrasladadoNuevo-est" value="">
+            <label class="form-check-label" for="checkTrasladadoNuevo">2 hojas de traslado</label>
+            <div class="invalid-tooltip">
+              Documento Obligatorio!
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="btns-group pt-3">
+        <a href="#" class="Btn btn-prev" onclick="event.preventDefault();">Atras</a>
+        <a href="#" class="Btn" id="btn-ingresarMatricula" onclick="event.preventDefault();">Matricular</a>
+      </div>
+    </div>
+  </div>
+
+</div> <!-- Final -->

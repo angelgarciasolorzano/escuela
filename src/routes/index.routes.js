@@ -42,7 +42,7 @@ router.get('/academico/materias', isLoggedIn, checkRol('Administrador'), async (
 router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const fechaHoy = new Date(Date.now());
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
-  res.render('interface/client/secretaria/addmatricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
+  res.render('interface/client/secretaria/matricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
 });//Rutar para renderizar la plantilla matricula
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
   const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);

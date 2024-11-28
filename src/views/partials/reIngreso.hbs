@@ -1,0 +1,109 @@
+<div class="col g-3 mt-2">
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="btn_buscarEstudiantes"
+            data-bs-target="#estudianteModal">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span class="ms-2">Estudiantes</span>
+        </button>
+    </div>
+    <!-- Form reingreso -->
+    <div id="form-matricula" class="row g-3 py-3" novalidate>
+        <div class="col-md-4">
+            <label for="inputAddress" class="form-label">Código Estudiantil:</label>
+            <input name="codigo_est_reingreso" type="text" class="form-control border-secondary"
+                id="codigo-est-reingreso" placeholder="JSFO-030109-0000000" disabled>
+        </div>
+        <div class="col-md-4">
+            <label for="inputText" class="form-label">Estudiante:</label>
+            <input name="name-estudiante" type="text" class="form-control border-secondary" id="name-estudiante"
+                placeholder="Nombre del Estudiante" disabled>
+        </div>
+        <div class="col-md-4">
+            <label for="inputText" class="form-label">Tutor:</label>
+            <input name="name-tutor" type="text" class="form-control border-secondary" id="name-tutor"
+                placeholder="Nombre del Tutor" disabled>
+        </div>
+        <div class="col-md-4">
+            <label for="inputText" class="form-label">Secretari@:</label>
+            <input name="correo_usuario" type="text-user" class="form-control border-secondary" id="correo_usuario"
+                placeholder="Nombre del Secretari@" value={{user.correo_e}} disabled>
+        </div>
+        <div class="col-md-4 position-relative">
+            <label for="inputState" class="form-label">Repitente:</label>
+            <select class="form-select border-secondary" name="repitente_est_reingreso" id="repitente-est-reingreso"
+                required disabled>
+                <option selected disabled value="">Elegir...</option>
+                <option value="Si">Sí</option>
+                <option value="No">No</option>
+            </select>
+            <div class="invalid-tooltip">
+                ¡Error! Falta Seleccionar
+            </div>
+        </div>
+        <div class="col-md-4 position-relative">
+            <label for="inputState" class="form-label">Trasladado:</label>
+            <select class="form-select border-secondary" name="trasladado_est_reingreso" id="trasladado-est-reingreso"
+                required disabled>
+                <option selected disabled value="">Elegir...</option>
+                <option value="Si">Sí</option>
+                <option value="No">No</option>
+            </select>
+            <div class="invalid-tooltip">
+                ¡Error! Falta Seleccionar
+            </div>
+        </div>
+        <div class="col-md-3 position-relative">
+            <label for="inputState" class="form-label">Modalidad:</label>
+            <select class="form-select border-secondary" name="modalidad" id="modalidad-reingreso" required disabled>
+                <option selected disabled value="">Elegir...</option>
+                {{#if modalidad}}
+                {{#each modalidad}}
+                <option value={{this.id_modalidad}}>{{this.nombre}}</option>
+                {{/each}}
+                {{/if}}
+            </select>
+            <div class="invalid-tooltip">
+                ¡Error! Falta Seleccionar
+            </div>
+        </div>
+        <div class="col-md-3 position-relative">
+            <label for="inputState" class="form-label">Nivel/Grado Actual:</label>
+            <select class="form-select border-secondary" name="nivel" id="nivel-reingreso" required disabled>
+                <option selected disabled value="">Elegir...</option>
+            </select>
+            <div class="invalid-tooltip">
+                ¡Error! Falta Seleccionar
+            </div>
+        </div>
+        <div class="col-md-3 position-relative">
+            <label for="inputState" class="form-label">Grupos Disponibles:</label>
+            <select class="form-select border-secondary" name="grupo" id="grupo-reingreso" required disabled>
+                <option selected disabled value="">Elegir...</option>
+            </select>
+            <div class="invalid-tooltip">
+                ¡Error! Falta Seleccionar
+            </div>
+        </div>
+        <div class="col-md-3 position-relative">
+            <label for="inputText" class="form-label">Turno:</label>
+            <input name="turno_reingreso" type="text" value="" class="form-control border-secondary"
+                id="turno-reingreso" placeholder="" disabled>
+            <div class="invalid-tooltip">
+                ¡Error!
+            </div>
+        </div>
+        <!--Papeleo a Entregar-->
+        <div class="container text-center pt-4 text-black">
+            <div class="form-check form-check-inline position-relative d-none" id="hojasTrasladoReingreso">
+                <input class="form-check-input" type="checkbox" id="checkTrasladadoReingreso-est" value="">
+                <label class="form-check-label" for="checkTrasladadoReingreso">2 hojas de traslado</label>
+                <div class="invalid-tooltip">
+                    Documento Obligatorio!
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-success btn-block" id="btn-matricula_reingreso">Matricular</button>
+        </div>
+    </div>
+</div>
