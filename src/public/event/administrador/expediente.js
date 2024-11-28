@@ -41,9 +41,11 @@ var datos_FormET = {};
 $('#btn-cerrar-mostrar').on('click', function (e) {
     e.preventDefault();
     $('#card-datosPersonales').addClass('d-none');
+    $('#aux-spacing').removeClass('mb-2').addClass('mb-0');
 });//Boton para esconder el formulario datos personales
 $('#btn-cancelar_edit').on('click', function (e) {
     e.preventDefault();
+    $('#aux-spacing').removeClass('mb-2').addClass('mb-0');
     salirEditarEstudiante(form_datosPersonales);
 });//Cancela la funcion editar usuario
 $('#btn-guardar_edit').on('click', function (e) {
@@ -295,6 +297,7 @@ function editarEstudiante(datos_FormET) {
                     $('#btn-guardar_edit').addClass('d-none');
                     $('#btn-cerrar-mostrar').removeClass('d-none');
                     $('#txt-accion').text('Datos Personales:');
+                    $('#aux-spacing').removeClass('mb-2').addClass('mb-0');
                 } else {
                     showToast('danger', 'bi bi-exclamation-circle-fill', 'Ocurrio un error inesperado!');
                 }
@@ -444,10 +447,12 @@ var tabla_estudiante = $('#dt-estudiante').DataTable({
 });
 $('#dt-estudiante tbody').on("click", "button.mostrar", function () {
     var data_estudiante = tabla_estudiante.row($(this).parents("tr")).data();
+    $('#aux-spacing').removeClass('mb-0').addClass('mb-2');
     mostrarEstudiante(data_estudiante);
 });
 $('#dt-estudiante tbody').on("click", "button.editar", function () {
     var data_estudiante = tabla_estudiante.row($(this).parents("tr")).data();
+    $('#aux-spacing').removeClass('mb-0').addClass('mb-2');
     iniciarEditarEstudiante(data_estudiante);
 });
 $('#dt-estudiante tbody').on("click", "button.activar", function () {
