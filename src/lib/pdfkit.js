@@ -32,36 +32,36 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   doc.image(imagePath, 60, 65, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
   doc.fontSize(15).text("Fecha: " + datos.fecha, 423, 90)
-  doc.fontSize(20).text("Hoja de Matrícula 2024", 200, 138)
-  doc.fontSize(20).text("I. Datos Generales:", 50, 190)
+  doc.fontSize(20).text("Hoja de matrícula 2024", 200, 138)
+  doc.fontSize(20).text("I. Datos generales:", 50, 190)
   doc.fontSize(15).text("Estudiante: " + datos.nombres_est + ' ' + datos.apellidos_est + '.', 50, 230);
-  doc.fontSize(15).text("Código Estudiantil: " + datos.codigo_est + '.', 50, 260);
-  doc.fontSize(15).text("Fecha de Nacimiento: " + datos.fechaNac_est + '.', 50, 290);
+  doc.fontSize(15).text("Código estudiantil: " + datos.codigo_est + '.', 50, 260);
+  doc.fontSize(15).text("Fecha de nacimiento: " + datos.fechaNac_est + '.', 50, 290);
   doc.fontSize(15).text("Sexo: " + genero + '.', 50, 320);
-  doc.fontSize(15).text("Dirección Domiciliar: " + datos.direccion_est + '.', 50, 350);
+  doc.fontSize(15).text("Dirección domiciliar: " + datos.direccion_est + '.', 50, 350);
   doc.fontSize(15).text("Modalidad: " + datos.modalidad + '.', 50, 380);
   doc.fontSize(15).text("Nivel/Grado: " + datos.nivel_grado + '.', 220, 380);
   doc.fontSize(15).text("Sección: " + datos.grupo + '.', 435, 380);
-  doc.fontSize(20).text("II. Datos del Tutor y Padres de Familia:", 50, 415);
-  doc.fontSize(15).text("Nombre del Tutor:  " + datos.nombres_tutor + '.', 50, 450);
-  doc.fontSize(15).text("Cédula del Tutor:  " + datos.cedula_tutor + '.', 50, 480);
+  doc.fontSize(20).text("II. Datos del tutor y padres de familia:", 50, 415);
+  doc.fontSize(15).text("Nombre del tutor:  " + datos.nombres_tutor + '.', 50, 450);
+  doc.fontSize(15).text("Cédula del tutor:  " + datos.cedula_tutor + '.', 50, 480);
   doc.fontSize(15).text("Teléfono del Tutor:  " + datos.telefono_tutor + '.', 50, 510);
-  doc.fontSize(15).text("Nombre de la Madre: " + datos.nombres_madre + '.', 50, 540);
-  doc.fontSize(15).text("Cédula de la Madre:  " + datos.cedula_madre + '.', 50, 570);
-  doc.fontSize(15).text("Nombre de la Padre: " + datos.nombres_padre + '.', 50, 600);
-  doc.fontSize(15).text("Cédula del Padre:  "  + datos.cedula_padre + '.', 50, 630);
+  doc.fontSize(15).text("Nombre de la madre: " + datos.nombres_madre + '.', 50, 540);
+  doc.fontSize(15).text("Cédula de la madre:  " + datos.cedula_madre + '.', 50, 570);
+  doc.fontSize(15).text("Nombre de la padre: " + datos.nombres_padre + '.', 50, 600);
+  doc.fontSize(15).text("Cédula del padre:  "  + datos.cedula_padre + '.', 50, 630);
   doc.fontSize(15).text("___________________________________", 170, 680);
-  doc.fontSize(15).text("Sello y firma del Director(a)", 215, 700);
+  doc.fontSize(15).text("Sello y fírma del director(a)", 215, 700);
   doc.addPage();
   doc.image(imagePath, 60, 65, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
   doc.fontSize(15).text("Fecha: " + datos.fecha, 423, 90)
-  doc.fontSize(20).text(`Año Lectivo ${añoActual.getFullYear()}`, 225, 138);
+  doc.fontSize(20).text(`Año lectivo ${añoActual.getFullYear()}`, 225, 138);
   doc.fontSize(15).text("Modalidad: " + datos.modalidad + '.', 50, 200);
   doc.fontSize(15).text("Nivel/Grado: " + datos.nivel_grado + '.', 220, 200);
   doc.fontSize(15).text("Sección: " + datos.grupo + '.', 435, 200);
-  doc.fontSize(15).text("Profesor Guía: " + profesor_guia + '.', 50, 240);
-  doc.fontSize(20).text("Materias y Profesores Asignados", 150, 300);
+  doc.fontSize(15).text("Profesor guía: " + profesor_guia + '.', 50, 240);
+  doc.fontSize(20).text("Materias y profesores asignados", 150, 300);
   await doc.table(tableProfeMateria, { width: 450, x: 75, y: 350,
     prepareHeader: () => doc.font("Helvetica-Bold").fontSize(13),
         prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
@@ -307,7 +307,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
   doc.image(imagePath, 45, 45, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
   doc.fontSize(15).text("Fecha: " + fechaActual, 423, 80)
-  doc.fontSize(18).text(`Reporte General de Estudiantes Matriculados`, 130, 122);
+  doc.fontSize(18).text(`Reporte general de estudiantes matriculados`, 130, 122);
   doc.image(imageEjemplo, 130, 160, { width: 350 });
   doc.image(imageEjemplo2, 130, 360, { width: 350 });
   doc.image(imageEjemplo3, 130, 560, { width: 350 });
