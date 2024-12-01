@@ -82,18 +82,29 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   doc.end();
 }//Imprime la hoja de matricula reciente
 
-async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
+async function reporteMatricula(dataCallback, endCallback, [datosGeneral, atributos]) {
+  const datos = datosGeneral[0][0];
+  const datosSexo = datos.map(item =>[item.Años, item.Masculino, item.Femenino, item.Total]);
+  const datosModalidad = datos.map(item =>[item.Años, item.Preescolar, item.Primaria, item.Secundaria]);
+  const tablaSexo = {
+    headers: ["Años", "Masculino", "Femenino", "Total"], 
+    rows: datosSexo
+  };
+  const tablaModalidad = {
+    headers: ["Años", "Preescolar", "Primaria", "Secundaria"], 
+    rows: datosModalidad
+  };
   const doc = new PDFDocument({ bufferPages: true });
   const imagePath = path.join(__dirname, 'public', 'img', 'logo_colegio.png');
   const width = 550; //px
   const height = 280; //px
-  const anios = datosGeneral[0][0].map(item => item.anio_temporal);
-  const matriculas_anio = datosGeneral[0][0].map(item => item.matriculas_por_anio);
-  const sexo_masculino = datosGeneral[0][0].map(item => item.matriculas_masculino);
-  const sexo_femenino = datosGeneral[0][0].map(item => item.matriculas_femenino);
-  const matricula_preescolar = datosGeneral[0][0].map(item => item.matriculas_preescolar);
-  const matricula_primaria = datosGeneral[0][0].map(item => item.matriculas_primaria);
-  const matricula_secundaria = datosGeneral[0][0].map(item => item.matriculas_secundaria);
+  const anios = datosGeneral[0][0].map(item => item.Años);
+  const matriculas_anio = datosGeneral[0][0].map(item => item.Total);
+  const sexo_masculino = datosGeneral[0][0].map(item => item.Masculino);
+  const sexo_femenino = datosGeneral[0][0].map(item => item.Femenino);
+  const matricula_preescolar = datosGeneral[0][0].map(item => item.Preescolar);
+  const matricula_primaria = datosGeneral[0][0].map(item => item.Primaria);
+  const matricula_secundaria = datosGeneral[0][0].map(item => item.Secundaria);
   const backgroundColour = '#F7F7F7';
   const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, backgroundColour });
   const chartJSNodeCanvas2 = new ChartJSNodeCanvas({ width, height, backgroundColour });
@@ -112,7 +123,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico de # de matriculas por Año Lectivo',
+          text: 'Gráfico de total de matriculas por año.',
           color: 'black',
           font: {
             size: 18
@@ -178,7 +189,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico de # de matriculas por Año Lectivo y Género',
+          text: 'Gráfico número de matriculas por género',
           color: 'black',
           font: {
             size: 18
@@ -250,7 +261,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico de # de matriculas por Año Lectivo y Modalidad',
+          text: 'Gráfico número de matriculas por modalidad',
           color: 'black',
           font: {
             size: 18
@@ -309,8 +320,27 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral]) {
   doc.fontSize(15).text("Fecha: " + fechaActual, 423, 80)
   doc.fontSize(18).text(`Reporte general de estudiantes matriculados`, 130, 122);
   doc.image(imageEjemplo, 130, 160, { width: 350 });
-  doc.image(imageEjemplo2, 130, 360, { width: 350 });
-  doc.image(imageEjemplo3, 130, 560, { width: 350 });
+  if(atributos === 'sexo'){
+    doc.image(imageEjemplo2, 130, 360, { width: 350 });
+    doc.fontSize(18).text(`Tabla de estudiantes matriculados por género`, 120, 570);
+  await doc.table(tablaSexo, { width: 450, x: 75, y: 610,
+    prepareHeader: () => doc.font("Helvetica-Bold").fontSize(13),
+        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
+          doc.font("Helvetica").fontSize(11);
+        }
+  });
+  }
+  if(atributos === 'modalidad'){
+    doc.image(imageEjemplo3, 130, 360, { width: 350 });
+    doc.fontSize(18).text(`Tabla de estudiantes matriculados por modalidad`, 120, 570);
+  await doc.table(tablaModalidad, { width: 450, x: 75, y: 610,
+    prepareHeader: () => doc.font("Helvetica-Bold").fontSize(13),
+        prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
+          doc.font("Helvetica").fontSize(11);
+        }
+  });
+  }
+
 
   // see the range of buffered pages
   const range = doc.bufferedPageRange(); // => { start: 0, count: 2 }

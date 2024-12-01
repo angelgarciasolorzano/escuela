@@ -21,16 +21,16 @@ router.get('/api/imprimir_matricula', isLoggedIn, async (req, res) => {
 });
 router.get('/api/reporte_matricula', isLoggedIn, async (req, res) => {
   const datos = req.query.aniolectivo;
+  const atributos = req.query.atributos;
   const datosFormato = datos.join(',');
-  //console.log(datosFormato);
-  const datosGeneral = await pool.query(`call sp_matriculaporAnio(?)`, [datosFormato]);
+  const datosGeneral = await pool.query(`call sp_reporteMatriculaporAnio(?,?)`, [datosFormato, atributos]);
   const stream = res.writeHead(200, {
     "Content-Type": "application/pdf",
     "Content-Disposition": "attachment; filename=invoice.pdf",
   });
   reporteMatricula(
     (data) => stream.write(data),
-    () => stream.end(), [datosGeneral]
+    () => stream.end(), [datosGeneral, atributos]
   );
 });
 router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria'),

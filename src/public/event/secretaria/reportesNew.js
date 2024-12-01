@@ -1,5 +1,29 @@
 const anioslectivos = [];
 
+const filtro_reporte = document.getElementById('filtro_reporte');
+const aniolectivo = document.getElementById('aniolectivo');
+const aniolectivo_inicial = document.getElementById('aniolectivo_inicial');
+const aniolectivo_final = document.getElementById('aniolectivo_final');
+var aux = 0;
+
+$("#optionEspecifico").change(function () {
+    if ($(this).is(':checked')) {
+        $("#formEspecificoAnio").removeClass('d-none');
+        $("#formRangoAnio").addClass('d-none');
+        aniolectivo_inicial.value = '';
+        aniolectivo_final.value = '';
+        aux = 0;
+    }
+});// Habilitar y Deshabilitar los forms de opcion especifico
+$("#optionRango").change(function () {
+    if ($(this).is(':checked')) {
+        $("#formEspecificoAnio").addClass('d-none');
+        $("#formRangoAnio").removeClass('d-none');
+        aniolectivo.value = '';
+        aux = 1;
+    }
+});// Habilitar y Deshabilitar los forms de opcion rangos
+
 
 $('#aniolectivo').on('click', '.aniolectivo-item', function () {
     const anioSelect = $(this).val();
@@ -13,14 +37,17 @@ $('#aniolectivo').on('click', '.aniolectivo-item', function () {
 
 
 $('#btn-generar-reporte').on('click', function () {
-    if (anioslectivos.length > 0) {
-        $("#btn-generar-reporte").addClass('d-none');
-        $("#btn-loading").removeClass('d-none');
-        imprimirReporteMatricula(anioslectivos);
+    if ((filtro_reporte.value != '' && aniolectivo.value != '') || (filtro_reporte.value != '' && aniolectivo_inicial.value != '' && aniolectivo_final.value != '')) {
+        if (aux == 0) {
+            reporteMatriculaEspecifico(aniolectivo.value, filtro_reporte.value);
+        } else {
+            reporteMatriculaRangos(aniolectivo_inicial.value, aniolectivo_final.value, filtro_reporte.value);
+        }
     } else {
-        showToast('danger', 'bi bi-exclamation-circle-fill', 'No ha ingresado los años lectivos!');
+        showToast('danger', 'bi bi-exclamation-circle-fill', 'Debe llenar todos los campos!');
     }
 });//Imprime el reporte con los gráficos
+
 
 
 function getAnios(anioslectivos) {
@@ -50,10 +77,9 @@ function eliminarAnio(anioEliminar) {
     anioslectivos.sort((a, b) => a - b);
     getAnios(anioslectivos);
 }//Funcion para eliminar el año lectivo seleccionado 
-
-function imprimirReporteMatricula(anioslectivos) {
+function imprimirReporteMatricula(anioslectivos, filtro_reporte) {
     axios.get('/api/reporte_matricula', {
-        params: { aniolectivo: anioslectivos },
+        params: { aniolectivo: anioslectivos, atributos: filtro_reporte },
         responseType: "blob",
         headers: {
             "Content-Type": "application/pdf"
@@ -73,6 +99,27 @@ function imprimirReporteMatricula(anioslectivos) {
         .catch(err => console.log('Error', err.message));
 }//Funcion para imprimir la matricula
 
+function reporteMatriculaEspecifico(aniolectivo, filtro_reporte) {
+    anioslectivos.length = 0;
+    anioslectivos.push(aniolectivo);
+    $("#btn-generar-reporte").addClass('d-none');
+    $("#btn-loading").removeClass('d-none');
+    imprimirReporteMatricula(anioslectivos, filtro_reporte);
+}
+function reporteMatriculaRangos(aniolectivo_inicial, aniolectivo_final, filtro_reporte) {
+    anioslectivos.length = 0;
+    if (aniolectivo_inicial < aniolectivo_final) {
+        for (let i = aniolectivo_inicial; i <= aniolectivo_final; i++) {
+            anioslectivos.push(i);
+        }
+        $("#btn-generar-reporte").addClass('d-none');
+        $("#btn-loading").removeClass('d-none');
+        imprimirReporteMatricula(anioslectivos, filtro_reporte);
+    } else {
+        showToast('danger', 'bi bi-exclamation-circle-fill', 'Error en los rangos de los años!');
+    }
+
+}
 function showToast(tipo, icono, mensaje) {
     const messageDiv = document.getElementById('toast-notificacion');
     messageDiv.innerHTML = '';
@@ -98,6 +145,9 @@ function showToast(tipo, icono, mensaje) {
         toast.remove();
     }, 4000);
 };//Componente reutilizable que muestra un toast de notificacion
+
+
+
 
 $(document).keypress(
     function (event) {

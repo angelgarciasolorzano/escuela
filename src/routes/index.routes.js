@@ -46,7 +46,7 @@ router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) =>
 });//Rutar para renderizar la plantilla matricula
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
   const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
-  res.render('interface/client/secretaria/reportes', { aniolectivo: aniolectivo });
+  res.render('interface/client/secretaria/reportesNew', { aniolectivo: aniolectivo });
 });//Rutar para renderizar la plantilla reportes
 
 export default router;
