@@ -39,16 +39,16 @@
         </li>
         {{/ifCond}}
         <ul class="submenu" id="elementProfesor">
-            <li>
+            {{!-- <li>
                 <a href="/profesores/grupo_guia">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div class=>Profesor Guia</div>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="/profesores/materias_profesor">
                     <i class="fa-solid fa-arrow-right"></i>
-                    <div>Asignar Materias</div>
+                    <div>Asignar materias</div>
                 </a>
             </li>
         </ul>
@@ -71,7 +71,7 @@
             <li>
                 <a href="/grupos/asignar_materias">
                     <i class="fa-solid fa-arrow-right"></i>
-                    <div>Asignar Materias</div>
+                    <div>Asignar profesores</div>
                 </a>
             </li>
             {{/ifCond}}
@@ -107,12 +107,12 @@
                     <div class=>Año Lectivo</div>
                 </a>
             </li>
-            <li>
+            {{!-- <li>
                 <a href="/academico/materias">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div>Materias</div>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         {{#ifCond user.nombre_rol "Secretaria"}}
         <li id="btn_submenuServicios">
