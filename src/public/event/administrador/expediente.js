@@ -180,7 +180,7 @@ function mostrarEstudiante(data_estudiante) {
     $('#btn-cancelar_edit').addClass('d-none');
     $('#btn-guardar_edit').addClass('d-none');
     //$('#btn-registrar').addClass('d-none');
-    $('#txt-accion').text('Expediente Estudiantil:');
+    $('#txt-accion').text('Expediente estudiantil:');
     nombres_est.value = data_estudiante.nombres_est;//Estudiante
     apellidos_est.value = data_estudiante.apellidos_est;
     codigo_est.value = data_estudiante.codigo_est;
@@ -229,9 +229,9 @@ function mostrarEstudiante(data_estudiante) {
 function iniciarEditarEstudiante(data_estudiante) {
     $('#nombres-tutor').focus();
     $('#btn-cerrar-mostrar').addClass('d-none');
-    $('#txt-accion').text('Editar Datos Personales:');
+    $('#txt-accion').text('Editar datos personales:');
     $('#card-datosPersonales, #btn-cancelar_edit, #btn-guardar_edit').removeClass('d-none');
-    $('#txt-accion').text('Editar Expediente Estudiantil:');
+    $('#txt-accion').text('Editar expediente estudiantil:');
     id_estudiante = data_estudiante.id_estudiante;//Estudiante
     nombres_est.value = data_estudiante.nombres_est;
     apellidos_est.value = data_estudiante.apellidos_est;
