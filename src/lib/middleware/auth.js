@@ -18,7 +18,7 @@ export function checkRol(...rol) {
     if (req.user && rol.includes(req.user[0].nombre_rol)) {
       return next(); // Permite el acceso
     } else {
-      return res.status(403).send("Error 403: Acceso prohibido"); // Si no tiene el rol adecuado, envía un mensaje de error
+      return res.status(401).send("Error 401: No autorizado"); // Si no tiene el rol adecuado, envía un mensaje de error
     }
   };
 }
