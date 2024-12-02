@@ -36,6 +36,11 @@ router.post('/api/asignar_profeMateria', isLoggedIn, checkRol('Administrador'), 
 });//Metodo para asignar a los profesores su materia
 router.post('/api/eliminar_profeMateria', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   const { id_profesor_materia } = req.body;
+  const verif_profeGuia = await pool.query(`select dt.id_detallegrupo from grupo_profemateria gpm
+                                            inner join detallegrupo dt on gpm.id_detallegrupo_fk = dt.id_detallegrupo
+                                            inner join profesor_materia pm on gpm.id_profesor_materia_fk = pm.id_profesor_materia
+                                            inner join usuario u on dt.id_usuario_fk = u.id_usuario
+                                            where pm.id_profesor_materia = ?`, id_profesor_materia);
   try {
     await pool.query(`DELETE from profesor_materia where id_profesor_materia = ?`, id_profesor_materia);
     res.send({ success: true });
@@ -47,7 +52,7 @@ router.post('/api/eliminar_profeMateria', isLoggedIn, checkRol('Administrador'),
 router.get('/api/mostrar_profeMateria_reciente', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
 
-    var { draw, search } = req.query; //DesEstructuramos el request query
+    var { draw, start, length, search } = req.query; //DesEstructuramos el request query
 
     //Buscador datos
     var search_value = search['value'].trim();
@@ -65,7 +70,7 @@ router.get('/api/mostrar_profeMateria_reciente', isLoggedIn, checkRol('Administr
     var query = `
             select * from vw_mostrarProfeMateria
             where 1 ${search_query}
-            group by id_profesor_materia`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
+            limit ${start}, ${length};`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
 
     var data_arr = [];
     var [Data3] = await pool.query(query);
@@ -124,7 +129,7 @@ router.post('/api/eliminar_gruposGuia', isLoggedIn, checkRol('Administrador'), a
 router.get('/api/gruposGuia_recientes', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
 
-    var { draw, search } = req.query; //DesEstructuramos el request query
+    var { draw, search, start, length } = req.query; //DesEstructuramos el request query
 
     //Buscador datos
     var search_value = search['value'].trim();
@@ -142,7 +147,8 @@ router.get('/api/gruposGuia_recientes', isLoggedIn, checkRol('Administrador'), a
     var query = `
             select * from vw_mostrarGruposGuiaAsignados
             where 1 ${search_query}
-            group by id_detallegrupo`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
+            group by id_detallegrupo
+            limit ${start}, ${length};`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
 
     var data_arr = [];
     var [Data3] = await pool.query(query);
@@ -202,7 +208,7 @@ router.post('/api/mostrar_profeGuiaMateria', isLoggedIn, checkRol('Administrador
 });//Metodo para mostrar la materias recientes
 router.get('/api/mostrar_detalleGrupo', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   const detallegrupo = await pool.query(`call sp_mostrarDetallegrupo`);
-  console.log(detallegrupo[0][0]);
+  //console.log(detallegrupo[0][0]);
   res.send(detallegrupo[0][0]);
 });//Metodo para mostrar los profesores disponibles
 router.post('/api/mostrar_profeMateria', isLoggedIn, checkRol('Administrador'), async (req, res) => {
@@ -210,7 +216,6 @@ router.post('/api/mostrar_profeMateria', isLoggedIn, checkRol('Administrador'), 
   try {
     const profesorMateria = await pool.query(`select * from vw_mostrarProfeMateria
                                         where id_materia = ?`, [id_materia]);
-    console.log(profesorMateria[0]);
     res.send(profesorMateria[0]);
   } catch (error) {
     res.status(500).send('Error 500');
@@ -221,9 +226,9 @@ router.post('/api/asignar_gruposProfeMate', isLoggedIn, checkRol('Administrador'
   const { id_grupos, id_materia, id_profesor } = req.body;
   try {
     const verif_grupoProfeMateria = await pool.query(`select GPM.id_grupo_profeMateria, PM.id_profesor_materia, M.id_materia, M.nombre as Materia from grupo_profeMateria as GPM
-inner join profesor_materia as PM on GPM.id_profesor_materia_fk = PM.id_profesor_materia
-inner join materia as M on PM.id_materia_fk = M.id_materia
-where GPM.id_detallegrupo_fk = ? and M.id_materia = ?`, [id_grupos, id_materia]);
+              inner join profesor_materia as PM on GPM.id_profesor_materia_fk = PM.id_profesor_materia
+              inner join materia as M on PM.id_materia_fk = M.id_materia
+              where GPM.id_detallegrupo_fk = ? and M.id_materia = ?`, [id_grupos, id_materia]);
     if (verif_grupoProfeMateria[0].length > 0) {
       res.send({ success: false });
     } else {
@@ -247,7 +252,7 @@ router.post('/api/eliminar_grupoProfeMate', isLoggedIn, checkRol('Administrador'
 router.get('/api/gruposProfeMate_recientes', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
 
-    var { draw, search } = req.query; //DesEstructuramos el request query
+    var { draw, search, start, length } = req.query; //DesEstructuramos el request query
 
     //Buscador datos
     var search_value = search['value'].trim();
@@ -266,7 +271,8 @@ router.get('/api/gruposProfeMate_recientes', isLoggedIn, checkRol('Administrador
     var query = `
             select * from vw_grupoProfeMateRecientes
             where 1 ${search_query}
-            group by id_grupo_profeMateria`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
+            group by id_grupo_profeMateria
+            limit ${start}, ${length};`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
 
     var data_arr = [];
     var [Data3] = await pool.query(query);
@@ -291,7 +297,6 @@ router.get('/api/gruposProfeMate_recientes', isLoggedIn, checkRol('Administrador
     res.json(output);//Envianmos al datatable la estructura en formato json
   } catch (error) {
     res.status(500).send('Error 500');
-    console.log(error);
   }
 });//Metodo para mostrar los profesores guias añadido recientemente
 //api Grupos
