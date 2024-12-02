@@ -127,7 +127,6 @@ var tabla_materia = new DataTable('#dt-materia', {
         }
     ],
     destroy: true,
-    responsive: true,
     responsive: {
         breakpoints: [
             { name: 'desktop', width: Infinity },
@@ -153,12 +152,6 @@ var tabla_materia = new DataTable('#dt-materia', {
             last: "Último",
             next: "Siguiente",
             previous: "Anterior"
-        },
-        select: {
-            rows: {
-                _: ' %d Filas seleccionadas',
-                1: ' 1 Fila Seleccionada'
-            }
         }
     }
 });

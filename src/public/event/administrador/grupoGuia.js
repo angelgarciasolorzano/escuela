@@ -40,14 +40,14 @@ function agregarGrupoGuia(datos_formGrupoGuia) {
 }
 function eliminarAsignacion(data_grupoGuia) {
   const data = { id_detallegrupo: data_grupoGuia.id_detallegrupo };
-  crearModal('eliminar-grupoGuia', 'btn-aceptar-eliminar-grupo', '¿Deseas eliminar este grupo?');
+  crearModal('eliminar-grupoGuia', 'btn-aceptar-eliminar-grupo', '¿Deseas quitar este profesor guia?');
   $("#eliminar-grupoGuia").modal("show");
   $("#btn-aceptar-eliminar-grupo").on("click", function () {
     axios.post('/api/eliminar_gruposGuia', data)
       .then(response => {
         const result = response.data;
         if (result.success == true) {
-          showToast('success', 'fa-solid fa-circle-check', 'El profesor elimino con exito!');
+          showToast('success', 'fa-solid fa-circle-check', 'El profesor quito con exito!');
           limpiar_FormGrupoGuia();
           tabla_grupoGuia.ajax.url(url).load();
         } else {
@@ -58,13 +58,13 @@ function eliminarAsignacion(data_grupoGuia) {
   });
 }
 
-var url = '/api/gruposGuia_recientes';
+var url2 = '/api/gruposGuia_recientes';
 var tabla_grupoGuia = new DataTable('#dt-grupoGuia', {
   processing: true,
   serverSide: true,
   deferRender: true,
   ajax: {
-    url: url,
+    url: url2,
     type: 'GET'
   },
   aaSorting: [],
@@ -83,7 +83,6 @@ var tabla_grupoGuia = new DataTable('#dt-grupoGuia', {
     }
   ],
   destroy: true,
-  responsive: true,
   responsive: {
     breakpoints: [
       { name: 'desktop', width: Infinity },

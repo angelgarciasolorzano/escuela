@@ -740,6 +740,21 @@ $('#dt-matricula tbody').on("click", "button.eliminar", function () {
     cancelarMatricula(data_matricula.id_matricula);
 });//Funciones para ejecutar las acciones de editar, imprimir y cancelar matricula
 
+function editarMatricula(datos_matriculaEdit) {
+    axios.post('/api/editar_matricula', datos_matriculaEdit)
+        .then(response => {
+            const result = response.data;
+            if (result.success == true) {
+                showToast('success', 'fa-solid fa-circle-check', 'La matricula se modifico con exito!');
+                //showMessage('alert-historial', 'success', 'fa-solid fa-circle-check', 'La matricula se edito con exito!');
+                tabla_matricula.ajax.url(url).load();
+            } else {
+                showToast('danger', 'bi bi-exclamation-circle-fill', 'Ocurrio un error inesperado!');
+                //showMessage('alert-historial', 'danger', 'bi bi-exclamation-circle-fill', 'Debes seleccionar al estudiante!');
+            }
+        })
+        .catch(err => console.log('Error', err.message));
+}//Funcion para editar la matricula en base al id_matricula
 function cancelarMatricula(id_matricula) {
     crearModal('cancelarMatricula', 'btn-aceptar-cancelar-matricula', '¿Deseas cancelar esta matricula?');
     $("#cancelarMatricula").modal("show");
@@ -759,21 +774,6 @@ function cancelarMatricula(id_matricula) {
             .catch(err => console.log('Error', err.message));
     })//Evento del boton aceptar modal para permitir el ingreso de la matricula del estudiante
 };//Funcion para eliminar la matricula en base al id_matricula
-function editarMatricula(datos_matriculaEdit) {
-    axios.post('/api/editar_matricula', datos_matriculaEdit)
-        .then(response => {
-            const result = response.data;
-            if (result.success == true) {
-                showToast('success', 'fa-solid fa-circle-check', 'La matricula se modifico con exito!');
-                //showMessage('alert-historial', 'success', 'fa-solid fa-circle-check', 'La matricula se edito con exito!');
-                tabla_matricula.ajax.url(url).load();
-            } else {
-                showToast('danger', 'bi bi-exclamation-circle-fill', 'Ocurrio un error inesperado!');
-                //showMessage('alert-historial', 'danger', 'bi bi-exclamation-circle-fill', 'Debes seleccionar al estudiante!');
-            }
-        })
-        .catch(err => console.log('Error', err.message));
-}//Funcion para editar la matricula en base al id_matricula
 function imprimirMatricula(data_matricula) {
     axios.get('/api/imprimir_matricula', {
         params: { matricula: data_matricula },
