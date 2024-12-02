@@ -30,7 +30,7 @@ router.get('/profesores/grupo_guia', isLoggedIn, checkRol('Administrador'), asyn
 router.get('/profesores/materias_profesor', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/profesorMateriasNew');
 });//Rutar para renderizar la plantilla las materias del profesor
-router.get('/grupos/asignar_materias', isLoggedIn, checkRol('Administrador'), async (req, res) => {
+router.get('/grupos/asignar_profesores', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/grupoProfeMaterias');
 });;//Rutar para renderizar la plantilla profegrupomaterias
 router.get('/grupos/calificaciones', isLoggedIn, checkRol('Profesor'), async (req, res) => {
