@@ -440,11 +440,17 @@ router.post('/api/editar_usuario', isLoggedIn, checkRol('Administrador'), async 
 router.post('/api/bloquear_usuario', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   try {
     const id_usuario = req.body.id_usuario; //Falta validar que no tenga notas registradas en el año actual
-    await pool.query("UPDATE usuario SET estado = 'Bloqueado' WHERE id_usuario = ?", id_usuario);
-    res.send({ success: true });
+    const verificar_usuario = await pool.query(`select id_usuario from usuario 
+                                                where id_usuario = ? AND id_rol_fk = ?;`,[id_usuario, 1]);
+    if (verificar_usuario[0].length > 0){
+      res.send({ success: false, msg: 'El administrador no se puede bloquear!'});
+    } else {
+      await pool.query("UPDATE usuario SET estado = 'Bloqueado' WHERE id_usuario = ?", id_usuario);
+      res.send({ success: true, msg: 'Usuario bloqueado con exito!'});
+    }
   } catch (error) {
     console.log(error);
-    res.send({ success: false });
+    res.send({ success: false , msg: 'Error inesperado!'});
   }
 });//Metodo para bloquear la usuario seleccionada
 router.post('/api/activar_usuario', isLoggedIn, checkRol('Administrador'), async (req, res) => {

@@ -154,10 +154,10 @@ function bloquearUsuario(id_usuario) {
             .then(response => {
                 const result = response.data;
                 if (result.success == true) {
-                    showToast('success', 'fa-solid fa-circle-check', 'Usuario bloqueado con exito!');
+                    showToast('success', 'fa-solid fa-circle-check', result.msg);
                     tabla_usuario.ajax.url(url).load();
                 } else {
-                    showToast('danger', 'bi bi-exclamation-circle-fill', 'Error 500 server!');
+                    showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
                 }
             })
             .catch(err => console.log('Error', err.message));
@@ -281,7 +281,7 @@ $(document).keypress(
         if (event.which == '13') {
             event.preventDefault();
         }
-    });//Para Evitar el submit del formulario con presionar Enter
+});//Para Evitar el submit del formulario con presionar Enter
 
 
 //Datatable Usuarios recientes
