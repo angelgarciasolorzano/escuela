@@ -12,10 +12,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const profesor_guia = document.getElementById('profesor_guia');
   var datos_formGrupoGuia = {};
 
-  //Funcionalidad para asignar profesores al grupo
-  mostrarGruposDisponibles('grupos');
-  mostrarMateriasDisponibles('materia');
-
   $('#btn-asignarGrupoProfMate').on('click', function (e) {
     e.preventDefault();
     if (validarAsignar() === 0) {
@@ -32,14 +28,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });//Para limpiar los errores de mi select en agregar profesor guia
   });
 
-  $('#grupos').on('change', function () {
-    const grupoSelect = $("#grupos option:selected").text();
+  $('#grupos').on('click', function (e) {
+    if (!$(e.target).hasClass('grupo-item')) {
+      mostrarGruposDisponibles('grupos');
+    }
+  });
+
+  $('#grupos').on('click', '.grupo-item', function (e) {
+    e.preventDefault();
+    const grupoSelect = $(this).text();
     tabla_grupoProfeMate.search(grupoSelect).draw();
     profesor_Guia.value = '';
     mostrarProfeGuia(grupos.value);
   });
 
-  $('#materia').on('change', function () {
+  $('#materia').on('click', function (e) {
+    if (!$(e.target).hasClass('materia-item')) {
+      mostrarMateriasDisponibles('materia');
+    }
+  });
+  $('#materia').on('click', '.materia-item', function (e) {
+    e.preventDefault();
     const id_materia = $('#materia').val();
     $('#profesor').prop('disabled', false);
     mostrarProfesor(id_materia, 'profesor');
@@ -267,7 +276,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
         for (let i = 0; i < grupo.length; i++) {
           grupoView.innerHTML += `
-                    <option value=${grupo[i].id_detallegrupo}>${grupo[i].Grupo}</option>`;
+                    <option class="grupo-item" value=${grupo[i].id_detallegrupo}>${grupo[i].Grupo}</option>`;
         };
       })
       .catch(err => console.log('Error', err.message));
@@ -293,7 +302,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         materiaView.innerHTML = '<option selected disabled value="">Elegir...</option>';
         for (let i = 0; i < materia.length; i++) {
           materiaView.innerHTML += `
-                    <option value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
+                    <option class="materia-item" value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
         };
       })
       .catch(err => console.log('Error', err.message));
@@ -344,6 +353,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
       $(selector).val('');
     });
     datos_formGrupoGuia = '';
+    grupos.value = '';
+    profesor_Guia.value = '';
+    profeMaterias.innerHTML = '';
     gruposDisponibles('grupos_guia');
     profesoresDisponibles('profesor_guia');
   };//Limpia los inputs
