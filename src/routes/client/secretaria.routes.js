@@ -835,7 +835,8 @@ router.post('/api/verificar_estudianteTutorEdit', isLoggedIn, checkRol('Administ
           throw new Error('Ya esta registrado!');
         } else { return true; }
       }),
-    body('fechaNac_est').notEmpty().withMessage('Esta vacío ó incompleto!'),
+    //Falta inspeccionar los formatos de los input date!!
+    body('fechaNac_est').notEmpty().withMessage('Esta vacío ó incompleto!').isISO8601().withMessage('Formato incorrecto!'),
     body('sexo_est').notEmpty().withMessage('Falta seleccionar!'),
     body('etnia_est').notEmpty().withMessage('Falta seleccionar!'),
     body('lengua_est').notEmpty().withMessage('Falta seleccionar!'),
