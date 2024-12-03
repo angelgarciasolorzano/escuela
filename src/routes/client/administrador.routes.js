@@ -235,14 +235,15 @@ router.post('/api/asignar_gruposProfeMate', isLoggedIn, checkRol('Administrador'
               inner join materia as M on PM.id_materia_fk = M.id_materia
               where GPM.id_detallegrupo_fk = ? and M.id_materia = ?`, [id_grupos, id_materia]);
     if (verif_grupoProfeMateria[0].length > 0) {
-      res.send({ success: false });
+      res.send({ success: false, msg: 'Ya ingresaste esta materia!' });
     } else {
       await pool.query(`insert into grupo_profeMateria(id_detallegrupo_fk, id_profesor_materia_fk)
                       values (?,?)`, [id_grupos, id_profesor]);
-      res.send({ success: true });
+      res.send({ success: true, msg: 'La materia y el profesor se asignaron con exito!' });
     }
   } catch (error) {
     console.log(error);
+    res.send({ success: false, msg: 'Ups ocurrio un error inesperado!' });
   }
 });//Metodo para asignar los profesores disponibles
 router.post('/api/eliminar_grupoProfeMate', isLoggedIn, checkRol('Administrador'), async (req, res) => {

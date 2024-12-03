@@ -232,11 +232,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       .then(response => {
         const result = response.data;
         if (result.success == true) {
-          showToast('success', 'fa-solid fa-circle-check', 'La materia y el profesor se asignaron con exito!');
+          showToast('success', 'fa-solid fa-circle-check', result.msg);
           limpiar_FormGrupoProfeMate();
           tabla_grupoProfeMate.ajax.reload(null, false);
         } else {
-          showToast('danger', 'bi bi-exclamation-circle-fill', 'Ya ingresaste esta materia y profesor!');
+          showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
         }
       })
       .catch(err => console.log('Error', err.message));
