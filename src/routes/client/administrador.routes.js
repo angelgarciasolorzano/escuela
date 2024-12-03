@@ -35,17 +35,22 @@ router.post('/api/asignar_profeMateria', isLoggedIn, checkRol('Administrador'), 
   }
 });//Metodo para asignar a los profesores su materia
 router.post('/api/eliminar_profeMateria', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  const { id_profesor_materia } = req.body;
-  const verif_profeGuia = await pool.query(`select dt.id_detallegrupo from grupo_profemateria gpm
-                                            inner join detallegrupo dt on gpm.id_detallegrupo_fk = dt.id_detallegrupo
-                                            inner join profesor_materia pm on gpm.id_profesor_materia_fk = pm.id_profesor_materia
-                                            inner join usuario u on dt.id_usuario_fk = u.id_usuario
-                                            where pm.id_profesor_materia = ?`, id_profesor_materia);
   try {
-    await pool.query(`DELETE from profesor_materia where id_profesor_materia = ?`, id_profesor_materia);
-    res.send({ success: true });
+    const { id_profesor_materia, id_usuario } = req.body;
+    const verif_profeMateria = await pool.query(`select id_grupo_profemateria from grupo_profemateria 
+                                               where id_profesor_materia_fk = ?;`, id_profesor_materia);
+    const verif_profeGuia = await pool.query(`select id_detallegrupo from detallegrupo 
+                                              where id_usuario_fk = ?;`, id_usuario);
+    if(verif_profeMateria[0].length > 0){
+      res.send({ success: false, msg: 'El profesor ya está asignado en un grupos!' });
+    } else if (verif_profeGuia[0].length > 0) {
+      res.send({ success: false, msg: 'El profesor ya está asignado como guía!' });
+    } else {
+      await pool.query(`DELETE from profesor_materia where id_profesor_materia = ?`, id_profesor_materia);
+      res.send({ success: true, msg: 'Se elimino la materia del profesor con exito!'});
+    }
   } catch (error) {
-    res.send({ success: false })
+    res.send({ success: false, msg: 'Ocurrio un error inesperado!' });
   }
 });//Metodo para eliminar a los profesores su materia
 
@@ -177,13 +182,13 @@ router.get('/api/gruposGuia_recientes', isLoggedIn, checkRol('Administrador'), a
 
 //api Grupos
 router.post('/api/mostrar_profeGuia', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  const {id_grupo} = req.body;
+  const { id_grupo } = req.body;
   try {
     const profesor = await pool.query(`select U.id_usuario, CONCAT(U.nombres, ' ', U.apellidos) as Profesor
 	                                    from usuario as U
 	                                    inner join rol as R on U.id_rol_fk = R.id_rol
 	                                    inner join detallegrupo DG on DG.id_usuario_fk = U.id_usuario
-	                                    where DG.id_detallegrupo = ? and R.nombre_rol = 'Profesor'`,[id_grupo]);
+	                                    where DG.id_detallegrupo = ? and R.nombre_rol = 'Profesor'`, [id_grupo]);
     console.log(profesor[0]);
     res.send(profesor[0]);
   } catch (error) {
@@ -193,13 +198,13 @@ router.post('/api/mostrar_profeGuia', isLoggedIn, checkRol('Administrador'), asy
 });//Metodo para mostrar la materias recientes
 
 router.post('/api/mostrar_profeGuiaMateria', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  const {id_usuario} = req.body;
+  const { id_usuario } = req.body;
   try {
     const profe_materia = await pool.query(`select CONCAT(U.nombres, ' ', U.apellidos) as Profesor, M.nombre as Materia
                                         from profesor_materia as PM
                                         inner join usuario as U on PM.id_usuario_fk = U.id_usuario
                                         inner join materia as M on PM.id_materia_fk = M.id_materia
-                                        where U.id_usuario = ?`,[id_usuario]);
+                                        where U.id_usuario = ?`, [id_usuario]);
     res.send(profe_materia[0]);
   } catch (error) {
     res.status(500).send('Error 500');
@@ -441,16 +446,16 @@ router.post('/api/bloquear_usuario', isLoggedIn, checkRol('Administrador'), asyn
   try {
     const id_usuario = req.body.id_usuario; //Falta validar que no tenga notas registradas en el año actual
     const verificar_usuario = await pool.query(`select id_usuario from usuario 
-                                                where id_usuario = ? AND id_rol_fk = ?;`,[id_usuario, 1]);
-    if (verificar_usuario[0].length > 0){
-      res.send({ success: false, msg: 'El administrador no se puede bloquear!'});
+                                                where id_usuario = ? AND id_rol_fk = ?;`, [id_usuario, 1]);
+    if (verificar_usuario[0].length > 0) {
+      res.send({ success: false, msg: 'El administrador no se puede bloquear!' });
     } else {
       await pool.query("UPDATE usuario SET estado = 'Bloqueado' WHERE id_usuario = ?", id_usuario);
-      res.send({ success: true, msg: 'Usuario bloqueado con exito!'});
+      res.send({ success: true, msg: 'Usuario bloqueado con exito!' });
     }
   } catch (error) {
     console.log(error);
-    res.send({ success: false , msg: 'Error inesperado!'});
+    res.send({ success: false, msg: 'Error inesperado!' });
   }
 });//Metodo para bloquear la usuario seleccionada
 router.post('/api/activar_usuario', isLoggedIn, checkRol('Administrador'), async (req, res) => {

@@ -1,19 +1,29 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
-  const profesor = document.getElementById('profesor');
-  const materia = document.getElementById('materia');
+  const profesorView = document.getElementById('profesor');
+  const materiaView = document.getElementById('materia');
   const nombre_materia = document.getElementById('nombre-materia');
   var datos_formProfeMateria = {};
 
 
   //Funciones profesor
-  mostrarMateriasDisponibles('materia');
-  mostrarProfesoresDisponibles('profesor');
+  //mostrarMateriasDisponibles('materia');
 
-  $('#profesor').on('change', function (e) {
+  $('#profesor').on('click', function(e) {
+    if (!$(e.target).hasClass('profesor-item')) {
+      mostrarProfesoresDisponibles(profesorView);
+    }
+  });
+  $('#profesor').on('click', '.profesor-item', function (e) {
     e.preventDefault();
-    const profesorSelect = $("#profesor option:selected").text();
+    const profesorSelect = $(this).text();
     tabla_profeMateria.search(profesorSelect).draw();
+  });
+
+  $('#materia').on('click', function(e) {
+    if (!$(e.target).hasClass('materia-item')) {
+      mostrarMateriasDisponibles(materiaView);
+    }
   });
 
   $('#btn-asignarMaterias').on('click', function (e) {
@@ -49,13 +59,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
           limpiar_FormProfeMateria();
           tabla_profeMateria.ajax.reload(null, false);
         } else {
-          showToast('danger', 'bi bi-exclamation-circle-fill', 'Ya agregó esta clase!');
+          showToast('danger', 'bi bi-exclamation-circle-fill', 'Ya agregó esta materia!');
         }
       })
       .catch(err => console.log('Error', err.message));
   }
   function eliminarAsignacion(data_profeMateria) {
-    const data = { id_profesor_materia: data_profeMateria.id_profesor_materia };
+    const data = { id_profesor_materia: data_profeMateria.id_profesor_materia, id_usuario: data_profeMateria.id_profesor };
     crearModal('eliminar-profeMateria', 'btn-aceptar-eliminar-materia', '¿Deseas eliminar este materia?');
     $("#eliminar-profeMateria").modal("show");
     $("#btn-aceptar-eliminar-materia").on("click", function () {
@@ -63,10 +73,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .then(response => {
           const result = response.data;
           if (result.success == true) {
-            showToast('success', 'fa-solid fa-circle-check', 'Se elimino la materia del profesor con exito!');
+            showToast('success', 'fa-solid fa-circle-check', result.msg);
             tabla_profeMateria.ajax.reload(null, false);
           } else {
-            showToast('danger', 'bi bi-exclamation-circle-fill', 'Esta materia del profesor ya se encuentra asignada!');
+            showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
           }
         })
         .catch(err => console.log('Error', err.message));
@@ -196,6 +206,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           if (result.success == true) {
             showToast('success', 'fa-solid fa-circle-check', 'Materia eliminada con exito!');
             tabla_materia.ajax.url(url2).load();
+            materiaView.value = '';
           } else {
             showToast('danger', 'bi bi-exclamation-circle-fill', 'Error esta materia ya ha sido asignada!');
           }
@@ -329,28 +340,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
     datos_formProfeMateria = '';
     mostrarMateriasDisponibles('materia');
   };//Limpia los inputs
-  function mostrarMateriasDisponibles(id_select) {
-    const materiaView = document.getElementById(id_select);
+  function mostrarMateriasDisponibles(materiaView) {
     axios.get('/api/mostrar_materias')
       .then(response => {
         const materia = response.data;
         materiaView.innerHTML = '<option selected disabled value="">Elegir...</option>';
         for (let i = 0; i < materia.length; i++) {
           materiaView.innerHTML += `
-                <option value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
+                <option class="materia-item" value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
         };
       })
       .catch(err => console.log('Error', err.message));
   }//Mostramos que los grupos disponibles sin asignar
-  function mostrarProfesoresDisponibles(id_select) {
-    const profesorView = document.getElementById(id_select);
+  function mostrarProfesoresDisponibles(profesorView) {
     axios.get('/api/mostrar_profesor')
       .then(response => {
         const profesor = response.data;
         profesorView.innerHTML = '<option selected disabled value="">Elegir...</option>';
         for (let i = 0; i < profesor.length; i++) {
           profesorView.innerHTML += `
-                <option value=${profesor[i].id_usuario}>${profesor[i].Profesor}</option>`;
+                <option class="profesor-item" value=${profesor[i].id_usuario}>${profesor[i].Profesor}</option>`;
         };
       })
       .catch(err => console.log('Error', err.message));
