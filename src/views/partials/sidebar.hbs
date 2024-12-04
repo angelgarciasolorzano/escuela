@@ -23,12 +23,12 @@
                     <div class=>Expediente</div>
                 </a>
             </li>
-            <li>
+            {{!-- <li>
                 <a href="javascript:void(0)">
                     <i class="fa-solid fa-arrow-right"></i>
                     <div>Calificaciones</div>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         {{#ifCond user.nombre_rol "Administrador"}}
         <li id="btn_submenuProfesor">
@@ -71,7 +71,7 @@
             <li>
                 <a href="/grupos/asignar_profesores">
                     <i class="fa-solid fa-arrow-right"></i>
-                    <div>Asignar profesores</div>
+                    <div>Materias y profesores</div>
                 </a>
             </li>
             {{/ifCond}}
