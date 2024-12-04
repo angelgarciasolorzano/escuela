@@ -83,7 +83,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Manda un error 404 si la pagina no existe
 app.use((req, res, next) => {
     if (res.status(404)) {
-        res.send('Error 404: No encontrado');
+        res.render('auth/error404');
     }
 });
 
