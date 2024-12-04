@@ -12,10 +12,10 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link elementNavbar" href="/home">Inicio</a>
+          <a class="nav-link elementNavbar text-end" href="/home">Inicio</a>
         </li>
         <li class="nav-item">
-          <a id="cerrarSesion" class="nav-link elementNavbar" href="#">Cerrar sesión</a>
+          <a id="cerrarSesion" class="nav-link elementNavbar text-end" href="#">Cerrar sesión</a>
         </li>
       </ul>
     </div>
@@ -34,8 +34,8 @@
     const aceptarBtn = modal.shadowRoot.querySelector('#btn-aceptar-customModal');
     if (aceptarBtn) {
       aceptarBtn.addEventListener('click', function () {
-        cerrarSession();
         localStorage.clear();
+        cerrarSession();
       });
     }
   });
@@ -43,7 +43,7 @@
   async function cerrarSession() {
     try {
       const response = await axios.get('/cerrar');
-      location.reload();
+      window.location.href = "/login";
     } catch (error) { console.log('Error', error.message); }
   };
 </script>
