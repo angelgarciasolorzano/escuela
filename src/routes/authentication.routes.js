@@ -4,7 +4,7 @@ import { isLoggedIn, isNotLoggedIn } from "../lib/middleware/auth.js";
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
+router.get('/login', isNotLoggedIn, ( req, res) => {
   let error = req.flash('info')[0];
   res.render('auth/login', { messages: error });
 });
