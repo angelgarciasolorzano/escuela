@@ -33,6 +33,10 @@ router.get('/api/reporte_matricula', isLoggedIn, async (req, res) => {
     () => stream.end(), [datosGeneral, atributos]
   );
 });
+router.get('/api/mostrar_anioLectivo', isLoggedIn, async (req, res) => {
+  const aniolectivo = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
+  res.send(aniolectivo[0]);
+});
 router.post('/api/verificar_tutorEstudiante', isLoggedIn, checkRol('Secretaria'),
   [
     body('nombres_tutor').notEmpty().withMessage('Esta vacío!')

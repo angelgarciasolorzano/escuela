@@ -25,17 +25,6 @@ $("#optionRango").change(function () {
 });// Habilitar y Deshabilitar los forms de opcion rangos
 
 
-$('#aniolectivo').on('click', '.aniolectivo-item', function () {
-    const anioSelect = $(this).val();
-    const found = anioslectivos.find((element) => element === anioSelect);
-    if (found != anioSelect) {
-        anioslectivos.push(anioSelect);
-        anioslectivos.sort((a, b) => a - b);
-        getAnios(anioslectivos);
-    }
-});//agrega los años lectivos
-
-
 $('#btn-generar-reporte').on('click', function () {
     if ((filtro_reporte.value != '' && aniolectivo.value != '') || (filtro_reporte.value != '' && aniolectivo_inicial.value != '' && aniolectivo_final.value != '')) {
         if (aux == 0) {
@@ -48,35 +37,50 @@ $('#btn-generar-reporte').on('click', function () {
     }
 });//Imprime el reporte con los gráficos
 
-
-
-function getAnios(anioslectivos) {
-    let aniolectivoView = document.getElementById('cargar-anios');
-
-    if (anioslectivos != null && aniolectivoView != null) {
-        aniolectivoView.innerHTML = '';
-        for (let i = 0; i < anioslectivos.length; i++) {
-            aniolectivoView.innerHTML += `
-            <li class="badge rounded-pill text-bg-info mx-1"style="list-style: none; font-size: 0.9rem;" id="${anioslectivos[i]}">
-             <div class="mx-2">
-                 <a class="link-dark" href="#" style="text-decoration: none;"
-                 onclick="eliminarAnio(${anioslectivos[i]})">${anioslectivos[i]}
-                     <i class="fa-solid fa-xmark"></i>
-                 </a>
-             </div>
-        </li>`;
-        }
+$('#aniolectivo').on('click', function(e) {
+    if (!$(e.target).hasClass('anioLectivo-item')) {
+        mostrarAnioLectivo('aniolectivo');
     }
-}// Crea los pill con la informacion de años lectivos
-function eliminarAnio(anioEliminar) {
-    for (let i = 0; i < anioslectivos.length; i++) {
-        if (anioslectivos[i] == anioEliminar) {
-            anioslectivos.splice(i, 1);
-        }
+});//Muestra los años lectivos para la opcion especifico
+$('#aniolectivo_inicial').on('click', function(e) {
+    if (!$(e.target).hasClass('anioLectivo-item')) {
+        mostrarAnioLectivo('aniolectivo_inicial');
     }
-    anioslectivos.sort((a, b) => a - b);
-    getAnios(anioslectivos);
-}//Funcion para eliminar el año lectivo seleccionado 
+});//Muestra los años lectivos para el rango inicial
+$('#aniolectivo_final').on('click', function(e) {
+    if (!$(e.target).hasClass('anioLectivo-item')) {
+        mostrarAnioLectivo('aniolectivo_final');
+    }
+});//Muestra los años lectivos para el rango final
+
+// function getAnios(anioslectivos) {
+//     let aniolectivoView = document.getElementById('cargar-anios');
+
+//     if (anioslectivos != null && aniolectivoView != null) {
+//         aniolectivoView.innerHTML = '';
+//         for (let i = 0; i < anioslectivos.length; i++) {
+//             aniolectivoView.innerHTML += `
+//             <li class="badge rounded-pill text-bg-info mx-1"style="list-style: none; font-size: 0.9rem;" id="${anioslectivos[i]}">
+//              <div class="mx-2">
+//                  <a class="link-dark" href="#" style="text-decoration: none;"
+//                  onclick="eliminarAnio(${anioslectivos[i]})">${anioslectivos[i]}
+//                      <i class="fa-solid fa-xmark"></i>
+//                  </a>
+//              </div>
+//         </li>`;
+//         }
+//     }
+// }// Crea los pill con la informacion de años lectivos
+// function eliminarAnio(anioEliminar) {
+//     for (let i = 0; i < anioslectivos.length; i++) {
+//         if (anioslectivos[i] == anioEliminar) {
+//             anioslectivos.splice(i, 1);
+//         }
+//     }
+//     anioslectivos.sort((a, b) => a - b);
+//     getAnios(anioslectivos);
+// }//Funcion para eliminar el año lectivo seleccionado 
+
 function imprimirReporteMatricula(anioslectivos, filtro_reporte) {
     axios.get('/api/reporte_matricula', {
         params: { aniolectivo: anioslectivos, atributos: filtro_reporte },
@@ -99,6 +103,19 @@ function imprimirReporteMatricula(anioslectivos, filtro_reporte) {
         .catch(err => console.log('Error', err.message));
 }//Funcion para imprimir la matricula
 
+function mostrarAnioLectivo(id_select) {
+    const anioLectivoView = document.getElementById(id_select);
+    axios.get('/api/mostrar_anioLectivo')
+      .then(response => {
+        const anioLectivo = response.data;
+        anioLectivoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
+        for (let i = 0; i < anioLectivo.length; i++) {
+          anioLectivoView.innerHTML += `
+                    <option class="anioLectivo-item" value=${anioLectivo[i].anio}>${anioLectivo[i].anio}</option>`;
+        };
+      })
+      .catch(err => console.log('Error', err.message));
+}//Funcion para mostrar los años lectivos al hacer click
 function reporteMatriculaEspecifico(aniolectivo, filtro_reporte) {
     anioslectivos.length = 0;
     anioslectivos.push(aniolectivo);
@@ -116,7 +133,7 @@ function reporteMatriculaRangos(aniolectivo_inicial, aniolectivo_final, filtro_r
         $("#btn-loading").removeClass('d-none');
         imprimirReporteMatricula(anioslectivos, filtro_reporte);
     } else {
-        showToast('danger', 'bi bi-exclamation-circle-fill', 'Error en los rangos de los años!');
+        showToast('danger', 'bi bi-exclamation-circle-fill', 'Error en el rango de los años!');
     }
 
 }
@@ -145,9 +162,6 @@ function showToast(tipo, icono, mensaje) {
         toast.remove();
     }, 4000);
 };//Componente reutilizable que muestra un toast de notificacion
-
-
-
 
 $(document).keypress(
     function (event) {

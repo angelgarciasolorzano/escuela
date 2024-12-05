@@ -11,7 +11,8 @@ router.get('/', isNotLoggedIn, (req, res) => {
 
 //Rutas Protegidas
 router.get('/home', isLoggedIn, checkRol('Administrador', 'Secretaria', 'Profesor'), async (req, res) => {
-  const contCard = await pool.query(`call sp_contPerfilAdmin()`);
+  const anio_lectivo = await pool.query(`SELECT MAX(anio) AS anio_mayor FROM aniolectivo`);
+  const contCard = await pool.query(`call sp_contPerfilAdmin(?)`, anio_lectivo[0][0].anio_mayor);
   const value = contCard[0][0][0];
   const data = { c_estudiante: value.c_estudiante, c_profesor: value.c_profesor, c_detallegrupo: value.c_detallegrupo, c_usuario: value.c_usuario , c_matricula: value.c_matricula};
   
@@ -38,15 +39,17 @@ router.get('/grupos/calificaciones', isLoggedIn, checkRol('Profesor'), async (re
 });//Rutar para renderizar la plantilla agregar_notas
 router.get('/academico/materias', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/materias');
-});;//Rutar para renderizar la plantilla materias
+});//Rutar para renderizar la plantilla materias
+router.get('/academico/anio_lectivo', isLoggedIn, checkRol('Administrador'), async (req, res) => {
+  res.render('interface/client/administrador/anioLectivo');
+});//Rutar para renderizar la plantilla anioLectivo
 router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
-  const fechaHoy = new Date(Date.now());
+  const anio_lectivo = await pool.query(`SELECT MAX(anio) AS anio_mayor FROM aniolectivo`);
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
-  res.render('interface/client/secretaria/matricula', { anioActual: fechaHoy.getFullYear(), modalidad: modalidad });
+  res.render('interface/client/secretaria/matricula', { anioActual: anio_lectivo[0][0].anio_mayor, modalidad: modalidad });
 });//Rutar para renderizar la plantilla matricula
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
-  const [aniolectivo] = await pool.query(`select id_aniolectivo, anio from aniolectivo`);
-  res.render('interface/client/secretaria/reportesNew', { aniolectivo: aniolectivo });
+  res.render('interface/client/secretaria/reportesNew');
 });//Rutar para renderizar la plantilla reportes
 
 export default router;
