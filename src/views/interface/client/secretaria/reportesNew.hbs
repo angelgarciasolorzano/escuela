@@ -17,8 +17,7 @@
         <div class="card-body">
           <div class="col g-3">
             <p class="card-title fs-4 text-start border-bottom border-secondary" style="color: #0d2033;">
-              Panel de
-              configuración:
+              Matriculas:
             </p>
             <div class="col position-relative" id="form-config"> <!--panel de configuración-->
               <div class="row g-2"> <!--columna-filtro-->
@@ -56,11 +55,7 @@
                     <label for="inputState" class="col-form-label">Año lectivo:</label>
                     <select class="form-select border-secondary" name="aniolectivo" id="aniolectivo">
                       <option selected disabled value="">Elegir...</option>
-                      {{#if aniolectivo}}
-                      {{#each aniolectivo}}
-                      <option class="aniolectivo-item" value={{this.anio}}>{{this.anio}}</option>
-                      {{/each}}
-                      {{/if}}
+                      <option class="aniolectivo-item" value=""></option>
                     </select>
                   </div>
                   <div class="row g-2 d-none" id="formRangoAnio">
@@ -68,22 +63,14 @@
                       <label for="inputState" class="col-form-label">Año lectivo inicial:</label>
                       <select class="form-select border-secondary" name="aniolectivoRango" id="aniolectivo_inicial">
                         <option selected disabled value="">Elegir...</option>
-                        {{#if aniolectivo}}
-                        {{#each aniolectivo}}
-                        <option class="aniolectivo-item" value={{this.anio}}>{{this.anio}}</option>
-                        {{/each}}
-                        {{/if}}
+                        <option class="aniolectivo-item" value=""></option>
                       </select>
                     </div>
                     <div class="col-md-4 g-2">
                       <label for="inputState" class="col-form-label">Año lectivo final:</label>
                       <select class="form-select border-secondary" name="aniolectivoRango" id="aniolectivo_final">
                         <option selected disabled value="">Elegir...</option>
-                        {{#if aniolectivo}}
-                        {{#each aniolectivo}}
-                        <option class="aniolectivo-item" value={{this.anio}}>{{this.anio}}</option>
-                        {{/each}}
-                        {{/if}}
+                        <option class="aniolectivo-item" value=""></option>
                       </select>
                     </div>
                   </div>
