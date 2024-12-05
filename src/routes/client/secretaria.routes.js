@@ -496,10 +496,11 @@ router.post('/api/mostrar_grupo', isLoggedIn, checkRol('Secretaria'), async (req
 });//Metodo para mostrar los grupos disponibles
 router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const { id_estudiante, repitente, traslado, grupo, correo_usuario } = req.body;
+  const anio_lectivo = await pool.query(`SELECT MAX(anio) AS anio_mayor FROM aniolectivo`);
   const verif_matricula = await pool.query(`select M.id_matricula from matricula as M 
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
-                                            where E.id_estudiante = ? and AL.anio = year(now());`, id_estudiante);
+                                            where E.id_estudiante = ? and AL.anio = ?`, [id_estudiante, anio_lectivo[0][0].anio_mayor]);
   const verif_capacidad = await pool.query(`select capacidad from detallegrupo
                                             where id_detallegrupo = ?`, grupo);
 
@@ -510,7 +511,7 @@ router.post('/api/matricula_reingreso', isLoggedIn, checkRol('Secretaria'), asyn
     res.send({ success: false, msg: 'Este estudiante ya esta matriculado!' });
   } else {
     try {
-      const id_aniolectivo = await pool.query(`select id_aniolectivo from aniolectivo where anio = year(now());`);
+      const id_aniolectivo = await pool.query(`select id_aniolectivo from aniolectivo where anio = ?`, anio_lectivo[0][0].anio_mayor);
       const id_secretaria = await pool.query(`select id_usuario from usuario where correo_e = ?`, correo_usuario);
       await pool.query(`insert into matricula(repitente, traslado, id_estudiante_fk, id_aniolectivo_fk, id_usuario_fk, id_detallegrupo_fk)
                         values(?,?,?,?,?,?)`, [repitente, traslado, id_estudiante, id_aniolectivo[0][0].id_aniolectivo, id_secretaria[0][0].id_usuario, grupo]);
@@ -528,6 +529,7 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
   const correo_usuario = req.user[0].correo_e;
   var cedula_est = req.body.cedula_est
   var telefono_est = req.body.telefono_est
+  const anio_lectivo = await pool.query(`SELECT MAX(anio) AS anio_mayor FROM aniolectivo`);
   if (correo_tutor === '') { correo_tutor = null; }
   if (telefono_madre === '') { telefono_madre = null; }
   if (telefono_padre === '') { telefono_padre = null; }
@@ -566,12 +568,13 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
     datosForm.trasladado_est,
     datosForm.grupo_nuevoIngreso,
     correo_usuario,
-    datosForm.aux
+    datosForm.aux,
+    anio_lectivo[0][0].anio_mayor
   ];
   const verif_matricula = await pool.query(`select M.id_matricula from matricula as M 
                                             inner join estudiante as E on M.id_estudiante_fk = E.id_estudiante
                                             inner join aniolectivo as AL on M.id_aniolectivo_fk = AL.id_aniolectivo
-                                            where E.codigoEst = ? and AL.anio = year(now());`, datosForm.codigo_est);
+                                            where E.codigoEst = ? and AL.anio = ?`, [datosForm.codigo_est, anio_lectivo[0][0].anio_mayor]);
 
   const verif_capacidad = await pool.query(`select capacidad from detallegrupo
                                             where id_detallegrupo = ?`, datosForm.grupo_nuevoIngreso);
@@ -583,7 +586,7 @@ router.post('/api/matricula_nuevoingreso', isLoggedIn, checkRol('Secretaria'), a
     res.send({ success: false, msg: 'Este estudiante ya esta matriculado!' });
   } else {
     try {
-      await pool.query('call sp_matriculaNuevoIngreso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', datos);
+      await pool.query('call sp_matriculaNuevoIngreso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', datos);
       res.send({ success: true });
     } catch (error) {
       console.log(error);
