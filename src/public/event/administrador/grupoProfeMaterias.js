@@ -119,9 +119,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
   $('#grupos_guia').on('change', function (e) {
     e.preventDefault();
     const grupoSelect = $(this).find('option:selected').val(); 
-    profesoresDisponibles(grupoSelect, 'profesor_guia');
     profesor_Guia.value = '';
     mostrarProfeGuia(grupoSelect);
+  });
+  
+  $('#profesor_guia').on('focus', function (e) {
+    profesoresDisponibles();
   });
 
   $('#btn-asignarGrupo').on('click', function (e) {
@@ -432,11 +435,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
       })
       .catch(err => console.log('Error', err.message));
   }//Mostramos que los grupos disponibles sin asignar
-  function profesoresDisponibles(id_grupo, id_select) {
-    const profesorView = document.getElementById(id_select);
-    axios.post('/api/mostrar_profesorGuia', { id_detallegrupo: id_grupo })
+  function profesoresDisponibles() {
+    const profesorView = document.getElementById('profesor_guia');
+    axios.post('/api/mostrar_profesorGuia', { id_detallegrupo: grupos_guia.value })
       .then(response => {
         const profesor = response.data;
+        profesorView.innerHTML = '';
         profesorView.innerHTML = '<option selected disabled value="">Elegir...</option>';
         for (let i = 0; i < profesor.length; i++) {
           profesorView.innerHTML += `
