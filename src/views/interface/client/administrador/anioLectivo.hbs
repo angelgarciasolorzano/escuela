@@ -11,7 +11,7 @@
   <div class="col-lg-12 mb-2">
     <div class="card shadow bg-body-tertiary border-0">
       <div class="card-header color-background">
-        <h4 class="text-white text-center fw-semibold m-0">Configurar año lectivo 2024:</h4>
+        <h4 class="text-white text-center fw-semibold m-0">Crear nuevo año lectivo</h4>
       </div>
       <div class="card-body">
         <div class="row g-2">
@@ -20,91 +20,82 @@
               configuración:
             </p>
             <div class="d-flex flex-column mb-2 gap-2 justify-content-center" id="form-anioLectivo">
-              <div class="row align-items-end">
-                <div class="col-md-3 position-relative py-2">
-                  <label for="inputText" class="form-label">Año lectivo actual:</label>
+              <div class="row align-items-end g-3">
+                <div class="col-md-4 position-relative">
+                  <label for="inputText" class="form-label">Año lectivo:</label>
                   <input name="anio_lectivo" type="text" class="form-control border-secondary" id="anio-lectivo"
                     placeholder="" value="" disabled>
                 </div>
-                <div class="col-md-3 position-relative py-2">
-                  <label for="inputText" class="form-label">Estado:</label>
-                  <input name="estado" type="text" class="form-control border-secondary" id="estado" placeholder=""
-                    value="" disabled>
-                </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-4 position-relative">
                   <label for="inputDate" class="form-label">Fecha inicial:</label>
-                  <input name="fecha_inicial" type="date" class="form-control border-secondary" id="fecha-inicial"
-                    disabled>
+                  <input name="fecha_inicial" type="date" class="form-control border-secondary" id="fecha-inicial" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-4 position-relative">
                   <label for="inputDate" class="form-label">Fecha final:</label>
-                  <input name="fecha_inicial" type="date" class="form-control border-secondary" id="fecha-inicial"
-                    disabled>
+                  <input name="fecha_final" type="date" class="form-control border-secondary" id="fecha-final" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-3 position-relative">
                   <label for="inputDate" class="form-label">Fecha inicial de matriculas:</label>
-                  <input name="fecha_inicial_matricula" type="date" class="form-control border-secondary"
-                    id="fecha-inicial-matricula" disabled>
+                  <input name="fecha_inicial_ma" type="date" class="form-control border-secondary"
+                    id="fecha-inicial-matricula" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-3 position-relative">
                   <label for="inputDate" class="form-label">Fecha final de matriculas:</label>
-                  <input name="fecha_final_matricula" type="date" class="form-control border-secondary"
-                    id="fecha-final-matricula" disabled>
+                  <input name="fecha_final_ma" type="date" class="form-control border-secondary"
+                    id="fecha-final-matricula" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-3 position-relative">
                   <label for="inputDate" class="form-label">Fecha inicial de reparación:</label>
-                  <input name="fecha_inicial_reparacion" type="date" class="form-control border-secondary"
-                    id="fecha-inicial-reparacion" disabled>
+                  <input name="fecha_inicial_rep" type="date" class="form-control border-secondary"
+                    id="fecha-inicial-reparacion" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
-                <div class="col-md-3 position-relative py-2">
+                <div class="col-md-3 position-relative">
                   <label for="inputDate" class="form-label">Fecha final de reparación:</label>
-                  <input name="fecha_final_reparacion" type="date" class="form-control border-secondary"
-                    id="fecha-final-reparacion" disabled>
+                  <input name="fecha_final_rep" type="date" class="form-control border-secondary"
+                    id="fecha-final-reparacion" onkeydown="event.preventDefault();">
                   <div class="invalid-tooltip">
                     ¡Error!
                   </div>
                 </div>
               </div>
-              <div class="d-flex justify-content-center align-items-center py-2">
-                <button class="btn btn-danger" id="btn-finalizarAnio">Finalizar</button>
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <button class="btn btn-success" id="btn-crearAnio">Crear</button>
               </div>
             </div>
-
-          </div><!--Card para ingresar grupo guia-->
-          {{!-- <div class="col-md-12 mt-3">
-            <p class="card-title fs-3 text-start border-bottom border-secondary" style="color: #0d2033;">Asignados
-              actualmente:
+          </div>
+          <div class="col-md-12 mt-3">
+            <p class="card-title fs-3 text-start border-bottom border-secondary" style="color: #0d2033;">Historial de años lectivos:
             </p>
             <div class="table-responsive">
-              <table class="table table-striped table-bordered nowrap" id="dt-grupoProfeMate" style="width: 100%;">
+              <table class="table table-striped table-bordered nowrap" id="dt-aniosLectivos" style="width: 100%;">
                 <thead class="table-secondary">
                   <tr>
-                    <th>Id</th>
-                    <th>Grupos</th>
-                    <th class="text-center">Profesores</th>
-                    <th class="text-center">Materias</th>
+                    <th class="text-center">Año</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha_inicial</th>
+                    <th class="text-center">Fecha_final</th>
                     <th class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
               </table>
             </div>
-          </div><!--Card para visualizar grupo guia --> --}}
+          </div><!--Card para visualizar grupo guia -->
         </div>
       </div>
     </div>
@@ -113,3 +104,5 @@
 <!-- modal-message -->
 <div id="crearModal"></div>
 <!-- modal-message -->
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.8/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
+<script src="/event/administrador/anioLectivo.js"></script>

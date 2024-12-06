@@ -46,7 +46,7 @@ router.get('/academico/anio_lectivo', isLoggedIn, checkRol('Administrador'), asy
 router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) => {
   const anio_lectivo = await pool.query(`SELECT MAX(anio) AS anio_mayor FROM aniolectivo`);
   const [modalidad] = await pool.query('SELECT id_modalidad, nombre FROM modalidad');
-  res.render('interface/client/secretaria/matricula', { anioActual: anio_lectivo[0][0].anio_mayor, modalidad: modalidad });
+  res.render('interface/client/secretaria/matricula', { anioLectivo: anio_lectivo[0][0].anio_mayor, modalidad: modalidad });
 });//Rutar para renderizar la plantilla matricula
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
   res.render('interface/client/secretaria/reportesNew');

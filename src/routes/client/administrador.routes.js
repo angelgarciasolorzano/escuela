@@ -472,8 +472,8 @@ router.post('/api/bloquear_usuario', isLoggedIn, checkRol('Administrador'), asyn
     const id_usuario = req.body.id_usuario; //Falta validar que no tenga notas registradas en el año actual
     const verificar_usuario = await pool.query(`select id_usuario from usuario 
                                                 where id_usuario = ? AND id_rol_fk = ?;`, [id_usuario, 1]);
-    if (verificar_usuario[0].length > 0) {
-      res.send({ success: false, msg: 'El administrador no se puede bloquear!' });
+    if (verificar_usuario[0].length > 0 && req.user[0].id_usuario == id_usuario) {
+      res.send({ success: false, msg: 'El administrador no se puede bloquear así mismo!' });
     } else {
       await pool.query("UPDATE usuario SET estado = 'Bloqueado' WHERE id_usuario = ?", id_usuario);
       res.send({ success: true, msg: 'Usuario bloqueado con exito!' });
@@ -641,5 +641,175 @@ router.get('/api/mostrar_materias', isLoggedIn, checkRol('Administrador'), async
     console.log(error);
   }
 });//Metodo para mostrar la materias recientes
+
+//Año Lectivo
+router.post('/api/verificar_aniolectivo', isLoggedIn, checkRol('Administrador'),
+  [
+    body('fecha_inicial').notEmpty().withMessage('Falta seleccionar!'),
+    body('fecha_final').notEmpty().withMessage('Falta seleccionar!')
+    .custom((value, { req }) => {
+          const fecha_inicial = req.body.fecha_inicial;
+          const fecha_final = value;
+          if( fecha_final < fecha_inicial) {
+            throw new Error('La fecha final no puede ser menor a la inicial!');
+          } else if (fecha_final == fecha_inicial) {
+            throw new Error('La fecha final no puede ser igual a la inicial!');
+          } else {
+            return true;
+          }
+        }),
+    body('fecha_inicial_ma').notEmpty().withMessage('Falta seleccionar!')
+    .custom((value, { req }) => {
+      const fecha_inicial = req.body.fecha_inicial;
+      const fecha_inicial_ma = value;
+      if( fecha_inicial_ma < fecha_inicial) {
+        throw new Error('Debe de ser mayor que la fecha inicial del año lectivo!');
+      } else {
+        return true;
+      }
+    }),
+    body('fecha_final_ma').notEmpty().withMessage('Falta seleccionar!')
+    .custom((value, { req }) => {
+      const fecha_inicial_ma = req.body.fecha_inicial_ma;
+      const fecha_final_ma = value;
+      if( fecha_final_ma < fecha_inicial_ma) {
+        throw new Error('Debe de ser mayor que la fecha inicial de matriculas!');
+      } else if (fecha_final_ma == fecha_inicial_ma) {
+        throw new Error('La fecha final de la matricula es igual a la inicial!');
+      } else {
+        return true;
+      }
+    }),
+    body('fecha_inicial_rep').notEmpty().withMessage('Falta seleccionar!')
+    .custom((value, { req }) => {
+      const fecha_inicial = req.body.fecha_inicial;
+      const fecha_inicial_rep = value;
+      if( fecha_inicial_rep > fecha_inicial) {
+        throw new Error('Debe de ser menor a la fecha inicial del año lectivo!');
+      } else {
+        return true;
+      }
+    }),
+    body('fecha_final_rep').notEmpty().withMessage('Falta seleccionar!')
+    .custom((value, { req }) => {
+      const fecha_inicial = req.body.fecha_inicial;
+      const fecha_final_rep = value;
+      if( fecha_final_rep > fecha_inicial) {
+        throw new Error('Debe de ser menor a la fecha inicial del año lectivo!');
+      } else {
+        return true;
+      }
+    })
+    .custom((value, { req }) => {
+      const fecha_inicial_rep = req.body.fecha_inicial_rep;
+      const fecha_final_rep = value;
+      if( fecha_final_rep < fecha_inicial_rep) {
+        throw new Error('Debe de ser mayor que la fecha inicial de reparación!');
+      } else if (fecha_final_rep == fecha_inicial_rep) {
+        throw new Error('La fecha final de la reparación es igual a la inicial!');
+      } else {
+        return true;
+      }
+    })
+  ], (req, res) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      res.send({ errors: error.array({ onlyFirstError: true }), status: true });
+    } else {
+      res.send({ status: false });
+    }
+});//Metodo para finalizar anio lectivo
+router.post('/api/crear_aniolectivo', isLoggedIn, checkRol('Administrador'), async (req, res) => {
+  try {
+    const datosForm = req.body; 
+    const anio_lectivo = req.body.anio_lectivo;
+    const estado = 'En curso';
+    const verificarAnio = await pool.query(`select id_aniolectivo from aniolectivo
+                                            where anio = ?`, anio_lectivo);
+    const verificarEstado = await pool.query(`select id_aniolectivo from aniolectivo
+                                            where estado = ?`, estado);
+    const datos = [
+      datosForm.anio_lectivo,
+      datosForm.fecha_inicial,
+      datosForm.fecha_final,
+      datosForm.fecha_inicial_ma,
+      datosForm.fecha_inicial_rep,
+      datosForm.fecha_final_rep,
+      datosForm.fecha_final_ma
+    ];
+    if (verificarEstado[0].length > 0) {
+      res.send({ success: false, msg: 'Otro año lectivo está en curso!' });
+    } else if (verificarAnio[0].length > 0) {
+      res.send({ success: false, msg: 'Ya creaste este año lectivo!' });
+    } else {
+      await pool.query(`insert into aniolectivo(anio, fecha_inicial, fecha_final, fec_matricula_i, fec_reparacion_i, fec_reparacion_f, fec_matricula_f) values(?,?,?,?,?,?,?)`, datos);
+      res.send({ success: true, msg: 'El año lectivo se creó con éxito!' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.send({ success: false, msg: 'Ocurrió un error inesperado!' });
+  }
+});//Metodo para agregar el anio lectivo
+router.post('/api/finalizar_aniolectivo', isLoggedIn, checkRol('Administrador'), async (req, res) => {
+  try {
+    const id_aniolectivo= req.body.id_aniolectivo; 
+    await pool.query("UPDATE aniolectivo SET estado = 'Finalizado' WHERE id_aniolectivo = ?", id_aniolectivo);
+    res.send({ success: true, msg: 'Año lectivo finalizado con exito!' });
+  } catch (error) {
+    console.log(error);
+    res.send({ success: false, msg: 'Ocurrió un error inesperado!' });
+  }
+});//Metodo para verificar el form del anio lectivo
+router.get('/api/anioslectivos_recientes', isLoggedIn, checkRol('Administrador'), async (req, res) => {
+
+  try {
+
+    var { draw, start, length, search } = req.query; //DesEstructuramos el request query
+
+    //Buscador datos
+    var search_value = search['value'].trim();
+    var search_query = `
+    AND (anio LIKE '%${search_value}%' 
+    OR estado LIKE '%${search_value}%')`;
+    //Número total de registros sin filtrar
+    var [Data1] = await pool.query("SELECT COUNT(*) AS Total FROM vw_anioslectivosrecientes");
+    var total_records = Data1[0].Total;
+
+    //Número total de registros con filtrado
+    var [Data2] = await pool.query(`SELECT COUNT(*) AS Total FROM vw_anioslectivosrecientes WHERE 1 ${search_query}`);
+    var total_records_with_filter = Data2[0].Total;
+    var query = `
+            select * from vw_anioslectivosrecientes
+            where 1 ${search_query} 
+            limit ${start}, ${length}`; //Integramos en la consulta los parametros de busqueda, utilizando el Search del datatable
+
+    var data_arr = [];
+    var [Data3] = await pool.query(query);
+    Data3.forEach(function (row) {
+      data_arr.push({
+        'id_aniolectivo': row.id_aniolectivo,
+        'anio': row.anio,
+        'estado': row.estado,
+        'fecha_inicial': row.fecha_inicial.toLocaleDateString(),
+        'fecha_final': row.fecha_final.toLocaleDateString(),
+        'fec_matricula_i': row.fec_matricula_i.toLocaleDateString(),
+        'fec_matricula_f': row.fec_matricula_f.toLocaleDateString(),
+        'fec_reparacion_i': row.fec_reparacion_i.toLocaleDateString(),
+        'fec_reparacion_f': row.fec_reparacion_f.toLocaleDateString()
+      });//Agregamos al arreglo todos los campos que queremos que contenga la data
+    });
+
+    var output = {
+      'draw': draw,
+      'iTotalRecords': total_records,
+      'iTotalDisplayRecords': total_records_with_filter,
+      'aaData': data_arr
+    };//Estructura datatable
+    res.json(output);//Envianmos al datatable la estructura en formato json
+  } catch (error) {
+    res.status(500).send('Error 500');
+    console.log(error);
+  }
+});//Metodo para buscar los usuarios recientes en tiempo real
 
 export default router;
