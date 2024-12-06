@@ -27,22 +27,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
       });
     });//Para limpiar los errores de mi select en agregar profesor guia
   });
-  $('#grupos').on('click', function (e) {
-    if (!$(e.target).hasClass('grupo-item')) {
-      mostrarGruposDisponibles('grupos');
-    }
+  $('#grupos').on('focus', function (e) {
+    mostrarGruposDisponibles();
+    profesor.value = '';
   });
-  $('#grupos').on('click', '.grupo-item', function (e) {
-    e.preventDefault();
-    const grupoSelect = $(this).text();
+  $('#grupos').on('change', function () {
+    const grupoSelect = $(this).find('option:selected').text(); // Obtén el texto del grupo seleccionado
     tabla_grupoProfeMate.search(grupoSelect).draw();
   });
-  $('#materia').on('click', function (e) {
-    if (!$(e.target).hasClass('materia-item')) {
-      mostrarMateriasDisponibles('materia');
-    }
+  $('#materia').on('focus', function (e) {
+    mostrarMateriasDisponibles();
   });
-  $('#materia').on('click', '.materia-item', function (e) {
+  $('#materia').on('change', function (e) {
     e.preventDefault();
     const id_materia = $('#materia').val();
     $('#profesor').prop('disabled', false);
@@ -117,14 +113,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
   //Funcionalidad para asignar profesor guia
-  $('#grupos_guia').on('click', function (e){
-    if (!$(e.target).hasClass('grupos_guia-item')) {
-      gruposDisponibles('grupos_guia');
-    }
+  $('#grupos_guia').on('focus', function (e) {
+    gruposDisponibles('grupos_guia');
   });
-  $('#grupos_guia').on('click', '.grupos_guia-item', function (e) {
+  $('#grupos_guia').on('change', function (e) {
     e.preventDefault();
-    const grupoSelect = $(this).val();
+    const grupoSelect = $(this).find('option:selected').val(); 
     profesoresDisponibles(grupoSelect, 'profesor_guia');
     profesor_Guia.value = '';
     mostrarProfeGuia(grupoSelect);
@@ -211,7 +205,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var data_grupoGuia = tabla_grupoGuia.row($(this).parents("tr")).data();
     eliminarAsignacionGuia(data_grupoGuia);
   });
-  
+
 
   //Funciones asignar profesor
   function validarAsignar() {
@@ -246,8 +240,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
       .catch(err => console.log('Error', err.message));
   }
   function eliminarAsignacion(data_grupoProfeMate) {
-    const data = { id_grupo_profeMateria: data_grupoProfeMate.id_grupo_profeMateria , 
-      id_detallegrupo: data_grupoProfeMate.id_detallegrupo, id_profesor: data_grupoProfeMate.id_profesor };
+    const data = {
+      id_grupo_profeMateria: data_grupoProfeMate.id_grupo_profeMateria,
+      id_detallegrupo: data_grupoProfeMate.id_detallegrupo, id_profesor: data_grupoProfeMate.id_profesor
+    };
     crearModal('eliminar-grupoProfeMate', 'btn-aceptar-eliminar-materia', '¿Deseas quitar este materia y profesor?');
     $("#eliminar-grupoProfeMate").modal("show");
     $("#btn-aceptar-eliminar-materia").on("click", function () {
@@ -277,18 +273,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
     $('#profesor').prop('disabled', true);
     mostrarMateriasDisponibles('materia');
   };//Limpia los inputs
-  function mostrarGruposDisponibles(id_select) {
-    const grupoView = document.getElementById(id_select);
+  function mostrarGruposDisponibles() {
+    const grupoView = $('#grupos');  // Seleccionamos el select 'grupo'
+    // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+    grupoView.empty();
+    // Realizamos la solicitud para obtener los datos
     axios.get('/api/mostrar_detalleGrupo')
       .then(response => {
         const grupo = response.data;
-        grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
-        for (let i = 0; i < grupo.length; i++) {
-          grupoView.innerHTML += `
-                    <option class="grupo-item" value=${grupo[i].id_detallegrupo}>${grupo[i].Grupo}</option>`;
-        };
+
+        // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+        grupoView.empty();
+
+        // Agregamos la opción predeterminada
+        grupoView.append('<option selected disabled value="">Elegir...</option>');
+
+        // Poblar el select con las nuevas opciones
+        grupo.forEach(m => {
+          grupoView.append(`
+              <option value="${m.id_detallegrupo}">${m.Grupo}</option>
+            `);
+        });
       })
-      .catch(err => console.log('Error', err.message));
+      .catch(err => {
+        console.error('Error al cargar los grupos:', err.message);
+        grupoView.empty();
+        grupoView.append('<option selected disabled value="">Error al cargar</option>');
+      });
   }//Mostramos que los grupos disponibles
   function mostrarProfesor(id_materia, id_select) {
     const profesorView = document.getElementById(id_select);
@@ -303,25 +314,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
       })
       .catch(err => console.log('Error', err.message));
   }//Mostramos los profesores
-  function mostrarMateriasDisponibles(id_select) {
-    const materiaView = document.getElementById(id_select);
+  function mostrarMateriasDisponibles() {
+    const materiaView = $('#materia');  // Seleccionamos el select 'materia'
+    // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+    materiaView.empty();
+    // Realizamos la solicitud para obtener los datos
     axios.get('/api/mostrar_materias')
       .then(response => {
         const materia = response.data;
-        materiaView.innerHTML = '<option selected disabled value="">Elegir...</option>';
-        for (let i = 0; i < materia.length; i++) {
-          materiaView.innerHTML += `
-                    <option class="materia-item" value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
-        };
+
+        // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+        materiaView.empty();
+
+        // Agregamos la opción predeterminada
+        materiaView.append('<option selected disabled value="">Elegir...</option>');
+
+        // Poblar el select con las nuevas opciones
+        materia.forEach(m => {
+          materiaView.append(`
+              <option value="${m.id_materia}">${m.nombre}</option>
+            `);
+        });
       })
-      .catch(err => console.log('Error', err.message));
+      .catch(err => {
+        console.error('Error al cargar los materias:', err.message);
+        materiaView.empty();
+        materiaView.append('<option selected disabled value="">Error al cargar</option>');
+      });
+
   }//Mostramos que las materias disponibles
   function mostrarProfeGuia(id_grupo) {
     axios.post('/api/mostrar_profeGuia', { id_grupo: id_grupo })
       .then(response => {
         const profesor = response.data;
         profesor_Guia.value = '';
-        if(profesor[0]){
+        if (profesor[0]) {
           profesor_Guia.value = profesor[0].Profesor;
         }
       })
@@ -358,19 +385,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function agregarGrupoGuia(datos_formGrupoGuia) {
     crearModal('asignar-grupoGuia', 'btn-aceptar-asignar-grupoGuia', '¿Deseas asignar este profesor como guía?');
     $("#asignar-grupoGuia").modal("show");
-    $("#btn-aceptar-asignar-grupoGuia").on("click", function () { 
+    $("#btn-aceptar-asignar-grupoGuia").on("click", function () {
       axios.post('/api/asignar_gruposGuia', datos_formGrupoGuia)
-      .then(response => {
-        const result = response.data;
-        if (result.success == true) {
-          showToast('success', 'fa-solid fa-circle-check', result.msg);
-          limpiar_FormGrupoGuia();
-          tabla_grupoGuia.ajax.url(url2).load();
-        } else {
-          showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
-        }
-      })
-      .catch(err => console.log('Error', err.message));
+        .then(response => {
+          const result = response.data;
+          if (result.success == true) {
+            showToast('success', 'fa-solid fa-circle-check', result.msg);
+            limpiar_FormGrupoGuia();
+            tabla_grupoGuia.ajax.url(url2).load();
+          } else {
+            showToast('danger', 'bi bi-exclamation-circle-fill', result.msg);
+          }
+        })
+        .catch(err => console.log('Error', err.message));
     });
   }
   function eliminarAsignacionGuia(data_grupoGuia) {

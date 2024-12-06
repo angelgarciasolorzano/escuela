@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+$('document').ready(function() {
 
   const profesorView = document.getElementById('profesor');
   const materiaView = document.getElementById('materia');
@@ -7,25 +7,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
   //Funciones profesor
-  //mostrarMateriasDisponibles('materia');
-
-  $('#profesor').on('click', function(e) {
-    if (!$(e.target).hasClass('profesor-item')) {
-      mostrarProfesoresDisponibles(profesorView);
-    }
+  // Escuchar el evento 'focus' para recargar los datos cada vez que el select 'profesor' se abre
+  $('#profesor').on('focus', function() {
+    mostrarProfesoresDisponibles();
   });
-  $('#profesor').on('click', '.profesor-item', function (e) {
-    e.preventDefault();
-    const profesorSelect = $(this).text();
-    tabla_profeMateria.search(profesorSelect).draw();
+  // Escuchar cambios en el <select>
+  $('#profesor').on('change', function () {
+    const profesorSelect = $(this).find('option:selected').text(); // Obtén el texto del profesor seleccionado
+    tabla_profeMateria.search(profesorSelect).draw(); // Filtrar la tabla
   });
 
-  $('#materia').on('click', function(e) {
-    if (!$(e.target).hasClass('materia-item')) {
-      mostrarMateriasDisponibles(materiaView);
-    }
+  // Escuchar el evento 'focus' para recargar los datos cada vez que el select 'materia' se abre
+  $('#materia').on('focus', function() {
+    mostrarMateriasDisponibles();
   });
-
   $('#btn-asignarMaterias').on('click', function (e) {
     e.preventDefault();
     if (validarAsignar() === 0) {
@@ -340,31 +335,59 @@ document.addEventListener('DOMContentLoaded', (event) => {
     datos_formProfeMateria = '';
     mostrarMateriasDisponibles('materia');
   };//Limpia los inputs
-  function mostrarMateriasDisponibles(materiaView) {
+  function mostrarMateriasDisponibles() {
+    const materiaView = $('#materia');  // Seleccionamos el select 'materia'
+    
     axios.get('/api/mostrar_materias')
       .then(response => {
         const materia = response.data;
-        materiaView.innerHTML = '<option selected disabled value="">Elegir...</option>';
-        for (let i = 0; i < materia.length; i++) {
-          materiaView.innerHTML += `
-                <option class="materia-item" value=${materia[i].id_materia}>${materia[i].nombre}</option>`;
-        };
+
+        // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+        materiaView.empty();
+        
+        // Agregamos la opción predeterminada
+        materiaView.append('<option selected disabled value="">Elegir...</option>');
+
+        // Poblar el select con las nuevas opciones
+        materia.forEach(m => {
+          materiaView.append(`
+            <option value="${m.id_materia}">${m.nombre}</option>
+          `);
+        });
       })
-      .catch(err => console.log('Error', err.message));
+      .catch(err => {
+        console.error('Error al cargar las materias:', err.message);
+        materiaView.empty();
+        materiaView.append('<option selected disabled value="">Error al cargar</option>');
+      });
   }//Mostramos que los grupos disponibles sin asignar
-  function mostrarProfesoresDisponibles(profesorView) {
+  function mostrarProfesoresDisponibles() {
+    const profesorView = $('#profesor');  // Seleccionamos el select 'profesor'
+    
+    // Realizamos la solicitud para obtener los datos
     axios.get('/api/mostrar_profesor')
       .then(response => {
         const profesor = response.data;
-        profesorView.innerHTML = '<option selected disabled value="">Elegir...</option>';
-        for (let i = 0; i < profesor.length; i++) {
-          profesorView.innerHTML += `
-                <option class="profesor-item" value=${profesor[i].id_usuario}>${profesor[i].Profesor}</option>`;
-        };
-      })
-      .catch(err => console.log('Error', err.message));
-  }//Mostramos que los grupos disponibles sin asignar
 
+        // Aseguramos que el select esté vacío antes de agregar nuevas opciones
+        profesorView.empty();
+        
+        // Agregamos la opción predeterminada
+        profesorView.append('<option selected disabled value="">Elegir...</option>');
+
+        // Poblar el select con las nuevas opciones
+        profesor.forEach(m => {
+          profesorView.append(`
+            <option value="${m.id_usuario}">${m.Profesor}</option>
+          `);
+        });
+      })
+      .catch(err => {
+        console.error('Error al cargar los profesores:', err.message);
+        profesorView.empty();
+        profesorView.append('<option selected disabled value="">Error al cargar</option>');
+      });
+  }//Mostramos que los grupos disponibles sin asignar
   function showToast(tipo, icono, mensaje) {
     const messageDiv = document.getElementById('toast-notificacion');
     messageDiv.innerHTML = '';
