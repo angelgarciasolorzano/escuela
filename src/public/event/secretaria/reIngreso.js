@@ -117,10 +117,12 @@ $('#modalidad-reingreso').on('change', function () {
     $('#grupo-reingreso').prop('disabled', true).val('');
 });//Desbloquea y muestra los niveles o grados en base a su modalidad en formulario matricula de reigreso ingreso
 $('#nivel-reingreso').on('change', function () {
-    const id_nivel_grado = $('#nivel-reingreso').val();
     $('#grupo-reingreso').prop('disabled', false);
-    mostrarGrupos(id_nivel_grado, 'grupo-reingreso');
 });//Desbloquea y muestra los niveles o grados en base a su modalidad en formulario matricula de reingreso ingreso
+$('#grupo-reingreso').on('focus', function() {
+    id_nivel_grado = nivel_reingreso.value;
+    mostrarGrupos(id_nivel_grado);
+});
 $('#btn-matricula_reingreso').on('click', function (e) {
     e.preventDefault();
     if (name_estudiante.value === '') {
@@ -186,11 +188,12 @@ function matriculaReingreso(datos_formReingreso) {
         })
         .catch(err => console.log('Error', err.message));
 }//Verificamos que el estudiante no este matriculado
-function mostrarGrupos(id_nivel_grado, id_elemento) {
-    const grupoView = document.getElementById(id_elemento);
+function mostrarGrupos(id_nivel_grado) {
+    const grupoView = document.getElementById('grupo-reingreso');
     axios.post('/api/mostrar_grupo', { id_nivel_grado: id_nivel_grado })
         .then(response => {
             const grupo = response.data;
+            grupoView.innerHTML = ' ';
             grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
             for (let i = 0; i < grupo.length; i++) {
                 grupoView.innerHTML += `

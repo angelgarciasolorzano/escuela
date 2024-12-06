@@ -318,6 +318,10 @@ $("#cedula-padre, #telefono-padre").on('input', function () {
     limpiarErrorEspecial('#cedula-madre');
     limpiarErrorEspecial('#telefono-madre');
 });//Limpiamos nombres-padre, telefono-est y cedula-est
+$('#grupo-nuevoIngreso').on('focus', function() {
+    id_nivel_grado = nivel_est.value;
+    mostrarGruposNuevoIngreso(id_nivel_grado);
+});
 //Opcion Matricula de nuevo ingreso del nav tab
 
 
@@ -383,7 +387,22 @@ $('#btn-matriculaNuevo').on('click', function (e) {
     $("input[type='text'], input[type='date']").on('input', limpiarErrores);
     $('#sexo-tutor, #relacion-tutor, #sexo-est, #etnia-est, #lengua-est, #discapacidad-est, #modalidad-est, #nivel-est, #grupo-nuevoIngreso, #repitente-est, #trasladado-est').on('change', limpiarErrores);
 });//Boton para matricular estudiante de nuevo ingreso
-
+function mostrarGruposNuevoIngreso(id_nivel_grado) {
+    const grupoView = document.getElementById('grupo-nuevoIngreso');
+    axios.post('/api/mostrar_grupo', { id_nivel_grado: id_nivel_grado })
+        .then(response => {
+            const grupo = response.data;
+            grupoView.innerHTML = ' ';
+            grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
+            for (let i = 0; i < grupo.length; i++) {
+                grupoView.innerHTML += `
+                <option value=${grupo[i].id_detallegrupo}>
+                    ${grupo[i].nombre} - Cupos: ${grupo[i].capacidad}
+                </option>`;
+            }
+        })
+        .catch(err => console.log('Error', err.message));
+}//Mostramos que los grupos disponibles por cada nivel/grado
 
 async function verificarForms(formTutor, url) {
     try {

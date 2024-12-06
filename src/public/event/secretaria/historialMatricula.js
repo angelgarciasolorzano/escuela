@@ -143,6 +143,10 @@ function imprimirMatricula(data_matricula) {
         .catch(err => console.log('Error', err.message));
 }//Funcion para imprimir la matricula
 
+$('#grupo-est-edit').on('focus', function() {
+    const id_nivel_est = parseInt($('#nivel-est-edit').val());
+    mostrarGruposEdit(id_nivel_est);
+});
 
 //Funciones de editar matricula
 function iniciarEditarMatricula(data_matricula) {
@@ -153,9 +157,7 @@ function iniciarEditarMatricula(data_matricula) {
         mostrarNivel(id_modalidad_edit, 'nivel-est-edit');
     });//Desbloquea y muestra los niveles o grados en base a su modalidad
     $('#nivel-est-edit').on('change', function () {
-        const id_nivel_est = parseInt($('#nivel-est-edit').val());
         $('#grupo-est-edit').prop('disabled', false);
-        mostrarGrupos(id_nivel_est, 'grupo-est-edit');
     });//Desbloquea y muestra los grupos disponibles en base a su nivel o grado
     nombre_est_edit.value = data_matricula.nombres_est + ' ' + data_matricula.apellidos_est;
     codigo_est_edit.value = data_matricula.codigo_est;
@@ -208,7 +210,22 @@ function validarMatriculaEditar() {
     });
     return aux3; //Retornamos nuestra variable auxiliar que cuenta los errores de mis select de mi cambios de mi matricula
 }//Valida que los inputs select no esten vacios
-
+function mostrarGruposEdit(id_nivel_est) {
+    const grupoView = document.getElementById('grupo-est-edit');
+    axios.post('/api/mostrar_grupo', { id_nivel_grado: id_nivel_est })
+        .then(response => {
+            const grupo = response.data;
+            grupoView.innerHTML = ' ';
+            grupoView.innerHTML = '<option selected disabled value="">Elegir...</option>';
+            for (let i = 0; i < grupo.length; i++) {
+                grupoView.innerHTML += `
+                <option value=${grupo[i].id_detallegrupo}>
+                    ${grupo[i].nombre} - Cupos: ${grupo[i].capacidad}
+                </option>`;
+            }
+        })
+        .catch(err => console.log('Error', err.message));
+}//Mostramos que los grupos disponibles por cada nivel/grado
 function crearModal2(id_modal, id_btn_aceptar, mensaje) {
     const crearModal = document.getElementById('crearModal');
     crearModal.innerHTML = '';
