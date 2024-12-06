@@ -114,7 +114,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral, atribu
     data: {
       labels: anios,
       datasets: [{
-        label: '# de Matriculas',
+        label: 'Número de matriculas',
         data: matriculas_anio,
         backgroundColor: 'MediumOrchid',
       }]
@@ -123,7 +123,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral, atribu
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico de total de matriculas por año.',
+          text: 'Gráfica de matrículas por año.',
           color: 'black',
           font: {
             size: 18
@@ -189,7 +189,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral, atribu
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico número de matriculas por género',
+          text: 'Gráfica matrículas por género',
           color: 'black',
           font: {
             size: 18
@@ -261,7 +261,7 @@ async function reporteMatricula(dataCallback, endCallback, [datosGeneral, atribu
       plugins: {
         title: {
           display: true,
-          text: 'Gráfico número de matriculas por modalidad',
+          text: 'Gráfica de matrículas por modalidad',
           color: 'black',
           font: {
             size: 18
