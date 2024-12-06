@@ -29,17 +29,11 @@ router.get('/profesores/grupo_guia', isLoggedIn, checkRol('Administrador'), asyn
   res.render('interface/client/administrador/grupoGuia');
 });//Rutar para renderizar la plantilla grupo guia
 router.get('/profesores/materias_profesor', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/profesorMateriasNew');
+  res.render('interface/client/administrador/materiasProfe');
 });//Rutar para renderizar la plantilla las materias del profesor
 router.get('/grupos/asignar_profesores', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/grupoProfeMaterias');
 });;//Rutar para renderizar la plantilla profegrupomaterias
-router.get('/grupos/calificaciones', isLoggedIn, checkRol('Profesor'), async (req, res) => {
-  res.render('interface/client/profesor/agregar_notas');
-});//Rutar para renderizar la plantilla agregar_notas
-router.get('/academico/materias', isLoggedIn, checkRol('Administrador'), async (req, res) => {
-  res.render('interface/client/administrador/materias');
-});//Rutar para renderizar la plantilla materias
 router.get('/academico/anio_lectivo', isLoggedIn, checkRol('Administrador'), async (req, res) => {
   res.render('interface/client/administrador/anioLectivo');
 });//Rutar para renderizar la plantilla anioLectivo
@@ -49,7 +43,7 @@ router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) =>
   res.render('interface/client/secretaria/matricula', { anioLectivo: anio_lectivo[0][0].anio_mayor, modalidad: modalidad });
 });//Rutar para renderizar la plantilla matricula
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
-  res.render('interface/client/secretaria/reportesNew');
+  res.render('interface/client/secretaria/reportes');
 });//Rutar para renderizar la plantilla reportes
 
 export default router;
