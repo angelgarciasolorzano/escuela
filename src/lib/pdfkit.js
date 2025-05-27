@@ -8,6 +8,7 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   const doc = new PDFDocument({ bufferPages: true });
   const imagePath = path.join(__dirname, 'public', 'img', 'logo_colegio.png');
   const añoActual = new Date(Date.now());
+  const fechaActual = new Date(Date.now()).toLocaleDateString();
   var genero = '';
   let i;
   let end;
@@ -31,7 +32,7 @@ async function hojaMatricula(dataCallback, endCallback, datos, materias_prof) {
   doc.on("end", endCallback);
   doc.image(imagePath, 60, 65, { fit: [70, 70] });
   doc.fontSize(23).text("Colegio Cristiano Fuente de Vida", 130, 40);
-  doc.fontSize(15).text("Fecha: " + datos.fecha, 423, 90)
+  doc.fontSize(15).text("Fecha: " + fechaActual, 423, 90)
   doc.fontSize(20).text("Hoja de matrícula 2024", 200, 138)
   doc.fontSize(20).text("I. Datos generales:", 50, 190)
   doc.fontSize(15).text("Estudiante: " + datos.nombres_est + ' ' + datos.apellidos_est + '.', 50, 230);
