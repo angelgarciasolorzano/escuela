@@ -45,5 +45,8 @@ router.get('/matricula', isLoggedIn, checkRol('Secretaria'), async (req, res) =>
 router.get('/reportes', isLoggedIn, checkRol('Administrador', 'Secretaria'), async (req, res) => {
   res.render('interface/client/secretaria/reportes');
 });//Rutar para renderizar la plantilla reportes
+router.get('/grupos/calificaciones', isLoggedIn, checkRol('Profesor'), async (req, res) => {
+  res.render('interface/client/profesor/agregar_notas');
+});//Rutar para renderizar la plantilla reportes
 
 export default router;

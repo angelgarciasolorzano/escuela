@@ -1,29 +1,36 @@
+<style>
+  /* Estilo opcional para el input dentro de la celda */
+  td input.edit-input {
+    width: 95%;
+    box-sizing: border-box;
+  }
+</style>
 <div id="toast-notificacion"></div>
-<div class="container py-3">
-  <div class="p-2">
-    <div class="card shadow bg-body-tertiary rounded">
-      <div class="card-body d-flex justify-content-start align-items-center" style="color: #0d2033;">
-        <i class="fa-solid fa-book-open px-2" style="font-size: 25px;"></i>
-        <h2 class="m-0">Calificaciones:</h2>
+<div class="d-flex flex-column my-2 px-5">
+  <div class="col-lg-12 mb-2">
+    <div class="card shadow bg-body-tertiary border-0">
+      <div class="card-body d-flex flex-row justify-content-start align-items-center gap-3" style="color: #0d2033;">
+        <i class="fa-solid fa-book-open fs-6 text-nowrap m-0" style="width: 1rem;"></i>
+        <p class="fs-6 text-nowrap m-0">Grupos > Calificaciones</p>
       </div>
     </div>
   </div>
-  <div class="p-2">
+  <div class="col-lg-12 mb-2">
     <div class="row g-4">
       <div class="col-md-12">
         <div class="card shadow bg-body-tertiary rounded" id="card-Materia">
           <div class="card-header color-background">
-            <h3 class="text-white text-center fw-semibold m-0" id="txt-accion">Calificar Estudiantes:</h3>
+            <h4 class="text-white text-center fw-semibold m-0" id="txt-accion">Calificar estudiantes:</h4>
           </div>
           <div class="card-body">
-            <div class="row g-4">
+            <div class="row g-3">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-body">
-                    <h1 class="fs-3" style="color:#2069A1;" id="txt-accion">Grupos Asignados:</h1>
+                    <h4 class="fs-3" style="color:#2069A1;" id="txt-accion">Grupos Asignados:</h4>
                     <div class="table-responsive">
                       <table class="table table-striped table-bordered nowrap" id="dt-materia" style="width: 100%;">
-                        <thead class="table-dark">
+                        <thead class="table-secondary">
                           <tr>
                             <th class="text-center">Id</th>
                             <th>Grupos</th>
@@ -38,14 +45,22 @@
                             <td>Secundaria Septimo Grado A</td>
                             <td class="text-center">Lengua y Literatura</td>
                             <td class="text-center">Sín Calificar</td>
-                            <td class="text-center"><button type="button" class="editar btn btn-warning text-white"><i class="fa-solid fa-square-pen"></i></button> <button type="button" class="calificar btn btn-success" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Calificar"><i class="fa-solid fa-arrow-up-from-bracket"></i></button></td>
+                            <td class="text-center"><button type="button" class="editar btn btn-warning text-white"><i
+                                  class="fa-solid fa-square-pen"></i></button> <button type="button"
+                                class="calificar btn btn-success" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-content="Calificar"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                            </td>
                           </tr>
                           <tr>
                             <td class="text-center">7</td>
                             <td>Primaria Cuarto Grado B</td>
                             <td class="text-center">Lengua y Literatura</td>
                             <td class="text-center">Calificado</td>
-                            <td class="text-center"><button type="button" class="editar btn btn-warning text-white"><i class="fa-solid fa-square-pen"></i></button> <button type="button" class="calificar btn btn-success" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Calificar"><i class="fa-solid fa-arrow-up-from-bracket"></i></button></td>
+                            <td class="text-center"><button type="button" class="editar btn btn-warning text-white"><i
+                                  class="fa-solid fa-square-pen"></i></button> <button type="button"
+                                class="calificar btn btn-success" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-content="Calificar"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -59,8 +74,9 @@
                     <h1 class="fs-3" style="color:#2069A1;">Secundaria Septimo Grado A</h1>
                     <h1 class="fs-4" style="color:#2069A1;">Materia: Lengua y literatura</h1>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered nowrap" id="dt-claificacion" style="width: 100%;">
-                        <thead class="table-dark">
+                      <table class="table table-striped table-bordered nowrap" id="dt-calificacion"
+                        style="width: 100%;">
+                        <thead class="table-secondary">
                           <tr>
                             <th class="text-center">Nº</th>
                             <th>Estudiantes</th>
@@ -77,24 +93,24 @@
                           <tr>
                             <td class="text-center">1</td>
                             <td>Esther Sarahi Padilla Gómez</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
                           </tr>
                           <tr>
-                            <td class="text-center">1</td>
+                            <td class="text-center">2</td>
                             <td>Rodrigo Samuel Pavon Gutierrez</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
+                            <td class="editable text-center">0</td>
                           </tr>
                         </tbody>
                       </table>
@@ -155,3 +171,101 @@
 <div id="crearModal"></div>
 <!-- modal-message -->
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.8/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Inicializa DataTables
+    var table = $('#dt-calificacion').DataTable();
+
+    // Variable para guardar temporalmente el input activo y evitar múltiples ediciones
+    var activeInput = null;
+
+    // Delega el evento click a las celdas del tbody
+    $('#dt-calificacion tbody').on('click', 'td', function () {
+      // Si ya estamos editando esta celda o hay otro input activo, no hacemos nada
+      // excepto si hacemos clic FUERA del input activo (manejado por el 'blur' abajo)
+      if (activeInput && activeInput.td.is(this)) {
+        return;
+      }
+
+      // Si había otro input activo, lo guardamos primero
+      if (activeInput) {
+        saveCellData(activeInput.td, activeInput.input, activeInput.cellApi);
+      }
+
+      var cellApi = table.cell(this); // Obtiene la API de la celda específica
+      var originalData = cellApi.data(); // Obtiene el dato actual
+      var $td = $(this); // El elemento <td> como objeto jQuery
+
+      // Crea el input
+      var $input = $('<input type="text" class="edit-input">')
+        .val(originalData);
+
+      // Reemplaza el contenido de la celda con el input
+      $td.html($input);
+
+      // Guarda la referencia al input activo
+      activeInput = {
+        td: $td,
+        input: $input,
+        cellApi: cellApi,
+        originalData: originalData // Guardamos el original por si se cancela
+      };
+
+      // Enfoca el input
+      $input.focus();
+
+      // --- Manejadores de eventos para el input ---
+
+      // 1. Al perder el foco (blur) - Guardar
+      $input.on('blur', function () {
+        // Se usa un pequeño timeout para permitir que el clic en otra celda
+        // se procese antes de que este blur cierre el input.
+        setTimeout(function () {
+          // Solo guardar si el input todavía existe (no fue reemplazado por otro clic)
+          if (activeInput && activeInput.input.is($input)) {
+            saveCellData($td, $input, cellApi);
+          }
+        }, 100); // 100ms suele ser suficiente
+      });
+
+      // 2. Al presionar una tecla (keydown) - Guardar con Enter, Cancelar con Escape
+      $input.on('keydown', function (e) {
+        if (e.key === "Enter") { // Si es Enter
+          e.preventDefault(); // Evita cualquier comportamiento por defecto (ej. submit si está en un form)
+          saveCellData($td, $(this), cellApi);
+        } else if (e.key === "Escape") { // Si es Escape
+          cancelEdit($td, cellApi, originalData);
+        }
+      });
+    });
+
+    // --- Funciones auxiliares ---
+
+    function saveCellData($tdElement, $inputElement, cellInstance) {
+      var newData = $inputElement.val();
+      // Actualiza el dato en DataTables y redibuja la celda SIN resetear paginación
+      cellInstance.data(newData).draw(false);
+      activeInput = null; // Ya no hay input activo
+      // Nota: .draw() ya reemplaza el input por el nuevo texto.
+      // Si no usaras .draw(), necesitarías: $tdElement.text(newData);
+    }
+
+    function cancelEdit($tdElement, cellInstance, originalValue) {
+      // Simplemente restaura el HTML original visualmente
+      // No es estrictamente necesario actualizar cellInstance.data() si no cambió,
+      // pero podrías hacerlo para mayor seguridad si draw() se llamara después.
+      $tdElement.html(originalValue);
+      activeInput = null; // Ya no hay input activo
+    }
+
+    // Opcional: Evitar que la ordenación se active con un solo clic en el encabezado
+    // Si quieres que la ordenación necesite doble clic o solo funcione con el icono:
+    /*
+    $('#miTabla thead').on('click', 'th', function(e) {
+        // Previene la acción de ordenación por defecto si el clic fue rápido
+        // Puedes ajustar la lógica según necesites
+    });
+    */
+
+  });
+</script>
