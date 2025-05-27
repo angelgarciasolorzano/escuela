@@ -119,7 +119,8 @@ $('#modalidad-reingreso').on('change', function () {
 $('#nivel-reingreso').on('change', function () {
     $('#grupo-reingreso').prop('disabled', false);
 });//Desbloquea y muestra los niveles o grados en base a su modalidad en formulario matricula de reingreso ingreso
-$('#grupo-reingreso').on('focus', function() {
+$('#grupo-reingreso').on('focus', function(e) {
+    e.preventDefault()
     id_nivel_grado = nivel_reingreso.value;
     mostrarGrupos(id_nivel_grado);
 });

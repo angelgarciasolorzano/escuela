@@ -1,24 +1,27 @@
 $('document').ready(function() {
 
-  const profesorView = document.getElementById('profesor');
-  const materiaView = document.getElementById('materia');
+  let profesorView = document.getElementById('profesor');
+  let materiaView = document.getElementById('materia');
   const nombre_materia = document.getElementById('nombre-materia');
   var datos_formProfeMateria = {};
 
 
   //Funciones profesor
   // Escuchar el evento 'focus' para recargar los datos cada vez que el select 'profesor' se abre
-  $('#profesor').on('focus', function() {
+  $('#profesor').on('focus', function(e) {
+    e.preventDefault()
     mostrarProfesoresDisponibles();
   });
   // Escuchar cambios en el <select>
-  $('#profesor').on('change', function () {
+  $('#profesor').on('change', function (e) {
+    e.preventDefault()
     const profesorSelect = $(this).find('option:selected').text(); // Obtén el texto del profesor seleccionado
     tabla_profeMateria.search(profesorSelect).draw(); // Filtrar la tabla
   });
 
   // Escuchar el evento 'focus' para recargar los datos cada vez que el select 'materia' se abre
-  $('#materia').on('focus', function() {
+  $('#materia').on('focus', function(e) {
+    e.preventDefault()
     mostrarMateriasDisponibles();
   });
   $('#btn-asignarMaterias').on('click', function (e) {
@@ -336,7 +339,7 @@ $('document').ready(function() {
     mostrarMateriasDisponibles('materia');
   };//Limpia los inputs
   function mostrarMateriasDisponibles() {
-    const materiaView = $('#materia');  // Seleccionamos el select 'materia'
+    materiaView = $('#materia');  // Seleccionamos el select 'materia'
     
     axios.get('/api/mostrar_materias')
       .then(response => {
@@ -362,7 +365,7 @@ $('document').ready(function() {
       });
   }//Mostramos que los grupos disponibles sin asignar
   function mostrarProfesoresDisponibles() {
-    const profesorView = $('#profesor');  // Seleccionamos el select 'profesor'
+    profesorView = $('#profesor');  // Seleccionamos el select 'profesor'
     
     // Realizamos la solicitud para obtener los datos
     axios.get('/api/mostrar_profesor')

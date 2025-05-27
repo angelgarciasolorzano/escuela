@@ -38,12 +38,15 @@ $('#btn-generar-reporte').on('click', function () {
 });//Imprime el reporte con los gráficos
 
 $('#aniolectivo').on('focus', function (e) {
+  e.preventDefault()
   mostrarAnioLectivo('#aniolectivo');
 });//Muestra los años lectivos para la opcion especifico
 $('#aniolectivo_inicial').on('focus', function (e) {
+  e.preventDefault()
   mostrarAnioLectivo('#aniolectivo_inicial');
 });//Muestra los años lectivos para el rango inicial
 $('#aniolectivo_final').on('focus', function (e) {
+  e.preventDefault()
   mostrarAnioLectivo('#aniolectivo_final');
 });//Muestra los años lectivos para el rango final
 

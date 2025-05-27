@@ -28,18 +28,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });//Para limpiar los errores de mi select en agregar profesor guia
   });
   $('#grupos').on('focus', function (e) {
+    e.preventDefault()
     mostrarGruposDisponibles();
     profesor.value = '';
   });
-  $('#grupos').on('change', function () {
+  $('#grupos').on('change', function (e) {
+    e.preventDefault()
     const grupoSelect = $(this).find('option:selected').text(); // Obtén el texto del grupo seleccionado
     tabla_grupoProfeMate.search(grupoSelect).draw();
   });
   $('#materia').on('focus', function (e) {
+    e.preventDefault()
     mostrarMateriasDisponibles();
   });
   $('#materia').on('change', function (e) {
-    e.preventDefault();
+    e.preventDefault()
     const id_materia = $('#materia').val();
     $('#profesor').prop('disabled', false);
     mostrarProfesor(id_materia, 'profesor');
@@ -114,6 +117,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   //Funcionalidad para asignar profesor guia
   $('#grupos_guia').on('focus', function (e) {
+    e.preventDefault()
     gruposDisponibles('grupos_guia');
   });
   $('#grupos_guia').on('change', function (e) {
@@ -124,6 +128,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
   
   $('#profesor_guia').on('focus', function (e) {
+    e.preventDefault()
     profesoresDisponibles();
   });
 
